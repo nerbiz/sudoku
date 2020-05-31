@@ -64,9 +64,9 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['@babel/preset-env']
-                        }
-                    }
+                            presets: ['@babel/preset-env'],
+                        },
+                    },
                 ],
             },
             {
@@ -118,9 +118,11 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin({
-            verbose: (process.env.NODE_ENV !== 'production'),
+            verbose: false,
         }),
-        new MiniCssExtractPlugin({ filename: config.fileFormat + '.css' }),
+        new MiniCssExtractPlugin({
+            filename: config.fileFormat + '.css',
+        }),
         new ManifestPlugin(),
         new NotifierPlugin({
             alwaysNotify: true,

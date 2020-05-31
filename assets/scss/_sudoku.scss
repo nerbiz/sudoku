@@ -1,0 +1,8 @@
+.grid-cell {
+  display: flex;
+  border: 1px map_get($color-palette, 5) solid;
+  width: 100px;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}

@@ -13,6 +13,21 @@ use Sudoku\Webpack;
 
     <body class="page-body">
         <main class="page-content">
+            <div id="sudoku-grid">
+                <?php for ($i = 0; ++$i < 82;): ?>
+                    <div class="grid-cell" id="grid-cell-<?php echo $i; ?>">
+                        <div class="corner-marks">
+                            <?php for ($j = 0; ++$j < 9;): ?>
+                                <span class="corner-mark" id="corner-mark-<?php echo $j; ?>"></span>
+                            <?php endfor; ?>
+                        </div>
+
+                        <span class="center-mark"></span>
+
+                        <span class="cell-value"></span>
+                    </div>
+                <?php endfor; ?>
+            </div>
         </main>
 
         <script src="<?php echo Webpack::getAssetUrl('app.js'); ?>"></script>
