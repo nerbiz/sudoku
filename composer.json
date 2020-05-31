@@ -1,0 +1,19 @@
+{
+    "name": "nerbiz/sudoku",
+    "type": "project",
+    "license": "The Unlicense",
+    "authors": [
+        {
+            "name": "Sybren Dijkstra",
+            "email": "nerbiz@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sudoku\\": "app"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^4.1.6"
+    }
+}
