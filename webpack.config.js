@@ -1,6 +1,5 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const NotifierPlugin = require('webpack-notifier');
 const path = require('path');
@@ -10,9 +9,15 @@ const rootPath = process.cwd() + '/';
 const config = {
     srcDir: rootPath + 'assets/',
     distDir: rootPath + 'dist/',
-    // Remove the document root from the absolute path, to get the relative (public) path
     publicPath: '/dist/',
     fileFormat: '[name]_[hash]',
+};
+
+const cacheLoader = {
+    loader: 'cache-loader',
+    options: {
+        cacheDirectory: 'assets/.cache-loader',
+    },
 };
 
 module.exports = {
@@ -43,7 +48,7 @@ module.exports = {
             config.srcDir + 'scss/app.scss',
         ],
     },
-    devtool: 'source-map',
+    devtool: (process.env.NODE_ENV === 'production') ? 'source-map' : false,
     output: {
         path: path.resolve(__dirname, config.distDir),
         publicPath: config.publicPath,
@@ -54,27 +59,31 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
+                use: [
+                    cacheLoader,
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
                     }
-                }
+                ],
             },
             {
                 test: /\.scss$/,
                 use: [
+                    cacheLoader,
                     MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
-                            sourceMap: true,
+                            sourceMap: (process.env.NODE_ENV === 'production'),
                         },
                     },
                     {
                         loader: 'sass-loader',
                         options: {
-                            sourceMap: true,
+                            sourceMap: (process.env.NODE_ENV === 'production'),
                         },
                     },
                 ],
@@ -82,29 +91,36 @@ module.exports = {
             {
                 test: /\.(otf|ttf|eot|woff2?|svg)$/,
                 include: config.srcDir + 'fonts/',
-                loader: 'file-loader',
-                options: {
-                    name: 'fonts/' + config.fileFormat + '.[ext]',
-                },
+                use: [
+                    cacheLoader,
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'fonts/' + config.fileFormat + '.[ext]',
+                        },
+                    },
+                ],
             },
             {
                 test: /\.(svg|png|gif|jpe?g)$/,
                 include: config.srcDir + 'img/',
-                loader: 'file-loader',
-                options: {
-                    name: 'img/' + config.fileFormat + '.[ext]',
-                },
+                use: [
+                    cacheLoader,
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'img/' + config.fileFormat + '.[ext]',
+                        },
+                    },
+                ],
             },
         ],
     },
     plugins: [
-        new CleanWebpackPlugin({ verbose: false }),
+        new CleanWebpackPlugin({
+            verbose: (process.env.NODE_ENV !== 'production'),
+        }),
         new MiniCssExtractPlugin({ filename: config.fileFormat + '.css' }),
-        // new OptimizeCssAssetsPlugin({
-        //     cssProcessorPluginOptions: {
-        //         preset: ['default', { discardComments: { removeAll: true } }],
-        //     },
-        // }),
         new ManifestPlugin(),
         new NotifierPlugin({
             alwaysNotify: true,
