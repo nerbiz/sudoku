@@ -7,7 +7,9 @@
   "scripts": {
     "watch": "cross-env NODE_ENV=development webpack --watch --config webpack.config.js",
     "build": "cross-env NODE_ENV=development webpack --config webpack.config.js",
-    "build:production": "cross-env NODE_ENV=production webpack --config webpack.config.js"
+    "build:production": "cross-env NODE_ENV=production webpack --config webpack.config.js",
+    "dev": "npm run build",
+    "prod": "npm run build:production"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",

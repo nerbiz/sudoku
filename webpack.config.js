@@ -72,8 +72,8 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [
-                    cacheLoader,
                     MiniCssExtractPlugin.loader,
+                    cacheLoader,
                     {
                         loader: 'css-loader',
                         options: {
