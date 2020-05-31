@@ -14,10 +14,13 @@
   justify-content: center;
   align-items: center;
 
+  // Properties for 3x3 grid borders
+  $block-border: 2px map_get($color-palette, 4) solid;
+
   // Add 3x3 grid border to cells in first row
   @for $i from 1 through 9 {
     &:nth-child(#{$i}) {
-      border-top: 2px map_get($color-palette, 4) solid;
+      border-top: $block-border;
     }
   }
 
@@ -26,17 +29,17 @@
   $third-row-cells: join($third-row-cells, range(73, 81));
   @each $i in $third-row-cells {
     &:nth-child(#{$i}) {
-      border-bottom: 2px map_get($color-palette, 4) solid;
+      border-bottom: $block-border;
     }
   }
 
   // Add 3x3 grid border to cells in first column
   &:nth-child(9n + 1) {
-    border-left: 2px map_get($color-palette, 4) solid;
+    border-left: $block-border;
   }
 
   // Add 3x3 grid border to every 3rd cell
   &:nth-child(3n + 3) {
-    border-right: 2px map_get($color-palette, 4) solid;
+    border-right: $block-border;
   }
 }
