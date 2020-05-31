@@ -1,0 +1,9 @@
+@function range($start, $end) {
+  $list: ();
+
+  @for $i from $start through $end {
+    $list: append($list, $i);
+  }
+
+  @return $list;
+}

@@ -1,0 +1,42 @@
+#sudoku-grid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 550px;
+  height: 550px;
+}
+
+.grid-cell {
+  display: flex;
+  border: map_get($color-palette, 3) solid;
+  border-width: 0 1px 1px 0;
+  width: calc(100% / 9);
+  height: calc(100% / 9);
+  justify-content: center;
+  align-items: center;
+
+  // Add 3x3 grid border to cells in first row
+  @for $i from 1 through 9 {
+    &:nth-child(#{$i}) {
+      border-top: 2px map_get($color-palette, 4) solid;
+    }
+  }
+
+  // Add 3x3 grid border to every 3rd row
+  $third-row-cells: join(range(19, 27), range(46, 54));
+  $third-row-cells: join($third-row-cells, range(73, 81));
+  @each $i in $third-row-cells {
+    &:nth-child(#{$i}) {
+      border-bottom: 2px map_get($color-palette, 4) solid;
+    }
+  }
+
+  // Add 3x3 grid border to cells in first column
+  &:nth-child(9n + 1) {
+    border-left: 2px map_get($color-palette, 4) solid;
+  }
+
+  // Add 3x3 grid border to every 3rd cell
+  &:nth-child(3n + 3) {
+    border-right: 2px map_get($color-palette, 4) solid;
+  }
+}

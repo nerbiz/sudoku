@@ -1,25 +1,82 @@
 export default class {
     /**
-     * @param cellId The ID of the HTML cell element
+     * The cell number in the grid (1 through 81)
+     * @type {Number}
      */
-    constructor(cellId) {
+    cellNumber = null;
+
+    /**
+     * The HTML element that is the cell
+     * @type {HTMLElement}
+     */
+    element = null;
+
+    /**
+     * Whether the cell value is set at the start
+     * @type {Boolean}
+     */
+    predetermined = false;
+
+    /**
+     * The value of the cell
+     * @type {Number}
+     */
+    value = null;
+
+    /**
+     * The background color of the cell
+     * @type {String}
+     */
+    color = '#ffffff';
+
+    /**
+     * The pencil mark values (corner mode)
+     * @type {Array}
+     */
+    cornerMarks = [];
+
+    /**
+     * The pencil mark values (center mode)
+     * @type {Array}
+     */
+    centerMarks = [];
+
+    /**
+     * @param cellNumber
+     */
+    constructor(cellNumber) {
+        this.cellNumber = cellNumber;
+
         // The HTML cell element
-        this.element = document.getElementById(cellId);
+        this.element = document.getElementById(`grid-cell-${cellNumber}`);
         if (this.element === null) {
             throw new Error(`Cell element with ID '${cellId}' not found`);
         }
+    }
 
-        // Whether the cell value is set at the start
-        this.predetermined = false;
+    /**
+     * Give the cell an active state
+     * @return {void}
+     */
+    makeActive() {
+        this.element.classList.add('active');
+    }
 
-        // The value of the cell
-        this.value = null;
+    /**
+     * Remove the active state from the cell
+     * @return {void}
+     */
+    makeInactive() {
+        this.element.classList.remove('active');
+    }
 
-        // The background color of the cell
-        this.color = '#ffffff';
-
-        // The pencil mark values
-        this.cornerMarks = [];
-        this.centerMarks = [];
+    /**
+     * Handle events that happen on/for the cell
+     * @return {void}
+     */
+    registerEventHandlers() {
+        this.element.addEventListener('click', () => {
+            Sudoku.grid.changeActiveCell(this);
+        });
     }
 }
