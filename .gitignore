@@ -1,0 +1,36 @@
+# Package managers
+node_modules
+vendor
+npm-debug.log
+yarn-error.log
+.npmrc
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN
+
+# OSX
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# Log files
+*.log
+
+# Cache
+.cache-loader
+
+# Sensitive data
+.env
+
+# General
+!.gitkeep
+
+# PhpStorm
+.idea
