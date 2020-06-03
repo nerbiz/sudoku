@@ -5,66 +5,66 @@ import GridBox from './GridBox';
 export default class {
     /**
      * The row the cell belongs to
-     * @type {GridRow}
+     * @type {GridRow|null}
      */
     gridRow = null;
 
     /**
      * The column the cell belongs to
-     * @type {GridColumn}
+     * @type {GridColumn|null}
      */
     gridColumn = null;
 
     /**
      * The 3x3 box the cell belongs to
-     * @type {GridBox}
+     * @type {GridBox|null}
      */
     gridBox = null;
 
     /**
      * The 1-based cell number in the grid
-     * @type {Number}
+     * @type {number|null}
      */
     cellNumber = null;
 
     /**
      * The HTML element that is the cell
-     * @type {HTMLElement}
+     * @type {HTMLElement|null}
      */
     element = null;
 
     /**
      * Whether the cell value is set at the start
-     * @type {Boolean}
+     * @type {boolean}
      */
     predetermined = false;
 
     /**
      * The value of the cell
-     * @type {Number}
+     * @type {number|null}
      */
     value = null;
 
     /**
      * The background color of the cell
-     * @type {String}
+     * @type {string}
      */
     color = '#ffffff';
 
     /**
      * The pencil mark values (corner mode)
-     * @type {Array}
+     * @type {number[]}
      */
     cornerMarks = [];
 
     /**
      * The pencil mark values (center mode)
-     * @type {Array}
+     * @type {number[]}
      */
     centerMarks = [];
 
     /**
-     * @param {Number} cellNumber
+     * @param {number} cellNumber
      */
     constructor(cellNumber) {
         this.cellNumber = cellNumber;
@@ -78,6 +78,7 @@ export default class {
 
     /**
      * @param {GridRow} row
+     * @return {void}
      */
     setRow(row) {
         this.gridRow = row;
@@ -85,6 +86,7 @@ export default class {
 
     /**
      * @param {GridColumn} column
+     * @return {void}
      */
     setColumn(column) {
         this.gridColumn = column;
@@ -92,6 +94,7 @@ export default class {
 
     /**
      * @param {GridBox} box
+     * @return {void}
      */
     setBox(box) {
         this.gridBox = box;
@@ -110,24 +113,34 @@ export default class {
      * @return {void}
      */
     registerEventHandlers() {
-        this.element.addEventListener('click', () => {
-            Sudoku.grid.changeActiveCell(this);
+        this.element.addEventListener('mousedown', () => {
+            this.makeSelected();
+        });
+
+        this.element.addEventListener('mouseenter', () => {
+            if (Sudoku.controls.mouseDown) {
+                this.makeSelected();
+            }
+        });
+
+        this.element.addEventListener('mouseup', () => {
+            Sudoku.grid.setActiveCell(this);
         });
     }
 
     /**
-     * Give the cell an active state
+     * Give the cell an selected state
      * @return {void}
      */
-    makeActive() {
-        this.element.classList.add('active');
+    makeSelected() {
+        this.element.classList.add('selected');
     }
 
     /**
-     * Remove the active state from the cell
+     * Remove the selected state from the cell
      * @return {void}
      */
-    makeInactive() {
-        this.element.classList.remove('active');
+    makeUnselected() {
+        this.element.classList.remove('selected');
     }
 }

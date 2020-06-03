@@ -3,18 +3,18 @@ import GridCell from './GridCell';
 export default class {
     /**
      * The 1-based row number in the grid
-     * @type {Number}
+     * @type {number}
      */
-    columnNumber = null;
+    columnNumber;
 
     /**
      * Cells in the column
-     * @type {Array}
+     * @type {GridCell[]}
      */
-    cells = [];
+    gridCells = [];
 
     /**
-     * @param {Number} columnNumber
+     * @param {number} columnNumber
      */
     constructor(columnNumber) {
         this.columnNumber = columnNumber;
@@ -23,9 +23,10 @@ export default class {
     /**
      * Add a cell to the column
      * @param {GridCell} cell
+     * @return {void}
      */
     addCell(cell) {
-        this.cells.push(cell);
+        this.gridCells.push(cell);
     }
 
     /**

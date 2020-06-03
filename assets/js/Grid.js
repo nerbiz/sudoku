@@ -6,31 +6,31 @@ import GridBox from './GridBox';
 export default class {
     /**
      * All the cells in the grid
-     * @type {Array}
+     * @type {GridCell[]}
      */
-    cells = [];
+    gridCells = [];
 
     /**
      * All the rows in the grid
-     * @type {Array}
+     * @type {GridRow[]}
      */
-    rows = [];
+    gridRows = [];
 
     /**
      * All the columns in the grid
-     * @type {Array}
+     * @type {GridColumn[]}
      */
-    columns = [];
+    gridColumns = [];
 
     /**
      * All the 3x3 boxes in the grid
-     * @type {Array}
+     * @type {GridBox[]}
      */
-    boxes = [];
+    gridBoxes = [];
 
     /**
      * The currently active (clicked) cell
-     * @type {GridCell}
+     * @type {GridCell|null}
      */
     activeCell = null;
 
@@ -41,9 +41,9 @@ export default class {
     collectCells() {
         // Create 9 rows, columns and 3x3 boxes
         for (let i = 1; i < 10; i++) {
-            this.rows.push(new GridRow(i));
-            this.columns.push(new GridColumn(i));
-            this.boxes.push(new GridBox(i));
+            this.gridRows.push(new GridRow(i));
+            this.gridColumns.push(new GridColumn(i));
+            this.gridBoxes.push(new GridBox(i));
         }
 
         // Add all 81 cells
@@ -53,20 +53,24 @@ export default class {
             gridCell.init();
 
             // Add the cell
-            this.cells.push(gridCell);
+            this.gridCells.push(gridCell);
 
             // Add the cell to the applicable row/column/box
+            // And vice versa
             for (let j = 0; j < 9; j++) {
-                if (this.rows[j].getCellNumbers().indexOf(i) !== -1) {
-                    this.rows[j].addCell(gridCell);
+                if (this.gridRows[j].getCellNumbers().indexOf(i) !== -1) {
+                    this.gridRows[j].addCell(gridCell);
+                    gridCell.setRow(this.gridRows[j]);
                 }
 
-                if (this.columns[j].getCellNumbers().indexOf(i) !== -1) {
-                    this.columns[j].addCell(gridCell);
+                if (this.gridColumns[j].getCellNumbers().indexOf(i) !== -1) {
+                    this.gridColumns[j].addCell(gridCell);
+                    gridCell.setColumn(this.gridColumns[j]);
                 }
 
-                if (this.boxes[j].getCellNumbers().indexOf(i) !== -1) {
-                    this.boxes[j].addCell(gridCell);
+                if (this.gridBoxes[j].getCellNumbers().indexOf(i) !== -1) {
+                    this.gridBoxes[j].addCell(gridCell);
+                    gridCell.setBox(this.gridBoxes[j]);
                 }
             }
         }
@@ -77,14 +81,14 @@ export default class {
      * @param {GridCell} cell
      * @return {void}
      */
-    changeActiveCell(cell) {
+    setActiveCell(cell) {
         // Make a current active cell inactive
         if (this.activeCell !== null) {
-            this.activeCell.makeInactive();
+            this.activeCell.makeUnselected();
         }
 
         // Make the given cell the active one
-        cell.makeActive();
+        cell.makeSelected();
         this.activeCell = cell;
     }
 }

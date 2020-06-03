@@ -8,6 +8,7 @@ use Sudoku\Webpack;
         <title>
             <?php echo getenv('APP_NAME'); ?>
         </title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&display=swap">
         <link rel="stylesheet" href="<?php echo Webpack::getAssetUrl('app.css'); ?>">
     </head>
 

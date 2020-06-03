@@ -1,3 +1,9 @@
+.page-body {
+  font-family: map_get($font-families, 'sans-serif');
+  font-weight: map_get($font-weights, 'normal');
+  background-color: map_get($color-palette, 2);
+}
+
 .page-content {
   display: flex;
   justify-content: center;

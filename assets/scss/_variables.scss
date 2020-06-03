@@ -7,3 +7,25 @@ $color-palette: (
   4: #0fb0e2,
   5: #29081f,
 );
+
+// http://hnl.name/color-schemer-online/
+// Using color #9af8fd
+$cell-colors: (
+  1: #9bfdd1,
+  2: #fc675f,
+  3: #fd9bc7,
+  4: #fdd19b,
+  5: #fda09b,
+);
+
+$white: #fff;
+$black: #000;
+
+$font-families: (
+  'sans-serif': ('Josefin Sans', sans-serif),
+);
+
+$font-weights: (
+  'normal': 300,
+  'semibold': 400,
+);
