@@ -52,7 +52,23 @@ export default class {
             gridCell = new GridCell(i);
             gridCell.init();
 
+            // Add the cell
             this.cells.push(gridCell);
+
+            // Add the cell to the applicable row/column/box
+            for (let j = 0; j < 9; j++) {
+                if (this.rows[j].getCellNumbers().indexOf(i) !== -1) {
+                    this.rows[j].addCell(gridCell);
+                }
+
+                if (this.columns[j].getCellNumbers().indexOf(i) !== -1) {
+                    this.columns[j].addCell(gridCell);
+                }
+
+                if (this.boxes[j].getCellNumbers().indexOf(i) !== -1) {
+                    this.boxes[j].addCell(gridCell);
+                }
+            }
         }
     }
 
