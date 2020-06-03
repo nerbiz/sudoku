@@ -2,7 +2,7 @@ import GridCell from './GridCell';
 
 export default class {
     /**
-     * The box number in the grid
+     * The 1-based box number in the grid
      * @type {Number}
      */
     boxNumber = null;
@@ -29,11 +29,12 @@ export default class {
     }
 
     /**
-     * Get the cell numbers that this box can have
+     * Get the cell numbers that this box has
      * @return {Array}
      */
-    getEligibleCells() {
+    getCellNumbers() {
         const boxIndex = this.boxNumber - 1;
+        // The row index of the box (0, 1 or 2)
         const boxRowIndex = Math.floor(boxIndex / 3);
 
         // Determine the top-left number of the 3x3 box
@@ -42,16 +43,16 @@ export default class {
         // Make the number 1-based
         topLeftNumber++;
 
-        // Get eligible cell numbers,
-        // based on top-left 3x3 box number
-        const eligibleCells = [];
+        // Get cell numbers,
+        // based on the top-left number in the box
+        const numbers = [];
         for (let i = 0; i < 3; i++) {
-            eligibleCells.push(topLeftNumber);
-            eligibleCells.push(++topLeftNumber);
-            eligibleCells.push(++topLeftNumber);
+            numbers.push(topLeftNumber);
+            numbers.push(++topLeftNumber);
+            numbers.push(++topLeftNumber);
             topLeftNumber += 7;
         }
 
-        return eligibleCells;
+        return numbers;
     }
 }

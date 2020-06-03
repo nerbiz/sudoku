@@ -22,7 +22,7 @@ export default class {
     gridBox = null;
 
     /**
-     * The cell number in the grid
+     * The 1-based cell number in the grid
      * @type {Number}
      */
     cellNumber = null;

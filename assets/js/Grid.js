@@ -40,18 +40,16 @@ export default class {
      */
     collectCells() {
         // Create 9 rows, columns and 3x3 boxes
-        for (let i = 0; i < 9; i++) {
-            // Numbers are 1-based
-            this.rows.push(new GridRow(i + 1));
-            this.columns.push(new GridColumn(i + 1));
-            this.boxes.push(new GridBox(i + 1));
+        for (let i = 1; i < 10; i++) {
+            this.rows.push(new GridRow(i));
+            this.columns.push(new GridColumn(i));
+            this.boxes.push(new GridBox(i));
         }
 
         // Add all 81 cells
         let gridCell;
-        for (let i = 0; i < 81; i++) {
-            // Cell number is 1-based
-            gridCell = new GridCell(i + 1);
+        for (let i = 1; i < 82; i++) {
+            gridCell = new GridCell(i);
             gridCell.init();
 
             this.cells.push(gridCell);

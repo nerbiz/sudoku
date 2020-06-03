@@ -2,7 +2,7 @@ import GridCell from './GridCell';
 
 export default class {
     /**
-     * The row number in the grid
+     * The 1-based row number in the grid
      * @type {Number}
      */
     rowNumber = null;
@@ -26,5 +26,19 @@ export default class {
      */
     addCell(cell) {
         this.cells.push(cell);
+    }
+
+    /**
+     * Get the cell numbers that this row has
+     * @return {Array}
+     */
+    getCellNumbers() {
+        const numbers = [];
+
+        for (let i = 1; i < 10; i++) {
+            numbers.push(i + ((this.rowNumber - 1) * 9));
+        }
+
+        return numbers;
     }
 }
