@@ -2,26 +2,26 @@ import GridCell from './GridCell';
 
 export default class {
     /**
-     * The row number in the grid
+     * The box number in the grid
      * @type {Number}
      */
-    blockNumber = null;
+    boxNumber = null;
 
     /**
-     * Cells in the block
+     * Cells in the box
      * @type {Array}
      */
     cells = [];
 
     /**
-     * @param {Number} blockNumber
+     * @param {Number} boxNumber
      */
-    constructor(blockNumber) {
-        this.blockNumber = blockNumber;
+    constructor(boxNumber) {
+        this.boxNumber = boxNumber;
     }
 
     /**
-     * Add a cell to the block
+     * Add a cell to the box
      * @param {GridCell} cell
      */
     addCell(cell) {
@@ -29,21 +29,21 @@ export default class {
     }
 
     /**
-     * Get the cell numbers that this block can have
+     * Get the cell numbers that this box can have
      * @return {Array}
      */
     getEligibleCells() {
-        const blockIndex = this.blockNumber - 1;
-        const blockRowIndex = Math.floor(blockIndex / 3);
+        const boxIndex = this.boxNumber - 1;
+        const boxRowIndex = Math.floor(boxIndex / 3);
 
-        // Determine the top-left number of the 3x3 block
-        let topLeftNumber = blockIndex * 3;
-        topLeftNumber += blockRowIndex * 18;
+        // Determine the top-left number of the 3x3 box
+        let topLeftNumber = boxIndex * 3;
+        topLeftNumber += boxRowIndex * 18;
         // Make the number 1-based
         topLeftNumber++;
 
         // Get eligible cell numbers,
-        // based on top-left 3x3 block number
+        // based on top-left 3x3 box number
         const eligibleCells = [];
         for (let i = 0; i < 3; i++) {
             eligibleCells.push(topLeftNumber);

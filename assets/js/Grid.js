@@ -1,7 +1,7 @@
 import GridCell from './GridCell';
 import GridRow from './GridRow';
 import GridColumn from './GridColumn';
-import GridBlock from './GridBlock';
+import GridBox from './GridBox';
 
 export default class {
     /**
@@ -23,10 +23,10 @@ export default class {
     columns = [];
 
     /**
-     * All the 3x3 squares in the grid
+     * All the 3x3 boxes in the grid
      * @type {Array}
      */
-    blocks = [];
+    boxes = [];
 
     /**
      * The currently active (clicked) cell
@@ -39,12 +39,12 @@ export default class {
      * @return {void}
      */
     collectCells() {
-        // Create 9 rows, columns and 3x3 blocks
+        // Create 9 rows, columns and 3x3 boxes
         for (let i = 0; i < 9; i++) {
             // Numbers are 1-based
             this.rows.push(new GridRow(i + 1));
             this.columns.push(new GridColumn(i + 1));
-            this.blocks.push(new GridBlock(i + 1));
+            this.boxes.push(new GridBox(i + 1));
         }
 
         // Add all 81 cells

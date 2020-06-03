@@ -1,6 +1,6 @@
 import GridRow from './GridRow';
 import GridColumn from './GridColumn';
-import GridBlock from './GridBlock';
+import GridBox from './GridBox';
 
 export default class {
     /**
@@ -16,10 +16,10 @@ export default class {
     gridColumn = null;
 
     /**
-     * The 3x3 block the cell belongs to
-     * @type {GridBlock}
+     * The 3x3 box the cell belongs to
+     * @type {GridBox}
      */
-    gridBlock = null;
+    gridBox = null;
 
     /**
      * The cell number in the grid
@@ -91,10 +91,10 @@ export default class {
     }
 
     /**
-     * @param {GridBlock} block
+     * @param {GridBox} box
      */
-    setBlock(block) {
-        this.gridBlock = block;
+    setBox(box) {
+        this.gridBox = box;
     }
 
     /**
