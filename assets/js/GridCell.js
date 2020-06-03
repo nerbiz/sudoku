@@ -23,15 +23,15 @@ export default class {
 
     /**
      * The 1-based cell number in the grid
-     * @type {number|null}
+     * @type {number}
      */
-    cellNumber = null;
+    cellNumber;
 
     /**
      * The HTML element that is the cell
-     * @type {HTMLElement|null}
+     * @type {HTMLElement}
      */
-    element = null;
+    element;
 
     /**
      * Whether the cell value is set at the start
@@ -46,10 +46,10 @@ export default class {
     value = null;
 
     /**
-     * The background color of the cell
-     * @type {string}
+     * The background color number of the cell
+     * @type {number}
      */
-    color = '#ffffff';
+    color = 1;
 
     /**
      * The pencil mark values (corner mode)
@@ -142,5 +142,20 @@ export default class {
      */
     makeUnselected() {
         this.element.classList.remove('selected');
+    }
+
+    /**
+     * Get the state of the cell
+     * @return {Object}
+     */
+    getState() {
+        return {
+            n: this.cellNumber,
+            p: this.predetermined ? 1 : 0,
+            v: this.value,
+            c: this.color,
+            cr: this.cornerMarks,
+            cn: this.centerMarks,
+        };
     }
 }

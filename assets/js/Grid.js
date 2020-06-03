@@ -91,4 +91,15 @@ export default class {
         cell.makeSelected();
         this.activeCell = cell;
     }
+
+    /**
+     * Get the state of the entire grid
+     * @return {Object}
+     */
+    getState() {
+        return {
+            settings: {},
+            cells: this.gridCells.map(cell => cell.getState()),
+        };
+    }
 }
