@@ -124,7 +124,7 @@ export default class {
         });
 
         this.element.addEventListener('mouseup', () => {
-            Sudoku.grid.setActiveCell(this);
+            Sudoku.grid.addSelectedCell(this);
         });
     }
 
@@ -140,7 +140,7 @@ export default class {
      * Remove the selected state from the cell
      * @return {void}
      */
-    makeUnselected() {
+    makeDeselected() {
         this.element.classList.remove('selected');
     }
 

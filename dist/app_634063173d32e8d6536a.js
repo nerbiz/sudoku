@@ -187,7 +187,7 @@ var _default = /*#__PURE__*/function () {
 
     _defineProperty(this, "gridBoxes", []);
 
-    _defineProperty(this, "activeCell", null);
+    _defineProperty(this, "selectedCells", []);
   }
 
   _createClass(_default, [{
@@ -234,22 +234,22 @@ var _default = /*#__PURE__*/function () {
       }
     }
     /**
-     * Change the currently active cell
+     * Add a cell to the list of selected cells
      * @param {GridCell} cell
      * @return {void}
      */
 
   }, {
-    key: "setActiveCell",
-    value: function setActiveCell(cell) {
-      // Make a current active cell inactive
-      if (this.activeCell !== null) {
-        this.activeCell.makeUnselected();
-      } // Make the given cell the active one
+    key: "addSelectedCell",
+    value: function addSelectedCell(cell) {
+      // Don't add the cell, if it's already in the list
+      for (var i = 0; i < this.selectedCells.length; i++) {
+        if (this.selectedCells[i].cellNumber === cell.cellNumber) {
+          return;
+        }
+      }
 
-
-      cell.makeSelected();
-      this.activeCell = cell;
+      this.selectedCells.push(cell);
     }
     /**
      * Get the state of the entire grid
@@ -536,7 +536,7 @@ var _default = /*#__PURE__*/function () {
         }
       });
       this.element.addEventListener('mouseup', function () {
-        Sudoku.grid.setActiveCell(_this);
+        Sudoku.grid.addSelectedCell(_this);
       });
     }
     /**
@@ -555,8 +555,8 @@ var _default = /*#__PURE__*/function () {
      */
 
   }, {
-    key: "makeUnselected",
-    value: function makeUnselected() {
+    key: "makeDeselected",
+    value: function makeDeselected() {
       this.element.classList.remove('selected');
     }
     /**

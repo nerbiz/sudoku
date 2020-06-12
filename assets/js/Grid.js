@@ -29,10 +29,10 @@ export default class {
     gridBoxes = [];
 
     /**
-     * The currently active (clicked) cell
-     * @type {GridCell|null}
+     * A list of currently selected (highlighted) cells
+     * @type {GridCell[]}
      */
-    activeCell = null;
+    selectedCells = [];
 
     /**
      * Collect all the cell elements
@@ -77,19 +77,19 @@ export default class {
     }
 
     /**
-     * Change the currently active cell
+     * Add a cell to the list of selected cells
      * @param {GridCell} cell
      * @return {void}
      */
-    setActiveCell(cell) {
-        // Make a current active cell inactive
-        if (this.activeCell !== null) {
-            this.activeCell.makeUnselected();
+    addSelectedCell(cell) {
+        // Don't add the cell, if it's already in the list
+        for (let i = 0; i < this.selectedCells.length; i++) {
+            if (this.selectedCells[i].cellNumber === cell.cellNumber) {
+                return;
+            }
         }
 
-        // Make the given cell the active one
-        cell.makeSelected();
-        this.activeCell = cell;
+        this.selectedCells.push(cell);
     }
 
     /**
