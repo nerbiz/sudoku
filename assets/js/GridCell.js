@@ -49,7 +49,7 @@ export default class {
      * The background color number of the cell
      * @type {number}
      */
-    color = 1;
+    colorNumber = 1;
 
     /**
      * The pencil mark values (corner mode)
@@ -146,16 +146,14 @@ export default class {
 
     /**
      * Get the state of the cell
-     * @return {Object}
+     * @return {string}
      */
     getState() {
-        return {
-            n: this.cellNumber,
-            p: this.predetermined ? 1 : 0,
-            v: this.value,
-            c: this.color,
-            cr: this.cornerMarks,
-            cn: this.centerMarks,
-        };
+        return 'n' + this.cellNumber
+            + (this.predetermined ? 'p' : '')
+            + 'v' + this.value
+            + 'c' + this.colorNumber
+            + 'cr' + this.cornerMarks.join('')
+            + 'cn' + this.centerMarks.join('');
     }
 }

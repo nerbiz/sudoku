@@ -94,12 +94,9 @@ export default class {
 
     /**
      * Get the state of the entire grid
-     * @return {Object}
+     * @return {string}
      */
     getState() {
-        return {
-            settings: {},
-            cells: this.gridCells.map(cell => cell.getState()),
-        };
+        return this.gridCells.map(cell => cell.getState()).join('');
     }
 }

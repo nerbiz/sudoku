@@ -13,9 +13,12 @@ Sudoku.grid.collectCells();
 /*
 const LZString = require('lz-string');
 const state = JSON.stringify(Sudoku.grid.getState());
+// Pairs of 2-digits (cell number) and value (1 number)
+// const state = '038149156382416811295104457093378472567629123781806';
+// 81 numbers, representing every cell value (0 = empty)
+// const state = '000300004000000056780000001230000045000098700012000045000005600300002300001320004';
 const c1 = LZString.compress(state);
 const c2 = LZString.compressToEncodedURIComponent(state);
-const c3 = LZString.compressToUint8Array(state);
 
 console.log(
     state.length,
@@ -23,8 +26,6 @@ console.log(
     c1.length,
     c1,
     c2.length,
-    c2,
-    c3.length,
-    c3
+    c2
 );
-*/
+//*/
