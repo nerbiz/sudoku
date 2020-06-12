@@ -64,6 +64,22 @@ export default class {
     centerMarks = [];
 
     /**
+     * Whether the cell is currently selected
+     * @param {boolean} selected
+     * @return {void}
+     */
+    set selected(selected) {
+        if (selected) {
+            this.element.classList.add('selected');
+            Sudoku.grid.addSelectedCell(this);
+        }
+
+        else {
+            this.element.classList.remove('selected');
+        }
+    }
+
+    /**
      * @param {number} cellNumber
      */
     constructor(cellNumber) {
@@ -114,34 +130,14 @@ export default class {
      */
     registerEventHandlers() {
         this.element.addEventListener('mousedown', () => {
-            this.makeSelected();
+            this.selected = true;
         });
 
         this.element.addEventListener('mouseenter', () => {
             if (Sudoku.controls.mouseDown) {
-                this.makeSelected();
+                this.selected = true;
             }
         });
-
-        this.element.addEventListener('mouseup', () => {
-            Sudoku.grid.addSelectedCell(this);
-        });
-    }
-
-    /**
-     * Give the cell an selected state
-     * @return {void}
-     */
-    makeSelected() {
-        this.element.classList.add('selected');
-    }
-
-    /**
-     * Remove the selected state from the cell
-     * @return {void}
-     */
-    makeDeselected() {
-        this.element.classList.remove('selected');
     }
 
     /**

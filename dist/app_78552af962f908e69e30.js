@@ -392,59 +392,78 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var _default = /*#__PURE__*/function () {
-  /**
-   * The row the cell belongs to
-   * @type {GridRow|null}
-   */
+  _createClass(_default, [{
+    key: "selected",
 
-  /**
-   * The column the cell belongs to
-   * @type {GridColumn|null}
-   */
+    /**
+     * The row the cell belongs to
+     * @type {GridRow|null}
+     */
 
-  /**
-   * The 3x3 box the cell belongs to
-   * @type {GridBox|null}
-   */
+    /**
+     * The column the cell belongs to
+     * @type {GridColumn|null}
+     */
 
-  /**
-   * The 1-based cell number in the grid
-   * @type {number}
-   */
+    /**
+     * The 3x3 box the cell belongs to
+     * @type {GridBox|null}
+     */
 
-  /**
-   * The HTML element that is the cell
-   * @type {HTMLElement}
-   */
+    /**
+     * The 1-based cell number in the grid
+     * @type {number}
+     */
 
-  /**
-   * Whether the cell value is set at the start
-   * @type {boolean}
-   */
+    /**
+     * The HTML element that is the cell
+     * @type {HTMLElement}
+     */
 
-  /**
-   * The value of the cell
-   * @type {number|null}
-   */
+    /**
+     * Whether the cell value is set at the start
+     * @type {boolean}
+     */
 
-  /**
-   * The background color number of the cell
-   * @type {number}
-   */
+    /**
+     * The value of the cell
+     * @type {number|null}
+     */
 
-  /**
-   * The pencil mark values (corner mode)
-   * @type {number[]}
-   */
+    /**
+     * The background color number of the cell
+     * @type {number}
+     */
 
-  /**
-   * The pencil mark values (center mode)
-   * @type {number[]}
-   */
+    /**
+     * The pencil mark values (corner mode)
+     * @type {number[]}
+     */
 
-  /**
-   * @param {number} cellNumber
-   */
+    /**
+     * The pencil mark values (center mode)
+     * @type {number[]}
+     */
+
+    /**
+     * Whether the cell is currently selected
+     * @param {boolean} selected
+     * @return {void}
+     */
+    set: function set(selected) {
+      if (selected) {
+        this.element.classList.add('selected');
+        Sudoku.grid.addSelectedCell(this);
+      } else {
+        this.element.classList.remove('selected');
+      }
+    }
+    /**
+     * @param {number} cellNumber
+     */
+
+  }]);
+
   function _default(cellNumber) {
     _classCallCheck(this, _default);
 
@@ -528,36 +547,13 @@ var _default = /*#__PURE__*/function () {
       var _this = this;
 
       this.element.addEventListener('mousedown', function () {
-        _this.makeSelected();
+        _this.selected = true;
       });
       this.element.addEventListener('mouseenter', function () {
         if (Sudoku.controls.mouseDown) {
-          _this.makeSelected();
+          _this.selected = true;
         }
       });
-      this.element.addEventListener('mouseup', function () {
-        Sudoku.grid.addSelectedCell(_this);
-      });
-    }
-    /**
-     * Give the cell an selected state
-     * @return {void}
-     */
-
-  }, {
-    key: "makeSelected",
-    value: function makeSelected() {
-      this.element.classList.add('selected');
-    }
-    /**
-     * Remove the selected state from the cell
-     * @return {void}
-     */
-
-  }, {
-    key: "makeDeselected",
-    value: function makeDeselected() {
-      this.element.classList.remove('selected');
     }
     /**
      * Get the state of the cell
