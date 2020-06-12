@@ -82,13 +82,6 @@ export default class {
      * @return {void}
      */
     addSelectedCell(cell) {
-        // Don't add the cell, if it's already in the list
-        for (let i = 0; i < this.selectedCells.length; i++) {
-            if (this.selectedCells[i].cellNumber === cell.cellNumber) {
-                return;
-            }
-        }
-
         this.selectedCells.push(cell);
     }
 

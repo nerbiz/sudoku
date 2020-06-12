@@ -65,18 +65,39 @@ export default class {
 
     /**
      * Whether the cell is currently selected
+     * @type {boolean}
+     * @private
+     */
+    _selected = false;
+
+    /**
+     * Getter for '_selected'
+     * @return {boolean}
+     */
+    get selected() {
+        return this._selected;
+    }
+
+    /**
+     * Setter for '_selected'
      * @param {boolean} selected
      * @return {void}
      */
     set selected(selected) {
         if (selected) {
             this.element.classList.add('selected');
-            Sudoku.grid.addSelectedCell(this);
+
+            // Don't add duplicates to the list of selected cells
+            if (! this.selected) {
+                Sudoku.grid.addSelectedCell(this);
+            }
         }
 
         else {
             this.element.classList.remove('selected');
         }
+
+        this._selected = selected;
     }
 
     /**

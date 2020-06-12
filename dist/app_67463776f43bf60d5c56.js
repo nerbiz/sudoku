@@ -242,13 +242,6 @@ var _default = /*#__PURE__*/function () {
   }, {
     key: "addSelectedCell",
     value: function addSelectedCell(cell) {
-      // Don't add the cell, if it's already in the list
-      for (var i = 0; i < this.selectedCells.length; i++) {
-        if (this.selectedCells[i].cellNumber === cell.cellNumber) {
-          return;
-        }
-      }
-
       this.selectedCells.push(cell);
     }
     /**
@@ -447,16 +440,35 @@ var _default = /*#__PURE__*/function () {
 
     /**
      * Whether the cell is currently selected
+     * @type {boolean}
+     * @private
+     */
+
+    /**
+     * Getter for '_selected'
+     * @return {boolean}
+     */
+    get: function get() {
+      return this._selected;
+    }
+    /**
+     * Setter for '_selected'
      * @param {boolean} selected
      * @return {void}
      */
+    ,
     set: function set(selected) {
       if (selected) {
-        this.element.classList.add('selected');
-        Sudoku.grid.addSelectedCell(this);
+        this.element.classList.add('selected'); // Don't add duplicates to the list of selected cells
+
+        if (!this.selected) {
+          Sudoku.grid.addSelectedCell(this);
+        }
       } else {
         this.element.classList.remove('selected');
       }
+
+      this._selected = selected;
     }
     /**
      * @param {number} cellNumber
@@ -486,6 +498,8 @@ var _default = /*#__PURE__*/function () {
     _defineProperty(this, "cornerMarks", []);
 
     _defineProperty(this, "centerMarks", []);
+
+    _defineProperty(this, "_selected", false);
 
     this.cellNumber = cellNumber; // The HTML cell element
 
