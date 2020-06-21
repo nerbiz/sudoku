@@ -90,6 +90,6 @@ export default class {
      * @return {string}
      */
     getState() {
-        return this.gridCells.map(cell => cell.getState()).join('');
+        return 'ver1' + this.gridCells.map(cell => cell.getState()).join('');
     }
 }

@@ -37,7 +37,7 @@ export default class {
      * Whether the cell value is set at the start
      * @type {boolean}
      */
-    predetermined = false;
+    prefilled = false;
 
     /**
      * The value of the cell
@@ -111,6 +111,9 @@ export default class {
         if (this.element === null) {
             throw new Error(`Cell element with ID 'grid-cell-${cellNumber}' not found`);
         }
+
+        // Register this cell to the controls object
+        Sudoku.controls.registerCell(this);
     }
 
     /**
@@ -167,7 +170,7 @@ export default class {
      */
     getState() {
         return 'n' + this.cellNumber
-            + (this.predetermined ? 'p' : '')
+            + (this.prefilled ? 'p' : '')
             + 'v' + this.value
             + 'c' + this.colorNumber
             + 'cr' + this.cornerMarks.join('')

@@ -1,6 +1,14 @@
+import GridCell from './GridCell';
+
 export default class {
     /**
-     *
+     * The collection of grid cells
+     * @type {GridCell[]}
+     */
+    gridCells = [];
+
+    /**
+     * Indicates whether a mouse button is currently held down
      * @type {boolean}
      */
     mouseDown = false;
@@ -15,7 +23,7 @@ export default class {
      * Shift key code
      * @type {string}
      */
-    shiftKeys = 'Shift';
+    shiftKey = 'Shift';
 
     /**
      * Arrow key codes
@@ -40,5 +48,14 @@ export default class {
         document.addEventListener('mouseup', () => {
             this.mouseDown = false;
         });
+    }
+
+    /**
+     * Add a grid cell to the collection
+     * @param {GridCell} cell
+     * @return {void}
+     */
+    registerCell(cell) {
+        this.gridCells.push(cell);
     }
 }

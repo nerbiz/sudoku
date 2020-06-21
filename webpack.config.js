@@ -5,6 +5,7 @@ const NotifierPlugin = require('webpack-notifier');
 const path = require('path');
 
 const rootPath = process.cwd() + '/';
+const isProduction = (process.env.NODE_ENV === 'production');
 
 const config = {
     srcDir: rootPath + 'assets/',
@@ -26,7 +27,7 @@ module.exports = {
         hints: false,
     },
     optimization: {
-        minimize: (process.env.NODE_ENV === 'production'),
+        minimize: isProduction,
     },
     stats: {
         hash: false,
@@ -48,7 +49,7 @@ module.exports = {
             config.srcDir + 'scss/app.scss',
         ],
     },
-    devtool: (process.env.NODE_ENV === 'production') ? 'source-map' : false,
+    devtool: isProduction ? 'source-map' : false,
     output: {
         path: path.resolve(__dirname, config.distDir),
         publicPath: config.publicPath,
@@ -78,13 +79,13 @@ module.exports = {
                     {
                         loader: 'css-loader',
                         options: {
-                            sourceMap: (process.env.NODE_ENV === 'production'),
+                            sourceMap: isProduction,
                         },
                     },
                     {
                         loader: 'sass-loader',
                         options: {
-                            sourceMap: (process.env.NODE_ENV === 'production'),
+                            sourceMap: isProduction,
                         },
                     },
                 ],

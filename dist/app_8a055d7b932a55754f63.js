@@ -96,6 +96,7 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _default; });
+/* harmony import */ var _GridCell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GridCell */ "./assets/js/GridCell.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -104,15 +105,19 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+
+
 var _default = /*#__PURE__*/function () {
   function _default() {
     _classCallCheck(this, _default);
+
+    _defineProperty(this, "gridCells", []);
 
     _defineProperty(this, "mouseDown", false);
 
     _defineProperty(this, "ctrlKeys", ['Control', 'Meta']);
 
-    _defineProperty(this, "shiftKeys", 'Shift');
+    _defineProperty(this, "shiftKey", 'Shift');
 
     _defineProperty(this, "arrowKeys", {
       up: 'ArrowUp',
@@ -138,6 +143,17 @@ var _default = /*#__PURE__*/function () {
       document.addEventListener('mouseup', function () {
         _this.mouseDown = false;
       });
+    }
+    /**
+     * Add a grid cell to the collection
+     * @param {GridCell} cell
+     * @return {void}
+     */
+
+  }, {
+    key: "registerCell",
+    value: function registerCell(cell) {
+      this.gridCells.push(cell);
     }
   }]);
 
@@ -252,7 +268,7 @@ var _default = /*#__PURE__*/function () {
   }, {
     key: "getState",
     value: function getState() {
-      return this.gridCells.map(function (cell) {
+      return 'ver1' + this.gridCells.map(function (cell) {
         return cell.getState();
       }).join('');
     }
@@ -489,7 +505,7 @@ var _default = /*#__PURE__*/function () {
 
     _defineProperty(this, "element", void 0);
 
-    _defineProperty(this, "predetermined", false);
+    _defineProperty(this, "prefilled", false);
 
     _defineProperty(this, "value", null);
 
@@ -507,7 +523,10 @@ var _default = /*#__PURE__*/function () {
 
     if (this.element === null) {
       throw new Error("Cell element with ID 'grid-cell-".concat(cellNumber, "' not found"));
-    }
+    } // Register this cell to the controls object
+
+
+    Sudoku.controls.registerCell(this);
   }
   /**
    * @param {GridRow} row
@@ -577,7 +596,7 @@ var _default = /*#__PURE__*/function () {
   }, {
     key: "getState",
     value: function getState() {
-      return 'n' + this.cellNumber + (this.predetermined ? 'p' : '') + 'v' + this.value + 'c' + this.colorNumber + 'cr' + this.cornerMarks.join('') + 'cn' + this.centerMarks.join('');
+      return 'n' + this.cellNumber + (this.prefilled ? 'p' : '') + 'v' + this.value + 'c' + this.colorNumber + 'cr' + this.cornerMarks.join('') + 'cn' + this.centerMarks.join('');
     }
   }]);
 
