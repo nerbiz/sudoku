@@ -1,8 +1,11 @@
 import Grid from './Grid/Grid';
 import Controls from './Controls';
+import EntryMode from "./EntryMode";
 
 // 'Namespace' of the project
 window.Sudoku = {};
+
+Sudoku.entryMode = new EntryMode();
 
 Sudoku.controls = new Controls();
 Sudoku.controls.init();

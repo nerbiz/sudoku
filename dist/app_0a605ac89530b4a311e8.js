@@ -164,6 +164,57 @@ var _default = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./assets/js/EntryMode.js":
+/*!********************************!*\
+  !*** ./assets/js/EntryMode.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _default; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var _default = /*#__PURE__*/function () {
+  function _default() {
+    _classCallCheck(this, _default);
+
+    _defineProperty(this, "MODE_VALUE", 'value');
+
+    _defineProperty(this, "MODE_CORNER", 'corner');
+
+    _defineProperty(this, "MODE_CENTER", 'center');
+
+    _defineProperty(this, "mode", this.MODE_VALUE);
+  }
+
+  _createClass(_default, [{
+    key: "setMode",
+
+    /**
+     * Change the mode
+     * @param {string} mode
+     * @return {void}
+     */
+    value: function setMode(mode) {
+      this.mode = mode;
+    }
+  }]);
+
+  return _default;
+}();
+
+
+
+/***/ }),
+
 /***/ "./assets/js/Grid/Grid.js":
 /*!********************************!*\
   !*** ./assets/js/Grid/Grid.js ***!
@@ -784,10 +835,13 @@ var _default = /*#__PURE__*/function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Grid_Grid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Grid/Grid */ "./assets/js/Grid/Grid.js");
 /* harmony import */ var _Controls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Controls */ "./assets/js/Controls.js");
+/* harmony import */ var _EntryMode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EntryMode */ "./assets/js/EntryMode.js");
+
 
  // 'Namespace' of the project
 
 window.Sudoku = {};
+Sudoku.entryMode = new _EntryMode__WEBPACK_IMPORTED_MODULE_2__["default"]();
 Sudoku.controls = new _Controls__WEBPACK_IMPORTED_MODULE_1__["default"]();
 Sudoku.controls.init();
 Sudoku.grid = new _Grid_Grid__WEBPACK_IMPORTED_MODULE_0__["default"]();
