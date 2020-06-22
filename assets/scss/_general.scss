@@ -4,18 +4,7 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  width: 100%;
-  height: 100%;
-}
-
 body {
   margin: 0;
   padding: 0;
-}
-
-template {
-  // For browsers that don't understand <template>
-  display: none;
 }

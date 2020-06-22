@@ -14,19 +14,28 @@ use Sudoku\Webpack;
 
     <body class="page-body">
         <main class="page-content">
-            <section id="sudoku-grid">
+            <section id="main-grid">
                 <?php for ($i = 0; ++$i < 82;): ?>
                     <div class="grid-cell" id="grid-cell-<?php echo $i; ?>">
-                        <div class="corner-marks">
-                            <?php for ($j = 0; ++$j < 9;): ?>
-                                <span class="corner-mark" id="corner-mark-<?php echo $j; ?>"></span>
-                            <?php endfor; ?>
+                        <div class="grid-cell-borders"></div>
+
+                        <div class="grid-cell-content">
+                            <div class="corner-marks">
+                                <?php for ($j = 0; ++$j < 9;): ?>
+                                    <span class="corner-mark" id="corner-mark-<?php echo $j; ?>"></span>
+                                <?php endfor; ?>
+                            </div>
+
+                            <span class="center-marks"></span>
+
+                            <span class="cell-value"></span>
                         </div>
-
-                        <span class="center-mark"></span>
-
-                        <span class="cell-value"></span>
                     </div>
+
+                    <?php // Add a line break after every 9th cell ?>
+                    <?php if ($i % 9 === 0): ?>
+                        <div class="flex-line-break"></div>
+                    <?php endif; ?>
                 <?php endfor; ?>
             </section>
         </main>

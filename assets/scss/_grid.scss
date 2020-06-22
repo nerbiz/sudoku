@@ -1,0 +1,130 @@
+// Properties for 3x3 box borders
+$box-border-width: 2px;
+$box-border: $box-border-width map_get($color-palette, 4) solid;
+
+.first-row-cell {
+  padding-top: $box-border-width;
+
+  .grid-cell-borders {
+    border-top: $box-border;
+  }
+}
+
+.every-third-row-cell {
+  padding-bottom: $box-border-width;
+
+  .grid-cell-borders {
+    border-bottom: $box-border;
+  }
+}
+
+.first-column-cell {
+  padding-left: $box-border-width;
+
+  .grid-cell-borders {
+    border-left: $box-border;
+  }
+}
+
+.every-third-cell {
+  padding-right: $box-border-width;
+
+  .grid-cell-borders {
+    border-right: $box-border;
+  }
+}
+
+
+
+#main-grid {
+  display: flex;
+  flex-wrap: wrap;
+  // Add 14px to account for border widths
+  width: (($cell-size * 9) + 14px);
+}
+
+.grid-cell {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: 1px;
+  padding-bottom: 1px;
+  background-color: $white;
+
+  &:hover {
+    background-color: map_get($color-palette, 2);
+  }
+
+  &.selected {
+    background-color: map_get($color-palette, 3);
+  }
+
+  // Add 3x3 box border to cells in first row
+  @for $i from 1 through 9 {
+    &#grid-cell-#{$i} {
+      @extend .first-row-cell;
+    }
+  }
+
+  // Add 3x3 box border to every 3rd row
+  @for $i from 19 through 27 {
+    &#grid-cell-#{$i} {
+      @extend .every-third-row-cell;
+    }
+  }
+
+  @for $i from 46 through 54 {
+    &#grid-cell-#{$i} {
+      @extend .every-third-row-cell;
+    }
+  }
+
+  @for $i from 73 through 81 {
+    &#grid-cell-#{$i} {
+      @extend .every-third-row-cell;
+    }
+  }
+
+  // Add 3x3 box border to cells in first column
+  @for $i from 0 through 8 {
+    &#grid-cell-#{1 + ($i * 9)} {
+      @extend .first-column-cell;
+    }
+  }
+
+  // Add 3x3 box border to every 3rd cell
+  @for $i from 1 through 27 {
+    &#grid-cell-#{$i * 3} {
+      @extend .every-third-cell;
+    }
+  }
+}
+
+.grid-cell-borders {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: map_get($color-palette, 3) solid;
+  border-width: 0 1px 1px 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.grid-cell-content {
+  position: relative;
+  display: flex;
+  width: $cell-size;
+  height: $cell-size;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.cell-value {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

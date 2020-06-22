@@ -1,6 +1,7 @@
 .page-body {
   font-family: map_get($font-families, 'sans-serif');
   font-weight: map_get($font-weights, 'normal');
+  font-size: map_get($font-sizes, 'default');
   background-color: map_get($color-palette, 2);
 }
 
@@ -10,4 +11,11 @@
   align-items: center;
   width: 100%;
   height: 100%;
+}
+
+.flex-line-break {
+  display: block;
+  flex-basis: 100%;
+  width: 100%;
+  height: 0;
 }

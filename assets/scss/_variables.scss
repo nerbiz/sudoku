@@ -30,3 +30,14 @@ $font-weights: (
   'normal': 300,
   'semibold': 400,
 );
+
+$font-sizes: (
+  'tiny': 10px,
+  'small': 12px,
+  'medium': 14px,
+  'default': 16px,
+  'large': 20px,
+);
+
+$cell-size: 50px;
+$corner-mark-size: ($cell-size / 3);
