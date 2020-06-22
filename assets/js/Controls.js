@@ -1,4 +1,4 @@
-import GridCell from './GridCell';
+import GridCell from './Grid/GridCell';
 
 export default class {
     /**

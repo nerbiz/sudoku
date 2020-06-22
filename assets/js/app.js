@@ -1,4 +1,4 @@
-import Grid from './Grid';
+import Grid from './Grid/Grid';
 import Controls from './Controls';
 
 // 'Namespace' of the project
