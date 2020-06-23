@@ -224,111 +224,110 @@ var _default = /*#__PURE__*/function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _default; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Grid; });
 /* harmony import */ var _GridCell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GridCell */ "./assets/js/Grid/GridCell.js");
 /* harmony import */ var _GridRow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GridRow */ "./assets/js/Grid/GridRow.js");
 /* harmony import */ var _GridColumn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GridColumn */ "./assets/js/Grid/GridColumn.js");
 /* harmony import */ var _GridBox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GridBox */ "./assets/js/Grid/GridBox.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
 
+function Grid() {
+  var self = this;
+  /**
+   * All the cells in the grid
+   * @type {GridCell[]}
+   */
+
+  self.gridCells = [];
+  /**
+   * All the rows in the grid
+   * @type {GridRow[]}
+   */
+
+  self.gridRows = [];
+  /**
+   * All the columns in the grid
+   * @type {GridColumn[]}
+   */
+
+  self.gridColumns = [];
+  /**
+   * All the 3x3 boxes in the grid
+   * @type {GridBox[]}
+   */
+
+  self.gridBoxes = [];
+  /**
+   * A list of currently selected (highlighted) cells
+   * @type {GridCell[]}
+   */
+
+  self.selectedCells = [];
+  /**
+   * Collect all the cell elements
+   * @return {void}
+   */
+
+  self.collectCells = function () {
+    // Create 9 rows, columns and 3x3 boxes
+    for (var i = 1; i < 10; i++) {
+      self.gridRows.push(new _GridRow__WEBPACK_IMPORTED_MODULE_1__["default"](i));
+      self.gridColumns.push(new _GridColumn__WEBPACK_IMPORTED_MODULE_2__["default"](i));
+      self.gridBoxes.push(new _GridBox__WEBPACK_IMPORTED_MODULE_3__["default"](i));
+    } // Add all 81 cells
 
 
-var _default = /*#__PURE__*/function () {
-  function _default() {
-    _classCallCheck(this, _default);
+    var gridCell;
 
-    _defineProperty(this, "gridCells", []);
+    for (var _i = 1; _i < 82; _i++) {
+      gridCell = new _GridCell__WEBPACK_IMPORTED_MODULE_0__["default"](_i);
+      gridCell.init(); // Add the cell
 
-    _defineProperty(this, "gridRows", []);
+      self.gridCells.push(gridCell); // Add the cell to the applicable row/column/box
+      // And vice versa
 
-    _defineProperty(this, "gridColumns", []);
+      for (var j = 0; j < 9; j++) {
+        if (self.gridRows[j].getCellNumbers().indexOf(_i) !== -1) {
+          self.gridRows[j].addCell(gridCell);
+          gridCell.setRow(self.gridRows[j]);
+        }
 
-    _defineProperty(this, "gridBoxes", []);
+        if (self.gridColumns[j].getCellNumbers().indexOf(_i) !== -1) {
+          self.gridColumns[j].addCell(gridCell);
+          gridCell.setColumn(self.gridColumns[j]);
+        }
 
-    _defineProperty(this, "selectedCells", []);
-  }
-
-  _createClass(_default, [{
-    key: "collectCells",
-
-    /**
-     * Collect all the cell elements
-     * @return {void}
-     */
-    value: function collectCells() {
-      // Create 9 rows, columns and 3x3 boxes
-      for (var i = 1; i < 10; i++) {
-        this.gridRows.push(new _GridRow__WEBPACK_IMPORTED_MODULE_1__["default"](i));
-        this.gridColumns.push(new _GridColumn__WEBPACK_IMPORTED_MODULE_2__["default"](i));
-        this.gridBoxes.push(new _GridBox__WEBPACK_IMPORTED_MODULE_3__["default"](i));
-      } // Add all 81 cells
-
-
-      var gridCell;
-
-      for (var _i = 1; _i < 82; _i++) {
-        gridCell = new _GridCell__WEBPACK_IMPORTED_MODULE_0__["default"](_i);
-        gridCell.init(); // Add the cell
-
-        this.gridCells.push(gridCell); // Add the cell to the applicable row/column/box
-        // And vice versa
-
-        for (var j = 0; j < 9; j++) {
-          if (this.gridRows[j].getCellNumbers().indexOf(_i) !== -1) {
-            this.gridRows[j].addCell(gridCell);
-            gridCell.setRow(this.gridRows[j]);
-          }
-
-          if (this.gridColumns[j].getCellNumbers().indexOf(_i) !== -1) {
-            this.gridColumns[j].addCell(gridCell);
-            gridCell.setColumn(this.gridColumns[j]);
-          }
-
-          if (this.gridBoxes[j].getCellNumbers().indexOf(_i) !== -1) {
-            this.gridBoxes[j].addCell(gridCell);
-            gridCell.setBox(this.gridBoxes[j]);
-          }
+        if (self.gridBoxes[j].getCellNumbers().indexOf(_i) !== -1) {
+          self.gridBoxes[j].addCell(gridCell);
+          gridCell.setBox(self.gridBoxes[j]);
         }
       }
     }
-    /**
-     * Add a cell to the list of selected cells
-     * @param {GridCell} cell
-     * @return {void}
-     */
-
-  }, {
-    key: "addSelectedCell",
-    value: function addSelectedCell(cell) {
-      this.selectedCells.push(cell);
-    }
-    /**
-     * Get the state of the entire grid
-     * @return {string}
-     */
-
-  }, {
-    key: "getState",
-    value: function getState() {
-      return 'ver1' + this.gridCells.map(function (cell) {
-        return cell.getState();
-      }).join('');
-    }
-  }]);
-
-  return _default;
-}();
+  };
+  /**
+   * Add a cell to the list of selected cells
+   * @param {GridCell} cell
+   * @return {number}
+   */
 
 
+  self.addSelectedCell = function (cell) {
+    return self.selectedCells.push(cell);
+  };
+  /**
+   * Get the state of the entire grid
+   * @return {string}
+   */
+
+
+  self.getState = function () {
+    return 'ver1' + self.gridCells.map(function (cell) {
+      return cell.getState();
+    }).join('');
+  };
+}
 
 /***/ }),
 
@@ -337,117 +336,9 @@ var _default = /*#__PURE__*/function () {
   !*** ./assets/js/Grid/GridBox.js ***!
   \***********************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _default; });
-/* harmony import */ var _GridCell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GridCell */ "./assets/js/Grid/GridCell.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-var _default = /*#__PURE__*/function () {
-  /**
-   * The 1-based box number in the grid
-   * @type {number}
-   */
-
-  /**
-   * Cells in the box
-   * @type {GridCell[]}
-   */
-
-  /**
-   * @param {number} boxNumber
-   */
-  function _default(boxNumber) {
-    _classCallCheck(this, _default);
-
-    _defineProperty(this, "boxNumber", void 0);
-
-    _defineProperty(this, "gridCells", []);
-
-    this.boxNumber = boxNumber;
-  }
-  /**
-   * Add a cell to the box
-   * @param {GridCell} cell
-   * @return {void}
-   */
-
-
-  _createClass(_default, [{
-    key: "addCell",
-    value: function addCell(cell) {
-      this.gridCells.push(cell);
-    }
-    /**
-     * Get the cell numbers that this box has
-     * @return {Array}
-     */
-
-  }, {
-    key: "getCellNumbers",
-    value: function getCellNumbers() {
-      var boxIndex = this.boxNumber - 1; // The row index of the box (0, 1 or 2)
-
-      var boxRowIndex = Math.floor(boxIndex / 3); // Determine the top-left number of the 3x3 box
-
-      var topLeftNumber = boxIndex * 3;
-      topLeftNumber += boxRowIndex * 18; // Make the number 1-based
-
-      topLeftNumber++; // Get cell numbers,
-      // based on the top-left number in the box
-
-      var numbers = [];
-
-      for (var i = 0; i < 3; i++) {
-        numbers.push(topLeftNumber);
-        numbers.push(++topLeftNumber);
-        numbers.push(++topLeftNumber);
-        topLeftNumber += 7;
-      }
-
-      return numbers;
-    }
-    /**
-     * Get a list of cell values
-     * @return {Array}
-     */
-
-  }, {
-    key: "getCellValues",
-    value: function getCellValues() {
-      return this.gridCells.map(function (cell) {
-        return cell.getValue();
-      }).filter(function (value) {
-        return value !== null;
-      });
-    }
-    /**
-     * See if the list of cell values contains duplicates
-     * @return {boolean}
-     */
-
-  }, {
-    key: "hasDuplicateCellValues",
-    value: function hasDuplicateCellValues() {
-      var cellValues = this.getCellValues();
-      return new Set(cellValues).size !== cellValues.length;
-    }
-  }]);
-
-  return _default;
-}();
-
-
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Applications/MAMP/htdocs/private/sudoku/assets/js/Grid/GridBox.js: Unexpected token, expected \"{\" (3:28)\n\n\u001b[0m \u001b[90m 1 | \u001b[39m\u001b[36mimport\u001b[39m \u001b[33mGridCell\u001b[39m from \u001b[32m'./GridCell'\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 2 | \u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 3 | \u001b[39m\u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m \u001b[36mclass\u001b[39m \u001b[33mGridBox\u001b[39m(boxNumber) {\u001b[0m\n\u001b[0m \u001b[90m   | \u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 4 | \u001b[39m    \u001b[36mconst\u001b[39m self \u001b[33m=\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 5 | \u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 6 | \u001b[39m    \u001b[90m/**\u001b[39m\u001b[0m\n    at Parser._raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:746:17)\n    at Parser.raiseWithData (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:739:17)\n    at Parser.raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:733:17)\n    at Parser.unexpected (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:8807:16)\n    at Parser.expect (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:8793:28)\n    at Parser.parseClassBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11936:10)\n    at Parser.parseClass (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11911:22)\n    at Parser.parseExportDefaultExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:12347:19)\n    at Parser.parseExport (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:12260:31)\n    at Parser.parseStatementContent (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11260:27)\n    at Parser.parseStatement (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11156:17)\n    at Parser.parseBlockOrModuleBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11731:25)\n    at Parser.parseBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11717:10)\n    at Parser.parseTopLevel (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11087:10)\n    at Parser.parse (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:12768:10)\n    at parse (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:12821:38)\n    at parser (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/core/lib/parser/index.js:54:34)\n    at parser.next (<anonymous>)\n    at normalizeFile (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/core/lib/transformation/normalize-file.js:93:38)\n    at normalizeFile.next (<anonymous>)\n    at run (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/core/lib/transformation/index.js:31:50)\n    at run.next (<anonymous>)\n    at Function.transform (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/core/lib/transform.js:27:41)\n    at transform.next (<anonymous>)\n    at step (/Applications/MAMP/htdocs/private/sudoku/node_modules/gensync/index.js:254:32)\n    at /Applications/MAMP/htdocs/private/sudoku/node_modules/gensync/index.js:266:13\n    at async.call.result.err.err (/Applications/MAMP/htdocs/private/sudoku/node_modules/gensync/index.js:216:11)");
 
 /***/ }),
 
@@ -460,242 +351,201 @@ var _default = /*#__PURE__*/function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _default; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GridCell; });
 /* harmony import */ var _GridRow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GridRow */ "./assets/js/Grid/GridRow.js");
 /* harmony import */ var _GridColumn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GridColumn */ "./assets/js/Grid/GridColumn.js");
 /* harmony import */ var _GridBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GridBox */ "./assets/js/Grid/GridBox.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
-
-
-var _default = /*#__PURE__*/function () {
-  /**
-   * The row the cell belongs to
-   * @type {GridRow|null}
-   */
-
-  /**
-   * The column the cell belongs to
-   * @type {GridColumn|null}
-   */
-
-  /**
-   * The 3x3 box the cell belongs to
-   * @type {GridBox|null}
-   */
-
+function GridCell(cellNumber) {
+  var self = this;
   /**
    * The 1-based cell number in the grid
    * @type {number}
    */
 
+  self.cellNumber = cellNumber;
   /**
-   * The HTML element that is the cell
-   * @type {HTMLElement}
+   * The row the cell belongs to
+   * @type {GridRow|null}
    */
 
+  self.gridRow = null;
+  /**
+   * The column the cell belongs to
+   * @type {GridColumn|null}
+   */
+
+  self.gridColumn = null;
+  /**
+   * The 3x3 box the cell belongs to
+   * @type {GridBox|null}
+   */
+
+  self.gridBox = null;
+  /**
+   * The HTML element that is the cell
+   * @type {HTMLElement|null}
+   */
+
+  self.element = null;
   /**
    * Whether the cell value is set at the start
    * @type {boolean}
    */
 
+  self.isPrefilled = false;
   /**
    * The value of the cell
    * @type {number|null}
+   * @private
    */
 
+  self._value = null;
   /**
    * The background color number of the cell
    * @type {number}
    */
 
+  self.colorNumber = 1;
   /**
    * The pencil mark values (corner mode)
    * @type {number[]}
    */
 
+  self.cornerMarks = [];
   /**
    * The pencil mark values (center mode)
    * @type {number[]}
    */
 
+  self.centerMarks = [];
   /**
    * Whether the cell is currently selected
    * @type {boolean}
    * @private
    */
 
-  /**
-   * @param {number} cellNumber
-   */
-  function _default(cellNumber) {
-    _classCallCheck(this, _default);
+  self._isSelected = false;
 
-    _defineProperty(this, "gridRow", null);
+  (function () {
+    // The HTML cell element
+    self.element = document.getElementById("grid-cell-".concat(self.cellNumber));
 
-    _defineProperty(this, "gridColumn", null);
-
-    _defineProperty(this, "gridBox", null);
-
-    _defineProperty(this, "cellNumber", void 0);
-
-    _defineProperty(this, "element", void 0);
-
-    _defineProperty(this, "prefilled", false);
-
-    _defineProperty(this, "value", null);
-
-    _defineProperty(this, "colorNumber", 1);
-
-    _defineProperty(this, "cornerMarks", []);
-
-    _defineProperty(this, "centerMarks", []);
-
-    _defineProperty(this, "_selected", false);
-
-    this.cellNumber = cellNumber; // The HTML cell element
-
-    this.element = document.getElementById("grid-cell-".concat(cellNumber));
-
-    if (this.element === null) {
-      throw new Error("Cell element with ID 'grid-cell-".concat(cellNumber, "' not found"));
-    } // Register this cell to the controls object
+    if (self.element === null) {
+      throw new Error("Cell element with ID 'grid-cell-".concat(self.cellNumber, "' not found"));
+    } // Register self cell to the controls object
 
 
-    Sudoku.controls.registerCell(this);
-  }
+    Sudoku.controls.registerCell(self);
+  })();
   /**
    * Initialize the object
    * @return {void}
    */
 
 
-  _createClass(_default, [{
-    key: "init",
-    value: function init() {
-      this.registerEventHandlers();
-    }
-    /**
-     * @return {number|null}
-     */
+  self.init = function () {
+    self.registerEventHandlers();
+  };
+  /**
+   * @return {number|null}
+   */
 
-  }, {
-    key: "getValue",
-    value: function getValue() {
-      return this.value;
-    }
-    /**
-     * @param {number} value
-     * @return {null}
-     */
 
-  }, {
-    key: "setValue",
-    value: function setValue(value) {
-      this.value = value;
-    }
-    /**
-     * Getter for '_selected'
-     * @return {boolean}
-     */
+  self.getValue = function () {
+    return self._value;
+  };
+  /**
+   * @param {number} value
+   * @return {void}
+   */
 
-  }, {
-    key: "setRow",
 
-    /**
-     * @param {GridRow} row
-     * @return {void}
-     */
-    value: function setRow(row) {
-      this.gridRow = row;
-    }
-    /**
-     * @param {GridColumn} column
-     * @return {void}
-     */
+  self.setValue = function (value) {
+    self._value = value;
+  };
+  /**
+   * @return {boolean}
+   */
 
-  }, {
-    key: "setColumn",
-    value: function setColumn(column) {
-      this.gridColumn = column;
-    }
-    /**
-     * @param {GridBox} box
-     * @return {void}
-     */
 
-  }, {
-    key: "setBox",
-    value: function setBox(box) {
-      this.gridBox = box;
-    }
-    /**
-     * Handle events that happen on/for the cell
-     * @return {void}
-     */
+  self.getIsSelected = function () {
+    return self._isSelected;
+  };
+  /**
+   * @param {boolean} selected
+   * @return {void}
+   */
 
-  }, {
-    key: "registerEventHandlers",
-    value: function registerEventHandlers() {
-      var _this = this;
 
-      this.element.addEventListener('mousedown', function () {
-        _this.selected = true;
-      });
-      this.element.addEventListener('mouseenter', function () {
-        if (Sudoku.controls.mouseDown) {
-          _this.selected = true;
-        }
-      });
-    }
-    /**
-     * Get the state of the cell
-     * @return {string}
-     */
+  self.setIsSelected = function (selected) {
+    if (selected) {
+      self.element.classList.add('selected'); // Don't add duplicates to the list of selected cells
 
-  }, {
-    key: "getState",
-    value: function getState() {
-      return 'n' + this.cellNumber + (this.prefilled ? 'p' : '') + 'v' + this.getValue() + 'c' + this.colorNumber + 'cr' + this.cornerMarks.join('') + 'cn' + this.centerMarks.join('');
-    }
-  }, {
-    key: "selected",
-    get: function get() {
-      return this._selected;
-    }
-    /**
-     * Setter for '_selected'
-     * @param {boolean} selected
-     * @return {void}
-     */
-    ,
-    set: function set(selected) {
-      if (selected) {
-        this.element.classList.add('selected'); // Don't add duplicates to the list of selected cells
-
-        if (!this.selected) {
-          Sudoku.grid.addSelectedCell(this);
-        }
-      } else {
-        this.element.classList.remove('selected');
+      if (!self.selected) {
+        Sudoku.grid.addSelectedCell(self);
       }
-
-      this._selected = selected;
+    } else {
+      self.element.classList.remove('selected');
     }
-  }]);
 
-  return _default;
-}();
+    self._isSelected = selected;
+  };
+  /**
+   * @param {GridRow} row
+   * @return {GridRow}
+   */
 
 
+  self.setRow = function (row) {
+    return self.gridRow = row;
+  };
+  /**
+   * @param {GridColumn} column
+   * @return {GridColumn}
+   */
+
+
+  self.setColumn = function (column) {
+    return self.gridColumn = column;
+  };
+  /**
+   * @param {GridBox} box
+   * @return {GridBox}
+   */
+
+
+  self.setBox = function (box) {
+    return self.gridBox = box;
+  };
+  /**
+   * Handle events that happen on/for the cell
+   * @return {void}
+   */
+
+
+  self.registerEventHandlers = function () {
+    self.element.addEventListener('mousedown', function () {
+      self.selected = true;
+    });
+    self.element.addEventListener('mouseenter', function () {
+      if (Sudoku.controls.mouseDown) {
+        self.selected = true;
+      }
+    });
+  };
+  /**
+   * Get the state of the cell
+   * @return {string}
+   */
+
+
+  self.getState = function () {
+    return 'n' + self.cellNumber + (self.isPrefilled ? 'p' : '') + 'v' + self.getValue() + 'c' + self.colorNumber + 'cr' + self.cornerMarks.join('') + 'cn' + self.centerMarks.join('');
+  };
+}
 
 /***/ }),
 

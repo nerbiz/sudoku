@@ -1,61 +1,61 @@
 import GridCell from './Grid/GridCell';
 
-export default class {
+export default function Controls() {
+    const self = this;
+
     /**
      * The collection of grid cells
      * @type {GridCell[]}
      */
-    gridCells = [];
+    self.gridCells = [];
 
     /**
      * Indicates whether a mouse button is currently held down
      * @type {boolean}
      */
-    mouseDown = false;
+    self.mouseDown = false;
 
     /**
      * Ctrl/Cmd key codes for Windows/Linux/macOS
      * @type {string[]}
      */
-    ctrlKeys = ['Control', 'Meta'];
+    self.ctrlKeys = ['ControlLeft', 'ControlRight', 'MetaLeft', 'MetaRight'];
 
     /**
      * Shift key code
-     * @type {string}
+     * @type {string[]}
      */
-    shiftKey = 'Shift';
+    self.shiftKeys = ['ShiftLeft', 'ShiftRight'];
 
     /**
      * Arrow key codes
      * @type {Object}
      */
-    arrowKeys = {
-        up: 'ArrowUp',
-        down: 'ArrowDown',
-        left: 'ArrowLeft',
-        right: 'ArrowRight',
+    self.arrowKeys = {
+        up: ['ArrowUp', 'KeyW'],
+        down: ['ArrowDown', 'KeyS'],
+        left: ['ArrowLeft', 'KeyA'],
+        right: ['ArrowRight', 'KeyD'],
     };
 
     /**
      * Initialize the object
      * @return {void}
      */
-    init() {
+    self.init = () => {
         document.addEventListener('mousedown', () => {
-            this.mouseDown = true;
+            self.mouseDown = true;
         });
 
         document.addEventListener('mouseup', () => {
-            this.mouseDown = false;
+            self.mouseDown = false;
         });
-    }
+    };
 
     /**
      * Add a grid cell to the collection
      * @param {GridCell} cell
-     * @return {void}
+     * @return {number}
      */
-    registerCell(cell) {
-        this.gridCells.push(cell);
-    }
+    self.registerCell = cell => self.gridCells.push(cell);
 }

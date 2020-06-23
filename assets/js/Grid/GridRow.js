@@ -1,64 +1,59 @@
 import GridCell from './GridCell';
 
-export default class {
+/**
+ * @param {number} rowNumber
+ * @constructor
+ */
+export default function GridRow(rowNumber) {
+    const self = this;
+
     /**
      * The 1-based row number in the grid
      * @type {number}
      */
-    rowNumber;
+    self.rowNumber = rowNumber;
 
     /**
      * Cells in the row
      * @type {GridCell[]}
      */
-    gridCells = [];
-
-    /**
-     * @param {number} rowNumber
-     */
-    constructor(rowNumber) {
-        this.rowNumber = rowNumber;
-    }
+    self.gridCells = [];
 
     /**
      * Add a cell to the row
      * @param {GridCell} cell
-     * @return {void}
+     * @return {number}
      */
-    addCell(cell) {
-        this.gridCells.push(cell);
-    }
+    self.addCell = cell => self.gridCells.push(cell);
 
     /**
-     * Get the cell numbers that this row has
+     * Get the cell numbers that self row has
      * @return {Array}
      */
-    getCellNumbers() {
+    self.getCellNumbers = () => {
         const numbers = [];
 
         for (let i = 1; i < 10; i++) {
-            numbers.push(i + ((this.rowNumber - 1) * 9));
+            numbers.push(i + ((self.rowNumber - 1) * 9));
         }
 
         return numbers;
-    }
+    };
 
     /**
      * Get a list of cell values
      * @return {Array}
      */
-    getCellValues() {
-        return this.gridCells
-            .map(cell => cell.getValue())
-            .filter(value => value !== null);
-    }
+    self.getCellValues = () => self.gridCells
+        .map(cell => cell.getValue())
+        .filter(value => value !== null);
 
     /**
      * See if the list of cell values contains duplicates
      * @return {boolean}
      */
-    hasDuplicateCellValues() {
-        const cellValues = this.getCellValues();
+    self.hasDuplicateCellValues = () => {
+        const cellValues = self.getCellValues();
         return (new Set(cellValues)).size !== cellValues.length;
-    }
+    };
 }

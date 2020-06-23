@@ -1,34 +1,34 @@
-export default class {
+export default function EntryMode() {
+    const self = this;
+
     /**
      * Normal value entry
      * @type {string}
      */
-    MODE_VALUE = 'value';
+    self.MODE_VALUE = 'value';
 
     /**
      * Corner pencil mark entry
      * @type {string}
      */
-    MODE_CORNER = 'corner';
+    self.MODE_CORNER = 'corner';
 
     /**
      * Center pencil mark entry
      * @type {string}
      */
-    MODE_CENTER = 'center';
+    self.MODE_CENTER = 'center';
 
     /**
      * The current mode
      * @type {string}
      */
-    mode = this.MODE_VALUE;
+    self.mode = self.MODE_VALUE;
 
     /**
      * Change the mode
      * @param {string} mode
-     * @return {void}
+     * @return {string}
      */
-    setMode(mode) {
-        this.mode = mode;
-    }
+    self.setMode = mode => self.mode = mode;
 }

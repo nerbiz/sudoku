@@ -1,40 +1,37 @@
 import GridCell from './GridCell';
 
-export default class {
+/**
+ * @param {number} boxNumber
+ * @constructor
+ */
+export default function GridBox(boxNumber) {
+    const self = this;
+
     /**
      * The 1-based box number in the grid
      * @type {number}
      */
-    boxNumber;
+    self.boxNumber = boxNumber;
 
     /**
      * Cells in the box
      * @type {GridCell[]}
      */
-    gridCells = [];
-
-    /**
-     * @param {number} boxNumber
-     */
-    constructor(boxNumber) {
-        this.boxNumber = boxNumber;
-    }
+    self.gridCells = [];
 
     /**
      * Add a cell to the box
      * @param {GridCell} cell
-     * @return {void}
+     * @return {number}
      */
-    addCell(cell) {
-        this.gridCells.push(cell);
-    }
+    self.addCell = cell => self.gridCells.push(cell);
 
     /**
-     * Get the cell numbers that this box has
+     * Get the cell numbers that self box has
      * @return {Array}
      */
-    getCellNumbers() {
-        const boxIndex = this.boxNumber - 1;
+    self.getCellNumbers = () => {
+        const boxIndex = self.boxNumber - 1;
         // The row index of the box (0, 1 or 2)
         const boxRowIndex = Math.floor(boxIndex / 3);
 
@@ -55,24 +52,22 @@ export default class {
         }
 
         return numbers;
-    }
+    };
 
     /**
      * Get a list of cell values
      * @return {Array}
      */
-    getCellValues() {
-        return this.gridCells
-            .map(cell => cell.getValue())
-            .filter(value => value !== null);
-    }
+    self.getCellValues = () => self.gridCells
+        .map(cell => cell.getValue())
+        .filter(value => value !== null);
 
     /**
      * See if the list of cell values contains duplicates
      * @return {boolean}
      */
-    hasDuplicateCellValues() {
-        const cellValues = this.getCellValues();
+    self.hasDuplicateCellValues = () => {
+        const cellValues = self.getCellValues();
         return (new Set(cellValues)).size !== cellValues.length;
-    }
+    };
 }

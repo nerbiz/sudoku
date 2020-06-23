@@ -2,193 +2,181 @@ import GridRow from './GridRow';
 import GridColumn from './GridColumn';
 import GridBox from './GridBox';
 
-export default class {
-    /**
-     * The row the cell belongs to
-     * @type {GridRow|null}
-     */
-    gridRow = null;
-
-    /**
-     * The column the cell belongs to
-     * @type {GridColumn|null}
-     */
-    gridColumn = null;
-
-    /**
-     * The 3x3 box the cell belongs to
-     * @type {GridBox|null}
-     */
-    gridBox = null;
+/**
+ * @param {number} cellNumber
+ * @constructor
+ */
+export default function GridCell(cellNumber) {
+    const self = this;
 
     /**
      * The 1-based cell number in the grid
      * @type {number}
      */
-    cellNumber;
+    self.cellNumber = cellNumber;
+
+    /**
+     * The row the cell belongs to
+     * @type {GridRow|null}
+     */
+    self.gridRow = null;
+
+    /**
+     * The column the cell belongs to
+     * @type {GridColumn|null}
+     */
+    self.gridColumn = null;
+
+    /**
+     * The 3x3 box the cell belongs to
+     * @type {GridBox|null}
+     */
+    self.gridBox = null;
 
     /**
      * The HTML element that is the cell
-     * @type {HTMLElement}
+     * @type {HTMLElement|null}
      */
-    element;
+    self.element = null;
 
     /**
      * Whether the cell value is set at the start
      * @type {boolean}
      */
-    prefilled = false;
+    self.isPrefilled = false;
 
     /**
      * The value of the cell
      * @type {number|null}
+     * @private
      */
-    value = null;
+    self._value = null;
 
     /**
      * The background color number of the cell
      * @type {number}
      */
-    colorNumber = 1;
+    self.colorNumber = 1;
 
     /**
      * The pencil mark values (corner mode)
      * @type {number[]}
      */
-    cornerMarks = [];
+    self.cornerMarks = [];
 
     /**
      * The pencil mark values (center mode)
      * @type {number[]}
      */
-    centerMarks = [];
+    self.centerMarks = [];
 
     /**
      * Whether the cell is currently selected
      * @type {boolean}
      * @private
      */
-    _selected = false;
+    self._isSelected = false;
 
-    /**
-     * @param {number} cellNumber
-     */
-    constructor(cellNumber) {
-        this.cellNumber = cellNumber;
-
+    (() => {
         // The HTML cell element
-        this.element = document.getElementById(`grid-cell-${cellNumber}`);
-        if (this.element === null) {
-            throw new Error(`Cell element with ID 'grid-cell-${cellNumber}' not found`);
+        self.element = document.getElementById(`grid-cell-${self.cellNumber}`);
+        if (self.element === null) {
+            throw new Error(`Cell element with ID 'grid-cell-${self.cellNumber}' not found`);
         }
 
-        // Register this cell to the controls object
-        Sudoku.controls.registerCell(this);
-    }
+        // Register self cell to the controls object
+        Sudoku.controls.registerCell(self);
+    })();
 
     /**
      * Initialize the object
      * @return {void}
      */
-    init() {
-        this.registerEventHandlers();
-    }
+    self.init = () => {
+        self.registerEventHandlers();
+    };
 
     /**
      * @return {number|null}
      */
-    getValue() {
-        return this.value;
-    }
+    self.getValue = () => self._value;
 
     /**
      * @param {number} value
-     * @return {null}
+     * @return {void}
      */
-    setValue(value) {
-        this.value = value;
-    }
+    self.setValue = value => {
+        self._value = value;
+    };
 
     /**
-     * Getter for '_selected'
      * @return {boolean}
      */
-    get selected() {
-        return this._selected;
-    }
+    self.getIsSelected = () => self._isSelected;
 
     /**
-     * Setter for '_selected'
      * @param {boolean} selected
      * @return {void}
      */
-    set selected(selected) {
+    self.setIsSelected = selected => {
         if (selected) {
-            this.element.classList.add('selected');
+            self.element.classList.add('selected');
 
             // Don't add duplicates to the list of selected cells
-            if (! this.selected) {
-                Sudoku.grid.addSelectedCell(this);
+            if (! self.selected) {
+                Sudoku.grid.addSelectedCell(self);
             }
         }
 
         else {
-            this.element.classList.remove('selected');
+            self.element.classList.remove('selected');
         }
 
-        this._selected = selected;
-    }
+        self._isSelected = selected;
+    };
 
     /**
      * @param {GridRow} row
-     * @return {void}
+     * @return {GridRow}
      */
-    setRow(row) {
-        this.gridRow = row;
-    }
+    self.setRow = row => self.gridRow = row;
 
     /**
      * @param {GridColumn} column
-     * @return {void}
+     * @return {GridColumn}
      */
-    setColumn(column) {
-        this.gridColumn = column;
-    }
+    self.setColumn = column => self.gridColumn = column;
 
     /**
      * @param {GridBox} box
-     * @return {void}
+     * @return {GridBox}
      */
-    setBox(box) {
-        this.gridBox = box;
-    }
+    self.setBox = box => self.gridBox = box;
 
     /**
      * Handle events that happen on/for the cell
      * @return {void}
      */
-    registerEventHandlers() {
-        this.element.addEventListener('mousedown', () => {
-            this.selected = true;
+    self.registerEventHandlers = () => {
+        self.element.addEventListener('mousedown', () => {
+            self.selected = true;
         });
 
-        this.element.addEventListener('mouseenter', () => {
+        self.element.addEventListener('mouseenter', () => {
             if (Sudoku.controls.mouseDown) {
-                this.selected = true;
+                self.selected = true;
             }
         });
-    }
+    };
 
     /**
      * Get the state of the cell
      * @return {string}
      */
-    getState() {
-        return 'n' + this.cellNumber
-            + (this.prefilled ? 'p' : '')
-            + 'v' + this.getValue()
-            + 'c' + this.colorNumber
-            + 'cr' + this.cornerMarks.join('')
-            + 'cn' + this.centerMarks.join('');
-    }
+    self.getState = () => 'n' + self.cellNumber
+        + (self.isPrefilled ? 'p' : '')
+        + 'v' + self.getValue()
+        + 'c' + self.colorNumber
+        + 'cr' + self.cornerMarks.join('')
+        + 'cn' + self.centerMarks.join('');
 }

@@ -1,41 +1,38 @@
 import GridCell from './GridCell';
 
-export default class {
+/**
+ * @param {number} columnNumber
+ * @constructor
+ */
+export default function GridColumn(columnNumber) {
+    const self = this;
+
     /**
      * The 1-based row number in the grid
      * @type {number}
      */
-    columnNumber;
+    self.columnNumber = columnNumber;
 
     /**
      * Cells in the column
      * @type {GridCell[]}
      */
-    gridCells = [];
-
-    /**
-     * @param {number} columnNumber
-     */
-    constructor(columnNumber) {
-        this.columnNumber = columnNumber;
-    }
+    self.gridCells = [];
 
     /**
      * Add a cell to the column
      * @param {GridCell} cell
-     * @return {void}
+     * @return {number}
      */
-    addCell(cell) {
-        this.gridCells.push(cell);
-    }
+    self.addCell = cell => self.gridCells.push(cell);
 
     /**
-     * Get the cell numbers that this column has
+     * Get the cell numbers that self column has
      * @return {Array}
      */
-    getCellNumbers() {
+    self.getCellNumbers = () => {
         const numbers = [];
-        let number = this.columnNumber;
+        let number = self.columnNumber;
 
         // Add the first cell number
         numbers.push(number);
@@ -47,24 +44,22 @@ export default class {
         }
 
         return numbers;
-    }
+    };
 
     /**
      * Get a list of cell values
      * @return {Array}
      */
-    getCellValues() {
-        return this.gridCells
-            .map(cell => cell.getValue())
-            .filter(value => value !== null);
-    }
+    self.getCellValues = () => self.gridCells
+        .map(cell => cell.getValue())
+        .filter(value => value !== null);
 
     /**
      * See if the list of cell values contains duplicates
      * @return {boolean}
      */
-    hasDuplicateCellValues() {
-        const cellValues = this.getCellValues();
+    self.hasDuplicateCellValues = () => {
+        const cellValues = self.getCellValues();
         return (new Set(cellValues)).size !== cellValues.length;
-    }
+    };
 }
