@@ -71,6 +71,45 @@ export default class {
     _selected = false;
 
     /**
+     * @param {number} cellNumber
+     */
+    constructor(cellNumber) {
+        this.cellNumber = cellNumber;
+
+        // The HTML cell element
+        this.element = document.getElementById(`grid-cell-${cellNumber}`);
+        if (this.element === null) {
+            throw new Error(`Cell element with ID 'grid-cell-${cellNumber}' not found`);
+        }
+
+        // Register this cell to the controls object
+        Sudoku.controls.registerCell(this);
+    }
+
+    /**
+     * Initialize the object
+     * @return {void}
+     */
+    init() {
+        this.registerEventHandlers();
+    }
+
+    /**
+     * @return {number|null}
+     */
+    getValue() {
+        return this.value;
+    }
+
+    /**
+     * @param {number} value
+     * @return {null}
+     */
+    setValue(value) {
+        this.value = value;
+    }
+
+    /**
      * Getter for '_selected'
      * @return {boolean}
      */
@@ -101,22 +140,6 @@ export default class {
     }
 
     /**
-     * @param {number} cellNumber
-     */
-    constructor(cellNumber) {
-        this.cellNumber = cellNumber;
-
-        // The HTML cell element
-        this.element = document.getElementById(`grid-cell-${cellNumber}`);
-        if (this.element === null) {
-            throw new Error(`Cell element with ID 'grid-cell-${cellNumber}' not found`);
-        }
-
-        // Register this cell to the controls object
-        Sudoku.controls.registerCell(this);
-    }
-
-    /**
      * @param {GridRow} row
      * @return {void}
      */
@@ -138,14 +161,6 @@ export default class {
      */
     setBox(box) {
         this.gridBox = box;
-    }
-
-    /**
-     * Initialize the object
-     * @return {void}
-     */
-    init() {
-        this.registerEventHandlers();
     }
 
     /**
@@ -171,7 +186,7 @@ export default class {
     getState() {
         return 'n' + this.cellNumber
             + (this.prefilled ? 'p' : '')
-            + 'v' + this.value
+            + 'v' + this.getValue()
             + 'c' + this.colorNumber
             + 'cr' + this.cornerMarks.join('')
             + 'cn' + this.centerMarks.join('');

@@ -42,4 +42,23 @@ export default class {
 
         return numbers;
     }
+
+    /**
+     * Get a list of cell values
+     * @return {Array}
+     */
+    getCellValues() {
+        return this.gridCells
+            .map(cell => cell.getValue())
+            .filter(value => value !== null);
+    }
+
+    /**
+     * See if the list of cell values contains duplicates
+     * @return {boolean}
+     */
+    hasDuplicateCellValues() {
+        const cellValues = this.getCellValues();
+        return (new Set(cellValues)).size !== cellValues.length;
+    }
 }

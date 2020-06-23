@@ -1,6 +1,8 @@
+'use strict';
+
 import Grid from './Grid/Grid';
 import Controls from './Controls';
-import EntryMode from "./EntryMode";
+import EntryMode from './EntryMode';
 
 // 'Namespace' of the project
 window.Sudoku = {};

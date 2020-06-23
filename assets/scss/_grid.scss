@@ -123,8 +123,12 @@ $box-border: $box-border-width map_get($color-palette, 4) solid;
 
 .cell-value {
   position: absolute;
+  display: flex;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: map_get($font-sizes, 'cell-value');
 }
