@@ -1,4 +1,5 @@
 import GridCell from './Grid/GridCell';
+import Visitor from './Utilities/Visitor';
 
 export default function Controls() {
     const self = this;
@@ -19,13 +20,11 @@ export default function Controls() {
      * Ctrl/Cmd key codes for Windows/Linux/macOS
      * @type {string[]}
      */
-    self.ctrlKeys = ['ControlLeft', 'ControlRight', 'MetaLeft', 'MetaRight'];
-
-    /**
-     * Shift key code
-     * @type {string[]}
-     */
-    self.shiftKeys = ['ShiftLeft', 'ShiftRight'];
+    if (Visitor.usesMacOs()) {
+        self.ctrlKeys = ['MetaLeft', 'MetaRight'];
+    } else {
+        self.ctrlKeys = ['ControlLeft', 'ControlRight'];
+    }
 
     /**
      * Arrow key codes
@@ -37,6 +36,16 @@ export default function Controls() {
         left: ['ArrowLeft', 'KeyA'],
         right: ['ArrowRight', 'KeyD'],
     };
+
+    /**
+     * Number key codes
+     * @type {string[]}
+     */
+    self.numberKeys = [
+        'Digit1', 'Numpad1', 'Digit2', 'Numpad2', 'Digit3', 'Numpad3',
+        'Digit4', 'Numpad4', 'Digit5', 'Numpad5', 'Digit6', 'Numpad6',
+        'Digit7', 'Numpad7', 'Digit8', 'Numpad8', 'Digit9', 'Numpad9',
+    ];
 
     /**
      * Initialize the object

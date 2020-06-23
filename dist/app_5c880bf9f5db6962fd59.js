@@ -97,6 +97,8 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Controls; });
 /* harmony import */ var _Grid_GridCell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Grid/GridCell */ "./assets/js/Grid/GridCell.js");
+/* harmony import */ var _Utilities_Browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Utilities/Browser */ "./assets/js/Utilities/Browser.js");
+
 
 function Controls() {
   var self = this;
@@ -117,17 +119,16 @@ function Controls() {
    * @type {string[]}
    */
 
-  self.ctrlKeys = ['ControlLeft', 'ControlRight', 'MetaLeft', 'MetaRight'];
-  /**
-   * Shift key code
-   * @type {string[]}
-   */
-
-  self.shiftKeys = ['ShiftLeft', 'ShiftRight'];
+  if (_Utilities_Browser__WEBPACK_IMPORTED_MODULE_1__["default"].isMacOs()) {
+    self.ctrlKeys = ['MetaLeft', 'MetaRight'];
+  } else {
+    self.ctrlKeys = ['ControlLeft', 'ControlRight'];
+  }
   /**
    * Arrow key codes
    * @type {Object}
    */
+
 
   self.arrowKeys = {
     up: ['ArrowUp', 'KeyW'],
@@ -135,6 +136,12 @@ function Controls() {
     left: ['ArrowLeft', 'KeyA'],
     right: ['ArrowRight', 'KeyD']
   };
+  /**
+   * Number key codes
+   * @type {string[]}
+   */
+
+  self.numberKeys = ['Digit1', 'Numpad1', 'Digit2', 'Numpad2', 'Digit3', 'Numpad3', 'Digit4', 'Numpad4', 'Digit5', 'Numpad5', 'Digit6', 'Numpad6', 'Digit7', 'Numpad7', 'Digit8', 'Numpad8', 'Digit9', 'Numpad9'];
   /**
    * Initialize the object
    * @return {void}
@@ -549,7 +556,9 @@ function GridCell(cellNumber) {
 
 
   self.setValue = function (value) {
-    self._value = value;
+    self._value = value; // Show the value on screen
+
+    self.element.getElementsByClassName('cell-value')[0].innerText = value;
   };
   /**
    * @return {boolean}
@@ -569,7 +578,7 @@ function GridCell(cellNumber) {
     if (selected) {
       self.element.classList.add('selected'); // Don't add duplicates to the list of selected cells
 
-      if (!self.selected) {
+      if (!self.getIsSelected()) {
         Sudoku.grid.addSelectedCell(self);
       }
     } else {
@@ -613,11 +622,11 @@ function GridCell(cellNumber) {
 
   self.registerEventHandlers = function () {
     self.element.addEventListener('mousedown', function () {
-      self.selected = true;
+      self.setIsSelected(true);
     });
     self.element.addEventListener('mouseenter', function () {
       if (Sudoku.controls.mouseDown) {
-        self.selected = true;
+        self.setIsSelected(true);
       }
     });
   };
@@ -799,6 +808,17 @@ function GridRow(rowNumber) {
     return new Set(cellValues).size !== cellValues.length;
   };
 }
+
+/***/ }),
+
+/***/ "./assets/js/Utilities/Browser.js":
+/*!****************************************!*\
+  !*** ./assets/js/Utilities/Browser.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Applications/MAMP/htdocs/private/sudoku/assets/js/Utilities/Browser.js'");
 
 /***/ }),
 

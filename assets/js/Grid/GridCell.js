@@ -107,6 +107,9 @@ export default function GridCell(cellNumber) {
      */
     self.setValue = value => {
         self._value = value;
+
+        // Show the value on screen
+        self.element.getElementsByClassName('cell-value')[0].innerText = value;
     };
 
     /**
@@ -123,7 +126,7 @@ export default function GridCell(cellNumber) {
             self.element.classList.add('selected');
 
             // Don't add duplicates to the list of selected cells
-            if (! self.selected) {
+            if (! self.getIsSelected()) {
                 Sudoku.grid.addSelectedCell(self);
             }
         }
@@ -159,12 +162,12 @@ export default function GridCell(cellNumber) {
      */
     self.registerEventHandlers = () => {
         self.element.addEventListener('mousedown', () => {
-            self.selected = true;
+            self.setIsSelected(true);
         });
 
         self.element.addEventListener('mouseenter', () => {
             if (Sudoku.controls.mouseDown) {
-                self.selected = true;
+                self.setIsSelected(true);
             }
         });
     };
