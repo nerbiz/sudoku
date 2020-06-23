@@ -1,8 +1,6 @@
-'use strict';
-
-import Grid from './Grid/Grid';
 import Controls from './Controls';
 import EntryMode from './EntryMode';
+import Grid from './Grid/Grid';
 import Timer from './Timer';
 
 // 'Namespace' of the project
