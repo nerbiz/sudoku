@@ -3,16 +3,18 @@
 import Grid from './Grid/Grid';
 import Controls from './Controls';
 import EntryMode from './EntryMode';
+import Timer from './Timer';
 
 // 'Namespace' of the project
-window.Sudoku = {};
+window.Sudoku = {
+    controls: new Controls(),
+    entryMode: new EntryMode(),
+    grid: new Grid(),
+    timer: new Timer(),
+};
 
-Sudoku.entryMode = new EntryMode();
-
-Sudoku.controls = new Controls();
+Sudoku.timer.start();
 Sudoku.controls.init();
-
-Sudoku.grid = new Grid();
 Sudoku.grid.collectCells();
 
 /*
