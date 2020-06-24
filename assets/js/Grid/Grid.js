@@ -3,7 +3,7 @@ import GridRow from './GridRow';
 import GridColumn from './GridColumn';
 import GridBox from './GridBox';
 
-export default function Grid() {
+export default function() {
     const self = this;
     
     /**

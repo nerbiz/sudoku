@@ -1,4 +1,4 @@
-export default function Timer() {
+export default function() {
     const self = this;
 
     /**

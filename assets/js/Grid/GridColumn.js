@@ -5,7 +5,7 @@ import HasGridCells from '../Traits/HasGridCells';
  * @param {number} columnNumber
  * @constructor
  */
-export default function GridColumn(columnNumber) {
+export default function(columnNumber) {
     const self = this;
     trait(self, HasGridCells);
 

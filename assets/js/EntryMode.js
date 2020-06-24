@@ -1,29 +1,19 @@
+/**
+ * Several entry mode types, to be used as constants
+ * @type {string}
+ */
+EntryMode.MODE_VALUE = 'value';
+EntryMode.MODE_CORNER = 'corner';
+EntryMode.MODE_CENTER = 'center';
+
 export default function EntryMode() {
     const self = this;
-
-    /**
-     * Normal value entry
-     * @type {string}
-     */
-    self.MODE_VALUE = 'value';
-
-    /**
-     * Corner pencil mark entry
-     * @type {string}
-     */
-    self.MODE_CORNER = 'corner';
-
-    /**
-     * Center pencil mark entry
-     * @type {string}
-     */
-    self.MODE_CENTER = 'center';
 
     /**
      * The current mode
      * @type {string}
      */
-    self.mode = self.MODE_VALUE;
+    self.mode = EntryMode.MODE_VALUE;
 
     /**
      * Change the mode

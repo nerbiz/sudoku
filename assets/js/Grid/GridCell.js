@@ -6,7 +6,7 @@ import GridBox from './GridBox';
  * @param {number} cellNumber
  * @constructor
  */
-export default function GridCell(cellNumber) {
+export default function(cellNumber) {
     const self = this;
 
     /**

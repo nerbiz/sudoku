@@ -1,6 +1,6 @@
 import GridCell from '../Grid/GridCell';
 
-export default function HasGridCells() {
+export default function() {
     const self = this;
 
     /**
