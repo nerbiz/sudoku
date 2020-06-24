@@ -1,4 +1,5 @@
-import GridCell from './GridCell';
+import {trait} from '../functions';
+import HasGridCells from '../Traits/HasGridCells';
 
 /**
  * @param {number} boxNumber
@@ -6,25 +7,13 @@ import GridCell from './GridCell';
  */
 export default function GridBox(boxNumber) {
     const self = this;
+    trait(self, HasGridCells);
 
     /**
      * The 1-based box number in the grid
      * @type {number}
      */
     self.boxNumber = boxNumber;
-
-    /**
-     * Cells in the box
-     * @type {GridCell[]}
-     */
-    self.gridCells = [];
-
-    /**
-     * Add a cell to the box
-     * @param {GridCell} cell
-     * @return {number}
-     */
-    self.addCell = cell => self.gridCells.push(cell);
 
     /**
      * Get the cell numbers that self box has
@@ -52,22 +41,5 @@ export default function GridBox(boxNumber) {
         }
 
         return numbers;
-    };
-
-    /**
-     * Get a list of cell values
-     * @return {Array}
-     */
-    self.getCellValues = () => self.gridCells
-        .map(cell => cell.getValue())
-        .filter(value => value !== null);
-
-    /**
-     * See if the list of cell values contains duplicates
-     * @return {boolean}
-     */
-    self.hasDuplicateCellValues = () => {
-        const cellValues = self.getCellValues();
-        return (new Set(cellValues)).size !== cellValues.length;
     };
 }
