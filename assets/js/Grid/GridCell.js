@@ -46,13 +46,6 @@ export default function GridCell(cellNumber) {
     self.isPrefilled = false;
 
     /**
-     * The value of the cell
-     * @type {number|null}
-     * @private
-     */
-    self._value = null;
-
-    /**
      * The background color number of the cell
      * @type {number}
      */
@@ -69,6 +62,13 @@ export default function GridCell(cellNumber) {
      * @type {number[]}
      */
     self.centerMarks = [];
+
+    /**
+     * The value of the cell
+     * @type {number|null}
+     * @private
+     */
+    self._value = null;
 
     /**
      * Whether the cell is currently selected
