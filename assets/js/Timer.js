@@ -15,10 +15,10 @@ export default function() {
     self.startMoment = null;
 
     /**
-     * Set the start moment for calculating elapsed time
+     * Set the start/unpause moment for calculating elapsed time
      * @return {Date}
      */
-    self.start = () => self.startMoment = new Date();
+    self.start = self.unpause = () => self.startMoment = new Date();
 
     /**
      * Pause the timer
@@ -29,12 +29,6 @@ export default function() {
         self.initialMs += self.getElapsedMsSinceStart();
         self.startMoment = null;
     };
-
-    /**
-     * Resume the timer after pausing
-     * @return {Date}
-     */
-    self.unpause = () => self.start();
 
     /**
      * Get the elapsed milliseconds, since the start moment
