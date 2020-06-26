@@ -38,7 +38,7 @@ export default function() {
         return (self.startMoment !== null)
             ? (new Date()).getTime() - self.startMoment.getTime()
             : 0;
-    }
+    };
 
     /**
      * Get the amount of elapsed milliseconds, since the timer started
