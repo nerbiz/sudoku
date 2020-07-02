@@ -1,7 +1,7 @@
 import GridCell from './Grid/GridCell';
 import Visitor from './Utilities/Visitor';
 
-export default function() {
+export default function Controls() {
     const self = this;
 
     /**

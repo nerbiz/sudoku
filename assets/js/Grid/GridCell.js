@@ -6,7 +6,7 @@ import GridBox from './GridBox';
  * @param {number} cellNumber
  * @constructor
  */
-export default function(cellNumber) {
+export default function GridCell(cellNumber) {
     const self = this;
 
     /**
@@ -68,14 +68,14 @@ export default function(cellNumber) {
      * @type {number|null}
      * @private
      */
-    self._value = null;
+    let _value = null;
 
     /**
      * Whether the cell is currently selected
      * @type {boolean}
      * @private
      */
-    self._isSelected = false;
+    let _isSelected = false;
 
     (() => {
         // The HTML cell element
@@ -99,14 +99,14 @@ export default function(cellNumber) {
     /**
      * @return {number|null}
      */
-    self.getValue = () => self._value;
+    self.getValue = () => _value;
 
     /**
      * @param {number} value
      * @return {void}
      */
     self.setValue = value => {
-        self._value = value;
+        _value = value;
 
         // Show the value on screen
         self.element.getElementsByClassName('cell-value')[0].innerText = value;
@@ -115,7 +115,7 @@ export default function(cellNumber) {
     /**
      * @return {boolean}
      */
-    self.getIsSelected = () => self._isSelected;
+    self.getIsSelected = () => _isSelected;
 
     /**
      * @param {boolean} selected
@@ -135,7 +135,7 @@ export default function(cellNumber) {
             self.element.classList.remove('selected');
         }
 
-        self._isSelected = selected;
+        _isSelected = selected;
     };
 
     /**

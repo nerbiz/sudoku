@@ -95,11 +95,12 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Controls; });
 /* harmony import */ var _Grid_GridCell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Grid/GridCell */ "./assets/js/Grid/GridCell.js");
 /* harmony import */ var _Utilities_Visitor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Utilities/Visitor */ "./assets/js/Utilities/Visitor.js");
 
 
-/* harmony default export */ __webpack_exports__["default"] = (function () {
+function Controls() {
   var self = this;
   /**
    * The collection of grid cells
@@ -164,7 +165,7 @@ __webpack_require__.r(__webpack_exports__);
   self.registerCell = function (cell) {
     return self.gridCells.push(cell);
   };
-});
+}
 
 /***/ }),
 
@@ -215,6 +216,7 @@ function EntryMode() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Grid; });
 /* harmony import */ var _GridCell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GridCell */ "./assets/js/Grid/GridCell.js");
 /* harmony import */ var _GridRow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GridRow */ "./assets/js/Grid/GridRow.js");
 /* harmony import */ var _GridColumn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GridColumn */ "./assets/js/Grid/GridColumn.js");
@@ -223,7 +225,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (function () {
+function Grid() {
   var self = this;
   /**
    * All the cells in the grid
@@ -317,7 +319,7 @@ __webpack_require__.r(__webpack_exports__);
       return cell.getState();
     }).join('');
   };
-});
+}
 
 /***/ }),
 
@@ -330,6 +332,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GridBox; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
 /* harmony import */ var _Traits_HasGridCells__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Traits/HasGridCells */ "./assets/js/Traits/HasGridCells.js");
 
@@ -339,7 +342,7 @@ __webpack_require__.r(__webpack_exports__);
  * @constructor
  */
 
-/* harmony default export */ __webpack_exports__["default"] = (function (boxNumber) {
+function GridBox(boxNumber) {
   var self = this;
   Object(_functions__WEBPACK_IMPORTED_MODULE_0__["trait"])(self, _Traits_HasGridCells__WEBPACK_IMPORTED_MODULE_1__["default"]);
   /**
@@ -375,7 +378,7 @@ __webpack_require__.r(__webpack_exports__);
 
     return numbers;
   };
-});
+}
 
 /***/ }),
 
@@ -388,6 +391,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GridCell; });
 /* harmony import */ var _GridRow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GridRow */ "./assets/js/Grid/GridRow.js");
 /* harmony import */ var _GridColumn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GridColumn */ "./assets/js/Grid/GridColumn.js");
 /* harmony import */ var _GridBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GridBox */ "./assets/js/Grid/GridBox.js");
@@ -399,7 +403,7 @@ __webpack_require__.r(__webpack_exports__);
  * @constructor
  */
 
-/* harmony default export */ __webpack_exports__["default"] = (function (cellNumber) {
+function GridCell(cellNumber) {
   var self = this;
   /**
    * The 1-based cell number in the grid
@@ -461,14 +465,14 @@ __webpack_require__.r(__webpack_exports__);
    * @private
    */
 
-  self._value = null;
+  var _value = null;
   /**
    * Whether the cell is currently selected
    * @type {boolean}
    * @private
    */
 
-  self._isSelected = false;
+  var _isSelected = false;
 
   (function () {
     // The HTML cell element
@@ -496,7 +500,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
   self.getValue = function () {
-    return self._value;
+    return _value;
   };
   /**
    * @param {number} value
@@ -505,7 +509,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
   self.setValue = function (value) {
-    self._value = value; // Show the value on screen
+    _value = value; // Show the value on screen
 
     self.element.getElementsByClassName('cell-value')[0].innerText = value;
   };
@@ -515,7 +519,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
   self.getIsSelected = function () {
-    return self._isSelected;
+    return _isSelected;
   };
   /**
    * @param {boolean} selected
@@ -534,7 +538,7 @@ __webpack_require__.r(__webpack_exports__);
       self.element.classList.remove('selected');
     }
 
-    self._isSelected = selected;
+    _isSelected = selected;
   };
   /**
    * @param {GridRow} row
@@ -588,7 +592,7 @@ __webpack_require__.r(__webpack_exports__);
   self.getState = function () {
     return 'n' + self.cellNumber + (self.isPrefilled ? 'p' : '') + 'v' + self.getValue() + 'c' + self.colorNumber + 'cr' + self.cornerMarks.join('') + 'cn' + self.centerMarks.join('');
   };
-});
+}
 
 /***/ }),
 
@@ -601,6 +605,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GridColumn; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
 /* harmony import */ var _Traits_HasGridCells__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Traits/HasGridCells */ "./assets/js/Traits/HasGridCells.js");
 
@@ -610,7 +615,7 @@ __webpack_require__.r(__webpack_exports__);
  * @constructor
  */
 
-/* harmony default export */ __webpack_exports__["default"] = (function (columnNumber) {
+function GridColumn(columnNumber) {
   var self = this;
   Object(_functions__WEBPACK_IMPORTED_MODULE_0__["trait"])(self, _Traits_HasGridCells__WEBPACK_IMPORTED_MODULE_1__["default"]);
   /**
@@ -637,7 +642,7 @@ __webpack_require__.r(__webpack_exports__);
 
     return numbers;
   };
-});
+}
 
 /***/ }),
 
@@ -650,6 +655,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GridRow; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
 /* harmony import */ var _Traits_HasGridCells__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Traits/HasGridCells */ "./assets/js/Traits/HasGridCells.js");
 
@@ -659,7 +665,7 @@ __webpack_require__.r(__webpack_exports__);
  * @constructor
  */
 
-/* harmony default export */ __webpack_exports__["default"] = (function (rowNumber) {
+function GridRow(rowNumber) {
   var self = this;
   Object(_functions__WEBPACK_IMPORTED_MODULE_0__["trait"])(self, _Traits_HasGridCells__WEBPACK_IMPORTED_MODULE_1__["default"]);
   /**
@@ -682,7 +688,7 @@ __webpack_require__.r(__webpack_exports__);
 
     return numbers;
   };
-});
+}
 
 /***/ }),
 
@@ -695,7 +701,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (function () {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Timer; });
+function Timer() {
   var self = this;
   /**
    * The initial amount of elapsed milliseconds
@@ -769,7 +776,7 @@ __webpack_require__.r(__webpack_exports__);
 
     return "".concat(minutes, ":").concat(seconds);
   };
-});
+}
 
 /***/ }),
 
@@ -782,9 +789,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HasGridCells; });
 /* harmony import */ var _Grid_GridCell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Grid/GridCell */ "./assets/js/Grid/GridCell.js");
 
-/* harmony default export */ __webpack_exports__["default"] = (function () {
+function HasGridCells() {
   var self = this;
   /**
    * Cells in the row
@@ -824,7 +832,7 @@ __webpack_require__.r(__webpack_exports__);
     var cellValues = self.getCellValues();
     return new Set(cellValues).size !== cellValues.length;
   };
-});
+}
 
 /***/ }),
 
