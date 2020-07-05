@@ -297,6 +297,12 @@ function Grid() {
 
   self.selectedCells = [];
   /**
+   * The cell that is selected last
+   * @type {GridCell|null}
+   */
+
+  self.lastSelectedCell = null;
+  /**
    * Collect all the cell elements
    * @return {void}
    */
@@ -346,6 +352,26 @@ function Grid() {
 
   self.addSelectedCell = function (cell) {
     return self.selectedCells.push(cell);
+  };
+  /**
+   * @param {GridCell|null} cell
+   * @return {GridCell|null}
+   */
+
+
+  self.setLastSelectedCell = function (cell) {
+    return self.lastSelectedCell = cell;
+  };
+  /**
+   * Deselect all the selected cells
+   * @return {void}
+   */
+
+
+  self.deselectAllCells = function () {
+    self.selectedCells.forEach(function (cell) {
+      return cell.setIsSelected(false);
+    });
   };
   /**
    * Get the state of the entire grid
@@ -443,6 +469,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 function GridCell(cellNumber) {
+  var _this = this;
+
   var self = this;
   /**
    * The 1-based cell number in the grid
@@ -611,12 +639,23 @@ function GridCell(cellNumber) {
 
   self.registerEventHandlers = function () {
     self.element.addEventListener('mousedown', function () {
+      // Deselect all cells, if the ctrl is not pressed
+      // (Ctrl key allows multiple selections)
+      if (!Sudoku.controls.ctrlKeyPressed) {
+        Sudoku.grid.deselectAllCells();
+      }
+
       self.setIsSelected(true);
     });
     self.element.addEventListener('mouseenter', function () {
+      // Allow multiple cells to be selected
       if (Sudoku.controls.mousePressed) {
         self.setIsSelected(true);
       }
+    }); // On mouse up, this is the last seleted cell
+
+    self.element.addEventListener('mouseup', function () {
+      return Sudoku.grid.setLastSelectedCell(_this);
     });
     document.addEventListener('keydown', function (event) {
       // Change the cell value if it's selected

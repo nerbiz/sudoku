@@ -37,6 +37,12 @@ export default function Grid() {
     self.selectedCells = [];
 
     /**
+     * The cell that is selected last
+     * @type {GridCell|null}
+     */
+    self.lastSelectedCell = null;
+
+    /**
      * Collect all the cell elements
      * @return {void}
      */
@@ -84,6 +90,20 @@ export default function Grid() {
      * @return {number}
      */
     self.addSelectedCell = cell => self.selectedCells.push(cell);
+
+    /**
+     * @param {GridCell|null} cell
+     * @return {GridCell|null}
+     */
+    self.setLastSelectedCell = cell => self.lastSelectedCell = cell;
+
+    /**
+     * Deselect all the selected cells
+     * @return {void}
+     */
+    self.deselectAllCells = () => {
+        self.selectedCells.forEach(cell => cell.setIsSelected(false));
+    };
 
     /**
      * Get the state of the entire grid

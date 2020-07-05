@@ -159,14 +159,24 @@ export default function GridCell(cellNumber) {
      */
     self.registerEventHandlers = () => {
         self.element.addEventListener('mousedown', () => {
+            // Deselect all cells, if the ctrl is not pressed
+            // (Ctrl key allows multiple selections)
+            if (! Sudoku.controls.ctrlKeyPressed) {
+                Sudoku.grid.deselectAllCells();
+            }
+
             self.setIsSelected(true);
         });
 
         self.element.addEventListener('mouseenter', () => {
+            // Allow multiple cells to be selected
             if (Sudoku.controls.mousePressed) {
                 self.setIsSelected(true);
             }
         });
+
+        // On mouse up, this is the last seleted cell
+        self.element.addEventListener('mouseup', () => Sudoku.grid.setLastSelectedCell(this));
 
         document.addEventListener('keydown', event => {
             // Change the cell value if it's selected
