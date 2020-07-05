@@ -25,6 +25,15 @@ export default function Controls() {
     };
 
     /**
+     * Arrow key codes, as 1 array
+     * @type {string[]}
+     */
+    self.arrowKeysConcatenated = self.arrowKeys.up
+        .concat(self.arrowKeys.down)
+        .concat(self.arrowKeys.left)
+        .concat(self.arrowKeys.right);
+
+    /**
      * Number key codes
      * @type {string[]}
      */
@@ -70,4 +79,23 @@ export default function Controls() {
      * @return {boolean}
      */
     self.isDeleteKey = keyCode => (self.deleteKeys.indexOf(keyCode) > -1);
+
+    /**
+     * Checks whether a keycode is an arrow key
+     * @param {string} keyCode
+     * @param {string} direction (any or up/down/left/right)
+     * @return {boolean}
+     */
+    self.isArrowKey = (keyCode, direction = 'any') => {
+        // Check for any arrow key
+        if (direction === 'any') {
+            return (self.arrowKeysConcatenated.indexOf(keyCode) > -1);
+        }
+
+        // Check for a specific arrow key
+        return (
+            self.arrowKeys[direction]
+            && self.arrowKeys[direction].indexOf(keyCode) > -1
+        );
+    };
 }

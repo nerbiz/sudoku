@@ -32,7 +32,7 @@ module.exports = {
     stats: {
         hash: false,
         version: false,
-        timings: false,
+        timings: true,
         children: false,
         errors: true,
         errorDetails: true,
