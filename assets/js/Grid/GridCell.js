@@ -83,9 +83,6 @@ export default function GridCell(cellNumber) {
         if (self.element === null) {
             throw new Error(`Cell element with ID 'grid-cell-${self.cellNumber}' not found`);
         }
-
-        // Register self cell to the controls object
-        Sudoku.controls.registerCell(self);
     })();
 
     /**
@@ -102,7 +99,7 @@ export default function GridCell(cellNumber) {
     self.getValue = () => _value;
 
     /**
-     * @param {number} value
+     * @param {number|null} value
      * @return {void}
      */
     self.setValue = value => {
@@ -166,8 +163,23 @@ export default function GridCell(cellNumber) {
         });
 
         self.element.addEventListener('mouseenter', () => {
-            if (Sudoku.controls.mouseDown) {
+            if (Sudoku.controls.mousePressed) {
                 self.setIsSelected(true);
+            }
+        });
+
+        document.addEventListener('keydown', event => {
+            // Change the cell value if it's selected
+            if (self.getIsSelected()) {
+                // Set a number value
+                if (Sudoku.controls.isNumberKey(event.code)) {
+                    self.setValue(parseInt(event.key, 10));
+                }
+
+                // Remove the value
+                if (Sudoku.controls.isDeleteKey(event.code)) {
+                    self.setValue(null);
+                }
             }
         });
     };

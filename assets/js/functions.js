@@ -6,15 +6,13 @@
  */
 export function trait(instance, traitConstructor) {
     // Check the instance type
-    const instanceType = (typeof instance).toLowerCase();
-    if (instanceType !== 'object') {
-        throw new Error(`Instance needs to be an object, got ${instanceType} instead`);
+    if ((typeof instance).toLowerCase() !== 'object') {
+        throw new Error(`Instance needs to be an object, got ${typeof instance} instead`);
     }
 
     // Check the constructor type
-    const traitConstructorType = (typeof traitConstructor).toLowerCase();
-    if (traitConstructorType !== 'function') {
-        throw new Error(`Trait constructor needs to be a function/class, got ${traitConstructorType} instead`);
+    if ((typeof traitConstructor).toLowerCase() !== 'function') {
+        throw new Error(`Trait constructor needs to be a function/class, got ${typeof traitConstructor} instead`);
     }
 
     // Create a new instance of the trait

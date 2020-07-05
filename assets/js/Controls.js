@@ -1,30 +1,17 @@
-import GridCell from './Grid/GridCell';
-import Visitor from './Utilities/Visitor';
-
 export default function Controls() {
     const self = this;
 
     /**
-     * The collection of grid cells
-     * @type {GridCell[]}
-     */
-    self.gridCells = [];
-
-    /**
-     * Indicates whether a mouse button is currently held down
+     * Indicates whether a mouse button is currently pressed
      * @type {boolean}
      */
-    self.mouseDown = false;
+    self.mousePressed = false;
 
     /**
-     * Ctrl/Cmd key codes for Windows/Linux/macOS
-     * @type {string[]}
+     * Indicates whether a ctrl button is currently pressed
+     * @type {boolean}
      */
-    if (Visitor.usesMacOs()) {
-        self.ctrlKeys = ['MetaLeft', 'MetaRight'];
-    } else {
-        self.ctrlKeys = ['ControlLeft', 'ControlRight'];
-    }
+    self.ctrlKeyPressed = false;
 
     /**
      * Arrow key codes
@@ -48,23 +35,39 @@ export default function Controls() {
     ];
 
     /**
+     * Delete key codes
+     * @type {string[]}
+     */
+    self.deleteKeys = ['Delete', 'Backspace'];
+
+    /**
      * Initialize the object
      * @return {void}
      */
     self.init = () => {
-        document.addEventListener('mousedown', () => {
-            self.mouseDown = true;
+        document.addEventListener('mousedown', () => self.mousePressed = true);
+        document.addEventListener('mouseup', () => self.mousePressed = false);
+
+        document.addEventListener('keydown', event => {
+            self.ctrlKeyPressed = (event.ctrlKey || event.metaKey);
         });
 
-        document.addEventListener('mouseup', () => {
-            self.mouseDown = false;
+        document.addEventListener('keyup', event => {
+            self.ctrlKeyPressed = (event.ctrlKey || event.metaKey);
         });
     };
 
     /**
-     * Add a grid cell to the collection
-     * @param {GridCell} cell
-     * @return {number}
+     * Checks whether a keycode is a number key
+     * @param {string} keyCode
+     * @return {boolean}
      */
-    self.registerCell = cell => self.gridCells.push(cell);
+    self.isNumberKey = keyCode => (self.numberKeys.indexOf(keyCode) > -1);
+
+    /**
+     * Checks whether a keycode is a delete key
+     * @param {string} keyCode
+     * @return {boolean}
+     */
+    self.isDeleteKey = keyCode => (self.deleteKeys.indexOf(keyCode) > -1);
 }
