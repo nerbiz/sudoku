@@ -38,6 +38,12 @@ use Sudoku\Webpack;
                     <?php endif; ?>
                 <?php endfor; ?>
             </section>
+
+            <section id="game-info">
+                <p>
+                    Time: <span id="elapsed-time">-:--</span>
+                </p>
+            </section>
         </main>
 
         <script src="<?php echo Webpack::getAssetUrl('app.js'); ?>"></script>

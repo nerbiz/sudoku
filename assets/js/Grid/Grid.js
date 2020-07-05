@@ -64,6 +64,7 @@ export default function Grid() {
                 let newCell = null;
 
                 // Then navigate to the intended cell
+                // Wrap around if needed
                 if (Sudoku.controls.isArrowKey(event.code, 'up')) {
                     if ((newCellIndex -= 9) < 0) {
                         newCellIndex = 81 + newCellIndex;

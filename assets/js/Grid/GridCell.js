@@ -181,13 +181,11 @@ export default function GridCell(cellNumber) {
         document.addEventListener('keydown', event => {
             // Change the cell value if it's selected
             if (self.getIsSelected()) {
-                // Set a number value
                 if (Sudoku.controls.isNumberKey(event.code)) {
+                    // Set a number value
                     self.setValue(parseInt(event.key, 10));
-                }
-
-                // Remove the value
-                if (Sudoku.controls.isDeleteKey(event.code)) {
+                } else if (Sudoku.controls.isDeleteKey(event.code)) {
+                    // Remove the value
                     self.setValue(null);
                 }
             }

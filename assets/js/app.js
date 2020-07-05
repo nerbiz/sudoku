@@ -12,6 +12,7 @@ window.Sudoku = {
 };
 
 Sudoku.timer.start();
+Sudoku.timer.showTime();
 Sudoku.controls.init();
 Sudoku.grid.init();
 Sudoku.grid.collectCells();

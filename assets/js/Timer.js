@@ -15,6 +15,18 @@ export default function Timer() {
     self.startMoment = null;
 
     /**
+     * The element that shows the elapsed time
+     * @type {HTMLElement}
+     */
+    self.timeElement = document.getElementById('elapsed-time');
+
+    /**
+     * The interval for showing the time on screen
+     * @type {number|null}
+     */
+    self.timeInterval = null;
+
+    /**
      * Set the start/unpause moment for calculating elapsed time
      * @return {Date}
      */
@@ -67,5 +79,20 @@ export default function Timer() {
         }
 
         return `${minutes}:${seconds}`;
+    };
+
+    /**
+     * Decide whether to show the elapsed time on screen
+     * @param {boolean} show
+     * @return {void}
+     */
+    self.showTime = (show = true) => {
+        if (show) {
+            self.timeInterval = setInterval(() => {
+                self.timeElement.innerText = self.getElapsedTimeString();
+            }, 1000);
+        } else {
+            clearInterval(self.timeInterval);
+        }
     };
 }
