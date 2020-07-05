@@ -37,10 +37,10 @@ export default function Grid() {
     self.selectedCells = [];
 
     /**
-     * The cell that is selected last
+     * The cell that is last navigated to
      * @type {GridCell|null}
      */
-    self.lastSelectedCell = null;
+    self.lastNavigatedCell = null;
 
     /**
      * Collect all the cell elements
@@ -82,6 +82,8 @@ export default function Grid() {
                 }
             }
         }
+
+        self.setLastNavigatedCell(null);
     };
 
     /**
@@ -93,9 +95,16 @@ export default function Grid() {
 
     /**
      * @param {GridCell|null} cell
-     * @return {GridCell|null}
+     * @return {null}
      */
-    self.setLastSelectedCell = cell => self.lastSelectedCell = cell;
+    self.setLastNavigatedCell = cell => {
+        // The default last navigated cell is the center one
+        if (cell === null) {
+            self.lastNavigatedCell = self.gridCells[40];
+        } else {
+            self.lastNavigatedCell = cell;
+        }
+    };
 
     /**
      * Deselect all the selected cells
@@ -109,5 +118,11 @@ export default function Grid() {
      * Get the state of the entire grid
      * @return {string}
      */
-    self.getState = () => 'ver1' + self.gridCells.map(cell => cell.getState()).join('');
+    self.getState = () =>
+        // Application version
+        'a1'
+        // Elapsed milliseconds
+        + 't' + Sudoku.timer.getTotalElapsedMs()
+        // Cells state
+        + self.gridCells.map(cell => cell.getState()).join('');
 }

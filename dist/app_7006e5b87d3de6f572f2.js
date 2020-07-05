@@ -297,11 +297,11 @@ function Grid() {
 
   self.selectedCells = [];
   /**
-   * The cell that is selected last
+   * The cell that is last navigated to
    * @type {GridCell|null}
    */
 
-  self.lastSelectedCell = null;
+  self.lastNavigatedCell = null;
   /**
    * Collect all the cell elements
    * @return {void}
@@ -342,6 +342,8 @@ function Grid() {
         }
       }
     }
+
+    self.setLastNavigatedCell(null);
   };
   /**
    * Add a cell to the list of selected cells
@@ -355,12 +357,17 @@ function Grid() {
   };
   /**
    * @param {GridCell|null} cell
-   * @return {GridCell|null}
+   * @return {null}
    */
 
 
-  self.setLastSelectedCell = function (cell) {
-    return self.lastSelectedCell = cell;
+  self.setLastNavigatedCell = function (cell) {
+    // The default last navigated cell is the center one
+    if (cell === null) {
+      self.lastNavigatedCell = self.gridCells[40];
+    } else {
+      self.lastNavigatedCell = cell;
+    }
   };
   /**
    * Deselect all the selected cells
@@ -380,9 +387,13 @@ function Grid() {
 
 
   self.getState = function () {
-    return 'ver1' + self.gridCells.map(function (cell) {
-      return cell.getState();
-    }).join('');
+    return (// Application version
+      'a1' // Elapsed milliseconds
+      + 't' + Sudoku.timer.getTotalElapsedMs() // Cells state
+      + self.gridCells.map(function (cell) {
+        return cell.getState();
+      }).join('')
+    );
   };
 }
 
@@ -655,7 +666,7 @@ function GridCell(cellNumber) {
     }); // On mouse up, this is the last seleted cell
 
     self.element.addEventListener('mouseup', function () {
-      return Sudoku.grid.setLastSelectedCell(_this);
+      return Sudoku.grid.setLastNavigatedCell(_this);
     });
     document.addEventListener('keydown', function (event) {
       // Change the cell value if it's selected

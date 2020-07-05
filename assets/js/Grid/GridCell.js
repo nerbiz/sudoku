@@ -176,7 +176,7 @@ export default function GridCell(cellNumber) {
         });
 
         // On mouse up, this is the last seleted cell
-        self.element.addEventListener('mouseup', () => Sudoku.grid.setLastSelectedCell(this));
+        self.element.addEventListener('mouseup', () => Sudoku.grid.setLastNavigatedCell(this));
 
         document.addEventListener('keydown', event => {
             // Change the cell value if it's selected
