@@ -6,15 +6,15 @@ export default function DocumentEventHandler() {
      * @return {void}
      */
     self.register = () => {
-        self.registerKeyboardNavigation();
-        self.registerErrorEvent();
+        registerKeyboardNavigation();
+        registerErrorEvent();
     };
 
     /**
      * Register keyboard navigation events
      * @return {void}
      */
-    self.registerKeyboardNavigation = () => {
+    const registerKeyboardNavigation = () => {
         document.addEventListener('keydown', event => {
             if (Sudoku.controls.isArrowKey(event.code)) {
                 // First deselect all cells
@@ -55,7 +55,7 @@ export default function DocumentEventHandler() {
      * Register error events
      * @return {void}
      */
-    self.registerErrorEvent = () => {
+    const registerErrorEvent = () => {
         document.addEventListener('keydown', event => {
             // Remove all errors status when the cell changes
             Sudoku.grid.removeAllErrors();

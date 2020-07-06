@@ -18,15 +18,15 @@ export default function GridCellEventHandler(gridCell) {
      * @return {void}
      */
     self.register = () => {
-        self.registerMouseDownEvent();
-        self.registerMouseEnterEvent();
-        self.registerMouseUpEvent();
+        registerMouseDownEvent();
+        registerMouseEnterEvent();
+        registerMouseUpEvent();
     };
 
     /**
      * @return {void}
      */
-    self.registerMouseDownEvent = () => {
+    const registerMouseDownEvent = () => {
         self.gridCell.element.addEventListener('mousedown', () => {
             if (Sudoku.controls.ctrlKeyPressed) {
                 // Toggle the selected status when clicked, if the ctrl key is pressed
@@ -35,7 +35,6 @@ export default function GridCellEventHandler(gridCell) {
                 // Select only this cell, if the ctrl key is not pressed
                 Sudoku.grid.deselectAllCells();
                 self.gridCell.setIsSelected(true);
-                console.log(Sudoku.grid.getSelectedCells().map(cell => cell.cellNumber));
             }
         });
     };
@@ -43,7 +42,7 @@ export default function GridCellEventHandler(gridCell) {
     /**
      * @return {void}
      */
-    self.registerMouseEnterEvent = () => {
+    const registerMouseEnterEvent = () => {
         self.gridCell.element.addEventListener('mouseenter', () => {
             // Allow multiple cells to be selected
             if (Sudoku.controls.mousePressed) {
@@ -55,7 +54,7 @@ export default function GridCellEventHandler(gridCell) {
     /**
      * @return {void}
      */
-    self.registerMouseUpEvent = () => {
+    const registerMouseUpEvent = () => {
         // On mouse up, this is the last selected cell
         self.gridCell.element.addEventListener(
             'mouseup',
