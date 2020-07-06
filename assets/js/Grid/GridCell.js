@@ -179,6 +179,9 @@ export default function GridCell(cellNumber) {
         self.element.addEventListener('mouseup', () => Sudoku.grid.setLastNavigatedCell(this));
 
         document.addEventListener('keydown', event => {
+            // Remove all errors status when the cell changes
+            Sudoku.grid.removeAllErrors();
+
             // Change the cell value if it's selected
             if (self.getIsSelected()) {
                 if (Sudoku.controls.isNumberKey(event.code)) {
@@ -189,7 +192,23 @@ export default function GridCell(cellNumber) {
                     self.setValue(null);
                 }
             }
+
+            // See if there are any errors
+            Sudoku.grid.checkForErrors();
         });
+    };
+
+    /**
+     * Set the error status of the element
+     * @param {boolean} on
+     * @return {void}
+     */
+    self.setErrorStatus = (on = true) => {
+        if (on) {
+            self.element.classList.add('has-error');
+        } else {
+            self.element.classList.remove('has-error');
+        }
     };
 
     /**

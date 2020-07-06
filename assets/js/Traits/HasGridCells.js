@@ -28,8 +28,29 @@ export default function HasGridCells() {
      * See if the list of cell values contains duplicates
      * @return {boolean}
      */
-    self.hasDuplicateCellValues = () => {
-        const cellValues = self.getCellValues();
-        return (new Set(cellValues)).size !== cellValues.length;
+    self.checkDuplicateCellValues = () => {
+        // Pairs of value:gridCell[]
+        // Arrays of cells that have a certain value
+        const cellValues = {};
+
+        self.gridCells.forEach(cell => {
+            // Get the filled in value of the cell
+            const cellValue = cell.getValue();
+
+            // A value is needed for checking
+            if (cellValue === null) {
+                return;
+            }
+
+            // Get the cells that have that value an add the cell
+            const cells = cellValues[cellValue] || [];
+            cells.push(cell);
+            cellValues[cellValue] = cells;
+
+            // Set an error status on all duplicate cells, if there are any
+            if (cells.length > 1) {
+                cells.forEach(cell => cell.setErrorStatus(true));
+            }
+        });
     };
 }

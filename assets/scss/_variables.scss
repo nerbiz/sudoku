@@ -1,5 +1,6 @@
-$white: #fff;
-$black: #000;
+$color-white: #fff;
+$color-black: #000;
+$color-error: #f69274;
 
 // Palette 'Puzzle Shadow' by DarkBlueMe4Ever
 // https://www.colourlovers.com/palette/3833920/Puzzle_Shadow
@@ -14,7 +15,7 @@ $color-palette: (
 // http://hnl.name/color-schemer-online/
 // Using color #9af8fd
 $cell-colors: (
-  1: $white,
+  1: $color-white,
   2: #9bfdd1,
   3: #fc675f,
   4: #fd9bc7,

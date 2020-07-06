@@ -49,7 +49,7 @@ $box-border: $box-border-width map_get($color-palette, 4) solid;
   position: relative;
   padding-right: 1px;
   padding-bottom: 1px;
-  background-color: $white;
+  background-color: $color-white;
 
   &:hover {
     background-color: map_get($color-palette, 2);
@@ -57,6 +57,10 @@ $box-border: $box-border-width map_get($color-palette, 4) solid;
 
   &.selected {
     background-color: map_get($color-palette, 3);
+  }
+
+  &.has-error {
+    background-color: $color-error;
   }
 
   // Add 3x3 box border to cells in first row

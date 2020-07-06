@@ -164,6 +164,24 @@ export default function Grid() {
     };
 
     /**
+     * Check for errors in the grid
+     * @return {void}
+     */
+    self.checkForErrors = () => {
+        self.gridRows.forEach(row => row.checkDuplicateCellValues());
+        self.gridColumns.forEach(column => column.checkDuplicateCellValues());
+        self.gridBoxes.forEach(box => box.checkDuplicateCellValues());
+    };
+
+    /**
+     * Remove the error status of all cells
+     * @return {void}
+     */
+    self.removeAllErrors = () => {
+        self.gridCells.forEach(cell => cell.setErrorStatus(false));
+    };
+
+    /**
      * Get the state of the entire grid
      * @return {string}
      */
