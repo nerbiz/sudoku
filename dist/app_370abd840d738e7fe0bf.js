@@ -783,8 +783,15 @@ function GridCell(cellNumber) {
 
       if (self.getIsSelected()) {
         if (Sudoku.controls.isNumberKey(event.code)) {
-          // Set a number value
-          self.setValue(parseInt(event.key, 10));
+          var numberValue = parseInt(event.key, 10);
+
+          if (numberValue === self.getValue()) {
+            // Remove the value, if the same number is entered
+            self.setValue(null);
+          } else {
+            // Set a number value
+            self.setValue(numberValue);
+          }
         } else if (Sudoku.controls.isDeleteKey(event.code)) {
           // Remove the value
           self.setValue(null);

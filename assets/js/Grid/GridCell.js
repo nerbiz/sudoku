@@ -187,8 +187,14 @@ export default function GridCell(cellNumber) {
             // Change the cell value if it's selected
             if (self.getIsSelected()) {
                 if (Sudoku.controls.isNumberKey(event.code)) {
-                    // Set a number value
-                    self.setValue(parseInt(event.key, 10));
+                    const numberValue = parseInt(event.key, 10);
+                    if (numberValue === self.getValue()) {
+                        // Remove the value, if the same number is entered
+                        self.setValue(null);
+                    } else {
+                        // Set a number value
+                        self.setValue(numberValue);
+                    }
                 } else if (Sudoku.controls.isDeleteKey(event.code)) {
                     // Remove the value
                     self.setValue(null);
