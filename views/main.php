@@ -44,7 +44,7 @@ use Sudoku\Webpack;
             </section>
 
             <section id="game-info">
-                <p>Time: <span id="elapsed-time">-:--</span></p>
+                <p>Time: <span id="elapsed-time">0:00</span></p>
 
                 <p>
                     Input mode:<br>
@@ -57,6 +57,21 @@ use Sudoku\Webpack;
                     <label>
                         <input type="radio" name="input_mode" value="3"> Center marks
                     </label><br>
+                </p>
+
+                <p>Controls:</p>
+                <p>
+                    Arrow keys and WASD keys: navigate the grid<br>
+                    Numbers and keypad: set a pencil mark or value<br>
+                    Delete and backspace keys: remove a cell value<br>
+                    Spacebar, I, O and P keys: change input mode<br>
+                    Hold ctrl or command key: enable multiple cell selections<br>
+                    Ctrl or command key + mouseclick: (de)select a cell<br>
+                    Ctrl or command key + arrow keys or WASD keys: select multiple cells
+                </p>
+                <p>
+                    Mouseclick: select a cell<br>
+                    Mouse drag: select multiple cells<br>
                 </p>
             </section>
         </main>
