@@ -204,76 +204,6 @@ function Controls() {
 
 /***/ }),
 
-/***/ "./assets/js/EntryMode.js":
-/*!********************************!*\
-  !*** ./assets/js/EntryMode.js ***!
-  \********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EntryMode; });
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-/**
- * Several entry mode types, to be used as constants
- * @type {number}
- */
-EntryMode.MODE_VALUE = 1;
-EntryMode.MODE_CORNER = 2;
-EntryMode.MODE_CENTER = 3;
-function EntryMode() {
-  var self = this;
-  /**
-   * The current mode
-   * @type {number}
-   * @private
-   */
-
-  var _mode = self.MODE_VALUE;
-  /**
-   * @param {number} mode
-   * @return {void}
-   */
-
-  self.setMode = function (mode) {
-    if (_typeof(mode).toLowerCase() !== 'number') {
-      throw new Error("Expected a number, got ".concat(_typeof(mode)));
-    }
-
-    if (mode < self.MODE_VALUE || mode > self.MODE_CENTER) {
-      throw new Error('Invalid entry mode number given, please use EntryMode constants');
-    }
-
-    _mode = mode;
-  };
-  /**
-   * Change the mode number incrementally
-   * @return {void}
-   */
-
-
-  self.changeMode = function () {
-    // Increase the mode number
-    _mode++; // Wrap around, when max number is reached
-
-    if (_mode > self.MODE_CENTER) {
-      _mode = self.MODE_VALUE;
-    }
-  };
-  /**
-   * @return {number}
-   */
-
-
-  self.getMode = function () {
-    return _mode;
-  };
-}
-
-/***/ }),
-
 /***/ "./assets/js/EventHandlers/DocumentEventHandler.js":
 /*!*********************************************************!*\
   !*** ./assets/js/EventHandlers/DocumentEventHandler.js ***!
@@ -1026,6 +956,139 @@ function GridRow(rowNumber) {
 
 /***/ }),
 
+/***/ "./assets/js/InputMode.js":
+/*!********************************!*\
+  !*** ./assets/js/InputMode.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return InputMode; });
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+/**
+ * Several input modes, to be used as constants
+ * @type {number}
+ */
+InputMode.MODE_VALUE = 1;
+InputMode.MODE_CORNER = 2;
+InputMode.MODE_CENTER = 3;
+function InputMode() {
+  var self = this;
+  /**
+   * The current mode
+   * @type {number}
+   * @private
+   */
+
+  var _mode = InputMode.MODE_VALUE;
+  /**
+   * The radio buttons that can change the mode
+   * @type {NodeListOf<HTMLElement>}
+   */
+
+  self.radioButtons = document.getElementsByName('input_mode');
+  /**
+   * Initialize the object
+   * @return {void}
+   */
+
+  self.init = function () {
+    selectCurrentRadioButton();
+    registerEventListeners();
+  };
+  /**
+   * Make the radio button of the current input mode checked
+   * @return {void}
+   */
+
+
+  var selectCurrentRadioButton = function selectCurrentRadioButton() {
+    self.radioButtons.forEach(function (radioButton) {
+      if (parseInt(radioButton.value, 10) === self.getMode()) {
+        radioButton.checked = true;
+      }
+    });
+  };
+  /**
+   * Enable toggling the mode with radio buttons
+   * @return {void}
+   */
+
+
+  var registerEventListeners = function registerEventListeners() {
+    self.radioButtons.forEach(function (radioButton) {
+      radioButton.addEventListener('change', function () {
+        self.setMode(parseInt(radioButton.value, 10));
+      });
+    });
+    document.addEventListener('keydown', function (event) {
+      switch (event.code) {
+        case 'Space':
+          self.changeMode();
+          break;
+
+        case 'KeyI':
+          self.setMode(InputMode.MODE_VALUE);
+          break;
+
+        case 'KeyO':
+          self.setMode(InputMode.MODE_CORNER);
+          break;
+
+        case 'KeyP':
+          self.setMode(InputMode.MODE_CENTER);
+          break;
+      }
+
+      selectCurrentRadioButton();
+    });
+  };
+  /**
+   * @param {number} mode
+   * @return {void}
+   */
+
+
+  self.setMode = function (mode) {
+    if (_typeof(mode).toLowerCase() !== 'number') {
+      throw new Error("Expected a number, got ".concat(_typeof(mode)));
+    }
+
+    if (mode < InputMode.MODE_VALUE || mode > InputMode.MODE_CENTER) {
+      throw new Error('Invalid input mode number given, please use InputMode constants');
+    }
+
+    _mode = mode;
+  };
+  /**
+   * Change the mode number incrementally
+   * @return {void}
+   */
+
+
+  self.changeMode = function () {
+    // Increase the mode number
+    _mode++; // Wrap around, when max number is reached
+
+    if (_mode > InputMode.MODE_CENTER) {
+      _mode = InputMode.MODE_VALUE;
+    }
+  };
+  /**
+   * @return {number}
+   */
+
+
+  self.getMode = function () {
+    return _mode;
+  };
+}
+
+/***/ }),
+
 /***/ "./assets/js/Timer.js":
 /*!****************************!*\
   !*** ./assets/js/Timer.js ***!
@@ -1252,7 +1315,7 @@ function Visitor() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Controls__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Controls */ "./assets/js/Controls.js");
-/* harmony import */ var _EntryMode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EntryMode */ "./assets/js/EntryMode.js");
+/* harmony import */ var _InputMode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InputMode */ "./assets/js/InputMode.js");
 /* harmony import */ var _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Grid/Grid */ "./assets/js/Grid/Grid.js");
 /* harmony import */ var _Timer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Timer */ "./assets/js/Timer.js");
 /* harmony import */ var _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EventHandlers/DocumentEventHandler */ "./assets/js/EventHandlers/DocumentEventHandler.js");
@@ -1264,13 +1327,14 @@ __webpack_require__.r(__webpack_exports__);
 
 window.Sudoku = {
   controls: new _Controls__WEBPACK_IMPORTED_MODULE_0__["default"](),
-  entryMode: new _EntryMode__WEBPACK_IMPORTED_MODULE_1__["default"](),
+  inputMode: new _InputMode__WEBPACK_IMPORTED_MODULE_1__["default"](),
   grid: new _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__["default"](),
   timer: new _Timer__WEBPACK_IMPORTED_MODULE_3__["default"](),
   documentEventHandler: new _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__["default"]()
 };
 Sudoku.timer.start();
 Sudoku.timer.showTime();
+Sudoku.inputMode.init();
 Sudoku.controls.init();
 Sudoku.grid.collectCells();
 Sudoku.documentEventHandler.register();

@@ -1,5 +1,5 @@
 import Controls from './Controls';
-import EntryMode from './EntryMode';
+import InputMode from './InputMode';
 import Grid from './Grid/Grid';
 import Timer from './Timer';
 import DocumentEventHandler from './EventHandlers/DocumentEventHandler';
@@ -7,7 +7,7 @@ import DocumentEventHandler from './EventHandlers/DocumentEventHandler';
 // 'Namespace' of the project
 window.Sudoku = {
     controls: new Controls(),
-    entryMode: new EntryMode(),
+    inputMode: new InputMode(),
     grid: new Grid(),
     timer: new Timer(),
     documentEventHandler: new DocumentEventHandler(),
@@ -15,6 +15,7 @@ window.Sudoku = {
 
 Sudoku.timer.start();
 Sudoku.timer.showTime();
+Sudoku.inputMode.init();
 Sudoku.controls.init();
 Sudoku.grid.collectCells();
 Sudoku.documentEventHandler.register();

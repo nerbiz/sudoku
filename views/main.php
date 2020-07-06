@@ -40,8 +40,19 @@ use Sudoku\Webpack;
             </section>
 
             <section id="game-info">
+                <p>Time: <span id="elapsed-time">-:--</span></p>
+
                 <p>
-                    Time: <span id="elapsed-time">-:--</span>
+                    Input mode:<br>
+                    <label>
+                        <input type="radio" name="input_mode" value="1"> Normal
+                    </label><br>
+                    <label>
+                        <input type="radio" name="input_mode" value="2"> Corner marks
+                    </label><br>
+                    <label>
+                        <input type="radio" name="input_mode" value="3"> Center marks
+                    </label><br>
                 </p>
             </section>
         </main>
