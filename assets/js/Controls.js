@@ -1,3 +1,5 @@
+import Visitor from './Utilities/Visitor';
+
 export default function Controls() {
     const self = this;
 
@@ -57,13 +59,14 @@ export default function Controls() {
         document.addEventListener('mousedown', () => self.mousePressed = true);
         document.addEventListener('mouseup', () => self.mousePressed = false);
 
-        document.addEventListener('keydown', event => {
-            self.ctrlKeyPressed = (event.ctrlKey || event.metaKey);
-        });
+        const ctrlKeyCheck = event => {
+            self.ctrlKeyPressed = Visitor.usesMacOs
+                ? event.metaKey
+                : event.ctrlKey;
+        };
 
-        document.addEventListener('keyup', event => {
-            self.ctrlKeyPressed = (event.ctrlKey || event.metaKey);
-        });
+        document.addEventListener('keydown', ctrlKeyCheck);
+        document.addEventListener('keyup', ctrlKeyCheck);
     };
 
     /**
