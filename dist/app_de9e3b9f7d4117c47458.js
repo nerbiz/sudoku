@@ -155,7 +155,11 @@ function Controls() {
     });
 
     var ctrlKeyCheck = function ctrlKeyCheck(event) {
-      self.ctrlKeyPressed = _Utilities_Visitor__WEBPACK_IMPORTED_MODULE_0__["default"].usesMacOs ? event.metaKey : event.ctrlKey;
+      self.ctrlKeyPressed = _Utilities_Visitor__WEBPACK_IMPORTED_MODULE_0__["default"].usesMacOs ? event.metaKey : event.ctrlKey; // Prevent browser navigation (key combination is used for selecting cells)
+
+      if (self.ctrlKeyPressed && ['ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
+        event.preventDefault();
+      }
     };
 
     document.addEventListener('keydown', ctrlKeyCheck);
@@ -234,8 +238,11 @@ function DocumentEventHandler() {
   var registerKeyboardNavigation = function registerKeyboardNavigation() {
     document.addEventListener('keydown', function (event) {
       if (Sudoku.controls.isArrowKey(event.code)) {
-        // First deselect all cells
-        Sudoku.grid.deselectAllCells();
+        // Deselect all cells, if the ctrl key is not pressed
+        if (!Sudoku.controls.ctrlKeyPressed) {
+          Sudoku.grid.deselectAllCells();
+        }
+
         var newCellIndex = Sudoku.grid.lastNavigatedCell.cellNumber - 1;
         var newCell = null; // Then navigate to the intended cell
         // Wrap around if needed

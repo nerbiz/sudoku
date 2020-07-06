@@ -17,8 +17,10 @@ export default function DocumentEventHandler() {
     const registerKeyboardNavigation = () => {
         document.addEventListener('keydown', event => {
             if (Sudoku.controls.isArrowKey(event.code)) {
-                // First deselect all cells
-                Sudoku.grid.deselectAllCells();
+                // Deselect all cells, if the ctrl key is not pressed
+                if (! Sudoku.controls.ctrlKeyPressed) {
+                    Sudoku.grid.deselectAllCells();
+                }
 
                 let newCellIndex = Sudoku.grid.lastNavigatedCell.cellNumber - 1;
                 let newCell = null;

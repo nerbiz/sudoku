@@ -63,6 +63,11 @@ export default function Controls() {
             self.ctrlKeyPressed = Visitor.usesMacOs
                 ? event.metaKey
                 : event.ctrlKey;
+
+            // Prevent browser navigation (key combination is used for selecting cells)
+            if (self.ctrlKeyPressed && ['ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
+                event.preventDefault();
+            }
         };
 
         document.addEventListener('keydown', ctrlKeyCheck);
