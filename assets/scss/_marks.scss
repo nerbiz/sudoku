@@ -11,49 +11,49 @@
   font-size: map_get($font-sizes, 'small');
 
   // Top-left
-  &#corner-mark-1 {
+  &.corner-mark-1 {
     top: 0;
     left: 0;
   }
 
   // Top-middle
-  &#corner-mark-2 {
+  &.corner-mark-2 {
     top: 0;
     left: $corner-mark-size;
   }
 
   // Top-right
-  &#corner-mark-3 {
+  &.corner-mark-3 {
     top: 0;
     left: ($corner-mark-size * 2);
   }
 
   // Left-middle
-  &#corner-mark-4 {
+  &.corner-mark-4 {
     top: $corner-mark-size;
     left: 0;
   }
 
   // Right-middle
-  &#corner-mark-5 {
+  &.corner-mark-5 {
     top: $corner-mark-size;
     left: ($corner-mark-size * 2);
   }
 
   // Bottom-left
-  &#corner-mark-6 {
+  &.corner-mark-6 {
     top: ($corner-mark-size * 2);
     left: 0;
   }
 
   // Bottom-middle
-  &#corner-mark-7 {
+  &.corner-mark-7 {
     top: ($corner-mark-size * 2);
     left: $corner-mark-size;
   }
 
   // Bottom-right
-  &#corner-mark-8 {
+  &.corner-mark-8 {
     top: ($corner-mark-size * 2);
     left: ($corner-mark-size * 2);
   }

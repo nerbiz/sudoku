@@ -22,11 +22,15 @@ use Sudoku\Webpack;
                         <div class="grid-cell-content">
                             <div class="corner-marks">
                                 <?php for ($j = 0; ++$j < 9;): ?>
-                                    <span class="corner-mark" id="corner-mark-<?php echo $j; ?>"></span>
+                                    <span class="corner-mark corner-mark-<?php echo $j; ?>"
+                                          id="corner-mark-<?php echo $i . '-' . $j; ?>"
+                                    ></span>
                                 <?php endfor; ?>
                             </div>
 
-                            <span class="center-marks"></span>
+                            <span class="center-marks"
+                                  id="center-marks-<?php echo $i; ?>"
+                            ></span>
 
                             <span class="cell-value"></span>
                         </div>

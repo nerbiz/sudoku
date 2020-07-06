@@ -65,18 +65,11 @@ export default function DocumentEventHandler() {
             Sudoku.grid.getSelectedCells().forEach(cell => {
                 // Change the cell value
                 if (Sudoku.controls.isNumberKey(event.code)) {
-                    const numberValue = parseInt(event.key, 10);
-
-                    if (numberValue === cell.getValue()) {
-                        // Remove the value, if the same number is entered
-                        cell.setValue(null);
-                    } else {
-                        // Set a number value
-                        cell.setValue(numberValue);
-                    }
+                    // Set a number value
+                    cell.setDigit(parseInt(event.key, 10));
                 } else if (Sudoku.controls.isDeleteKey(event.code)) {
                     // Remove the value
-                    cell.setValue(null);
+                    cell.setDigit(null);
                 }
             });
 
