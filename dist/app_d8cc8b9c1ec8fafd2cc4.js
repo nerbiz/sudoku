@@ -274,6 +274,185 @@ function EntryMode() {
 
 /***/ }),
 
+/***/ "./assets/js/EventHandlers/DocumentEventHandler.js":
+/*!*********************************************************!*\
+  !*** ./assets/js/EventHandlers/DocumentEventHandler.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DocumentEventHandler; });
+function DocumentEventHandler() {
+  var self = this;
+  /**
+   * Register event handlers for the document
+   * @return {void}
+   */
+
+  self.register = function () {
+    self.registerKeyboardNavigation();
+    self.registerErrorEvent();
+  };
+  /**
+   * Register keyboard navigation events
+   * @return {void}
+   */
+
+
+  self.registerKeyboardNavigation = function () {
+    document.addEventListener('keydown', function (event) {
+      if (Sudoku.controls.isArrowKey(event.code)) {
+        // First deselect all cells
+        Sudoku.grid.deselectAllCells();
+        var newCellIndex = Sudoku.grid.lastNavigatedCell.cellNumber - 1;
+        var newCell = null; // Then navigate to the intended cell
+        // Wrap around if needed
+
+        if (Sudoku.controls.isArrowKey(event.code, 'up')) {
+          if ((newCellIndex -= 9) < 0) {
+            newCellIndex = 81 + newCellIndex;
+          }
+        } else if (Sudoku.controls.isArrowKey(event.code, 'down')) {
+          if ((newCellIndex += 9) > 80) {
+            newCellIndex = newCellIndex - 81;
+          }
+        } else if (Sudoku.controls.isArrowKey(event.code, 'left')) {
+          if ((--newCellIndex + 1) % 9 === 0) {
+            newCellIndex += 9;
+          }
+        } else if (Sudoku.controls.isArrowKey(event.code, 'right')) {
+          if (++newCellIndex % 9 === 0) {
+            newCellIndex -= 9;
+          }
+        } // Make the new cell the active one
+
+
+        newCell = Sudoku.grid.getCellByIndex(newCellIndex);
+        newCell.setIsSelected(true);
+        Sudoku.grid.setLastNavigatedCell(newCell);
+      }
+    });
+  };
+  /**
+   * Register error events
+   * @return {void}
+   */
+
+
+  self.registerErrorEvent = function () {
+    document.addEventListener('keydown', function (event) {
+      // Remove all errors status when the cell changes
+      Sudoku.grid.removeAllErrors();
+      Sudoku.grid.getSelectedCells().forEach(function (cell) {
+        // Change the cell value
+        if (Sudoku.controls.isNumberKey(event.code)) {
+          var numberValue = parseInt(event.key, 10);
+
+          if (numberValue === cell.getValue()) {
+            // Remove the value, if the same number is entered
+            cell.setValue(null);
+          } else {
+            // Set a number value
+            cell.setValue(numberValue);
+          }
+        } else if (Sudoku.controls.isDeleteKey(event.code)) {
+          // Remove the value
+          cell.setValue(null);
+        }
+      }); // See if there are any errors
+
+      Sudoku.grid.checkForErrors();
+    });
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/js/EventHandlers/GridCellEventHandler.js":
+/*!*********************************************************!*\
+  !*** ./assets/js/EventHandlers/GridCellEventHandler.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GridCellEventHandler; });
+/* harmony import */ var _Grid_GridCell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Grid/GridCell */ "./assets/js/Grid/GridCell.js");
+
+/**
+ * @param {GridCell} gridCell
+ * @constructor
+ */
+
+function GridCellEventHandler(gridCell) {
+  var self = this;
+  /**
+   * The cell to register event handlers for
+   * @type {GridCell}
+   */
+
+  self.gridCell = gridCell;
+  /**
+   * Register event handlers for a grid cell
+   * @return {void}
+   */
+
+  self.register = function () {
+    self.registerMouseDownEvent();
+    self.registerMouseEnterEvent();
+    self.registerMouseUpEvent();
+  };
+  /**
+   * @return {void}
+   */
+
+
+  self.registerMouseDownEvent = function () {
+    self.gridCell.element.addEventListener('mousedown', function () {
+      if (Sudoku.controls.ctrlKeyPressed) {
+        // Toggle the selected status when clicked, if the ctrl key is pressed
+        self.gridCell.setIsSelected(!self.gridCell.getIsSelected());
+      } else {
+        // Select only this cell, if the ctrl key is not pressed
+        Sudoku.grid.deselectAllCells();
+        self.gridCell.setIsSelected(true);
+        console.log(Sudoku.grid.getSelectedCells().map(function (cell) {
+          return cell.cellNumber;
+        }));
+      }
+    });
+  };
+  /**
+   * @return {void}
+   */
+
+
+  self.registerMouseEnterEvent = function () {
+    self.gridCell.element.addEventListener('mouseenter', function () {
+      // Allow multiple cells to be selected
+      if (Sudoku.controls.mousePressed) {
+        self.gridCell.setIsSelected(true);
+      }
+    });
+  };
+  /**
+   * @return {void}
+   */
+
+
+  self.registerMouseUpEvent = function () {
+    // On mouse up, this is the last selected cell
+    self.gridCell.element.addEventListener('mouseup', function () {
+      return Sudoku.grid.setLastNavigatedCell(self.gridCell);
+    });
+  };
+}
+
+/***/ }),
+
 /***/ "./assets/js/Grid/Grid.js":
 /*!********************************!*\
   !*** ./assets/js/Grid/Grid.js ***!
@@ -293,8 +472,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Grid() {
-  var _this = this;
-
   var self = this;
   /**
    * All the cells in the grid
@@ -333,58 +510,9 @@ function Grid() {
 
   self.lastNavigatedCell = null;
   /**
-   * Initialize the object
-   * @return {void}
-   */
-
-  self.init = function () {
-    self.registerEventHandlers();
-  };
-  /**
-   * Handle events that happen on/for the grid
-   * @return {void}
-   */
-
-
-  self.registerEventHandlers = function () {
-    document.addEventListener('keydown', function (event) {
-      if (Sudoku.controls.isArrowKey(event.code)) {
-        // First deselect all cells
-        self.deselectAllCells();
-        var newCellIndex = self.lastNavigatedCell.cellNumber - 1;
-        var newCell = null; // Then navigate to the intended cell
-        // Wrap around if needed
-
-        if (Sudoku.controls.isArrowKey(event.code, 'up')) {
-          if ((newCellIndex -= 9) < 0) {
-            newCellIndex = 81 + newCellIndex;
-          }
-        } else if (Sudoku.controls.isArrowKey(event.code, 'down')) {
-          if ((newCellIndex += 9) > 80) {
-            newCellIndex = newCellIndex - 81;
-          }
-        } else if (Sudoku.controls.isArrowKey(event.code, 'left')) {
-          if ((--newCellIndex + 1) % 9 === 0) {
-            newCellIndex += 9;
-          }
-        } else if (Sudoku.controls.isArrowKey(event.code, 'right')) {
-          if (++newCellIndex % 9 === 0) {
-            newCellIndex -= 9;
-          }
-        } // Make the new cell the active one
-
-
-        newCell = _this.gridCells[newCellIndex];
-        newCell.setIsSelected(true);
-        self.setLastNavigatedCell(newCell);
-      }
-    });
-  };
-  /**
    * Collect all the cell elements
    * @return {void}
    */
-
 
   self.collectCells = function () {
     // Create 9 rows, columns and 3x3 boxes
@@ -425,6 +553,31 @@ function Grid() {
     self.setLastNavigatedCell(null);
   };
   /**
+   * @return {GridCell[]}
+   */
+
+
+  self.getCells = function () {
+    return self.gridCells;
+  };
+  /**
+   * @param {number} index A 0-based index
+   * @return {GridCell}
+   */
+
+
+  self.getCellByIndex = function (index) {
+    return self.gridCells[index];
+  };
+  /**
+   * @return {GridCell[]}
+   */
+
+
+  self.getSelectedCells = function () {
+    return self.selectedCells;
+  };
+  /**
    * Add a cell to the list of selected cells
    * @param {GridCell} cell
    * @return {number}
@@ -433,20 +586,6 @@ function Grid() {
 
   self.addSelectedCell = function (cell) {
     return self.selectedCells.push(cell);
-  };
-  /**
-   * @param {GridCell|null} cell
-   * @return {null}
-   */
-
-
-  self.setLastNavigatedCell = function (cell) {
-    // The default last navigated cell is the center one
-    if (cell === null) {
-      self.lastNavigatedCell = self.gridCells[40];
-    } else {
-      self.lastNavigatedCell = cell;
-    }
   };
   /**
    * Deselect all the selected cells
@@ -458,6 +597,21 @@ function Grid() {
     self.selectedCells.forEach(function (cell) {
       return cell.setIsSelected(false);
     });
+    self.selectedCells = [];
+  };
+  /**
+   * @param {GridCell|null} cell
+   * @return {null}
+   */
+
+
+  self.setLastNavigatedCell = function (cell) {
+    // The default last navigated cell is the center one
+    if (cell === null) {
+      self.lastNavigatedCell = self.getCellByIndex(40);
+    } else {
+      self.lastNavigatedCell = cell;
+    }
   };
   /**
    * Check for errors in the grid
@@ -578,6 +732,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GridRow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GridRow */ "./assets/js/Grid/GridRow.js");
 /* harmony import */ var _GridColumn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GridColumn */ "./assets/js/Grid/GridColumn.js");
 /* harmony import */ var _GridBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GridBox */ "./assets/js/Grid/GridBox.js");
+/* harmony import */ var _EventHandlers_GridCellEventHandler__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../EventHandlers/GridCellEventHandler */ "./assets/js/EventHandlers/GridCellEventHandler.js");
+
 
 
 
@@ -587,8 +743,6 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 function GridCell(cellNumber) {
-  var _this = this;
-
   var self = this;
   /**
    * The 1-based cell number in the grid
@@ -674,7 +828,8 @@ function GridCell(cellNumber) {
 
 
   self.init = function () {
-    self.registerEventHandlers();
+    var eventHandler = new _EventHandlers_GridCellEventHandler__WEBPACK_IMPORTED_MODULE_3__["default"](self);
+    eventHandler.register();
   };
   /**
    * @return {number|null}
@@ -748,59 +903,6 @@ function GridCell(cellNumber) {
 
   self.setBox = function (box) {
     return self.gridBox = box;
-  };
-  /**
-   * Handle events that happen on/for the cell
-   * @return {void}
-   */
-
-
-  self.registerEventHandlers = function () {
-    self.element.addEventListener('mousedown', function () {
-      if (Sudoku.controls.ctrlKeyPressed) {
-        // Toggle the selected status when clicked, if ctrl key is pressed
-        self.setIsSelected(!self.getIsSelected());
-      } else {
-        // Deselect all cells, if the ctrl is not pressed
-        // (Ctrl key allows multiple selections)
-        Sudoku.grid.deselectAllCells();
-        self.setIsSelected(true);
-      }
-    });
-    self.element.addEventListener('mouseenter', function () {
-      // Allow multiple cells to be selected
-      if (Sudoku.controls.mousePressed) {
-        self.setIsSelected(true);
-      }
-    }); // On mouse up, this is the last seleted cell
-
-    self.element.addEventListener('mouseup', function () {
-      return Sudoku.grid.setLastNavigatedCell(_this);
-    });
-    document.addEventListener('keydown', function (event) {
-      // Remove all errors status when the cell changes
-      Sudoku.grid.removeAllErrors(); // Change the cell value if it's selected
-
-      if (self.getIsSelected()) {
-        if (Sudoku.controls.isNumberKey(event.code)) {
-          var numberValue = parseInt(event.key, 10);
-
-          if (numberValue === self.getValue()) {
-            // Remove the value, if the same number is entered
-            self.setValue(null);
-          } else {
-            // Set a number value
-            self.setValue(numberValue);
-          }
-        } else if (Sudoku.controls.isDeleteKey(event.code)) {
-          // Remove the value
-          self.setValue(null);
-        }
-      } // See if there are any errors
-
-
-      Sudoku.grid.checkForErrors();
-    });
   };
   /**
    * Set the error status of the element
@@ -1156,6 +1258,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _EntryMode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EntryMode */ "./assets/js/EntryMode.js");
 /* harmony import */ var _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Grid/Grid */ "./assets/js/Grid/Grid.js");
 /* harmony import */ var _Timer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Timer */ "./assets/js/Timer.js");
+/* harmony import */ var _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EventHandlers/DocumentEventHandler */ "./assets/js/EventHandlers/DocumentEventHandler.js");
+
 
 
 
@@ -1165,13 +1269,14 @@ window.Sudoku = {
   controls: new _Controls__WEBPACK_IMPORTED_MODULE_0__["default"](),
   entryMode: new _EntryMode__WEBPACK_IMPORTED_MODULE_1__["default"](),
   grid: new _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__["default"](),
-  timer: new _Timer__WEBPACK_IMPORTED_MODULE_3__["default"]()
+  timer: new _Timer__WEBPACK_IMPORTED_MODULE_3__["default"](),
+  documentEventHandler: new _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__["default"]()
 };
 Sudoku.timer.start();
 Sudoku.timer.showTime();
 Sudoku.controls.init();
-Sudoku.grid.init();
 Sudoku.grid.collectCells();
+Sudoku.documentEventHandler.register();
 /*
 const LZString = require('lz-string');
 const state = JSON.stringify(Sudoku.grid.getState());

@@ -2,6 +2,7 @@ import Controls from './Controls';
 import EntryMode from './EntryMode';
 import Grid from './Grid/Grid';
 import Timer from './Timer';
+import DocumentEventHandler from './EventHandlers/DocumentEventHandler';
 
 // 'Namespace' of the project
 window.Sudoku = {
@@ -9,13 +10,14 @@ window.Sudoku = {
     entryMode: new EntryMode(),
     grid: new Grid(),
     timer: new Timer(),
+    documentEventHandler: new DocumentEventHandler(),
 };
 
 Sudoku.timer.start();
 Sudoku.timer.showTime();
 Sudoku.controls.init();
-Sudoku.grid.init();
 Sudoku.grid.collectCells();
+Sudoku.documentEventHandler.register();
 
 /*
 const LZString = require('lz-string');

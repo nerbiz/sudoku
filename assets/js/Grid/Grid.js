@@ -43,55 +43,6 @@ export default function Grid() {
     self.lastNavigatedCell = null;
 
     /**
-     * Initialize the object
-     * @return {void}
-     */
-    self.init = () => {
-        self.registerEventHandlers();
-    };
-
-    /**
-     * Handle events that happen on/for the grid
-     * @return {void}
-     */
-    self.registerEventHandlers = () => {
-        document.addEventListener('keydown', event => {
-            if (Sudoku.controls.isArrowKey(event.code)) {
-                // First deselect all cells
-                self.deselectAllCells();
-
-                let newCellIndex = self.lastNavigatedCell.cellNumber - 1;
-                let newCell = null;
-
-                // Then navigate to the intended cell
-                // Wrap around if needed
-                if (Sudoku.controls.isArrowKey(event.code, 'up')) {
-                    if ((newCellIndex -= 9) < 0) {
-                        newCellIndex = 81 + newCellIndex;
-                    }
-                } else if (Sudoku.controls.isArrowKey(event.code, 'down')) {
-                    if ((newCellIndex += 9) > 80) {
-                        newCellIndex = newCellIndex - 81;
-                    }
-                } else if (Sudoku.controls.isArrowKey(event.code, 'left')) {
-                    if ((--newCellIndex + 1) % 9 === 0) {
-                        newCellIndex += 9;
-                    }
-                } else if (Sudoku.controls.isArrowKey(event.code, 'right')) {
-                    if (++newCellIndex % 9 === 0) {
-                        newCellIndex -= 9;
-                    }
-                }
-
-                // Make the new cell the active one
-                newCell = this.gridCells[newCellIndex];
-                newCell.setIsSelected(true);
-                self.setLastNavigatedCell(newCell);
-            }
-        });
-    };
-
-    /**
      * Collect all the cell elements
      * @return {void}
      */
@@ -136,11 +87,36 @@ export default function Grid() {
     };
 
     /**
+     * @return {GridCell[]}
+     */
+    self.getCells = () => self.gridCells;
+
+    /**
+     * @param {number} index A 0-based index
+     * @return {GridCell}
+     */
+    self.getCellByIndex = index => self.gridCells[index];
+
+    /**
+     * @return {GridCell[]}
+     */
+    self.getSelectedCells = () => self.selectedCells;
+
+    /**
      * Add a cell to the list of selected cells
      * @param {GridCell} cell
      * @return {number}
      */
     self.addSelectedCell = cell => self.selectedCells.push(cell);
+
+    /**
+     * Deselect all the selected cells
+     * @return {void}
+     */
+    self.deselectAllCells = () => {
+        self.selectedCells.forEach(cell => cell.setIsSelected(false));
+        self.selectedCells = [];
+    };
 
     /**
      * @param {GridCell|null} cell
@@ -149,18 +125,10 @@ export default function Grid() {
     self.setLastNavigatedCell = cell => {
         // The default last navigated cell is the center one
         if (cell === null) {
-            self.lastNavigatedCell = self.gridCells[40];
+            self.lastNavigatedCell = self.getCellByIndex(40);
         } else {
             self.lastNavigatedCell = cell;
         }
-    };
-
-    /**
-     * Deselect all the selected cells
-     * @return {void}
-     */
-    self.deselectAllCells = () => {
-        self.selectedCells.forEach(cell => cell.setIsSelected(false));
     };
 
     /**

@@ -1,6 +1,7 @@
 import GridRow from './GridRow';
 import GridColumn from './GridColumn';
 import GridBox from './GridBox';
+import GridCellEventHandler from '../EventHandlers/GridCellEventHandler';
 
 /**
  * @param {number} cellNumber
@@ -90,7 +91,8 @@ export default function GridCell(cellNumber) {
      * @return {void}
      */
     self.init = () => {
-        self.registerEventHandlers();
+        const eventHandler = new GridCellEventHandler(self);
+        eventHandler.register();
     };
 
     /**
@@ -152,59 +154,6 @@ export default function GridCell(cellNumber) {
      * @return {GridBox}
      */
     self.setBox = box => self.gridBox = box;
-
-    /**
-     * Handle events that happen on/for the cell
-     * @return {void}
-     */
-    self.registerEventHandlers = () => {
-        self.element.addEventListener('mousedown', () => {
-            if (Sudoku.controls.ctrlKeyPressed) {
-                // Toggle the selected status when clicked, if ctrl key is pressed
-                self.setIsSelected(! self.getIsSelected());
-            } else {
-                // Deselect all cells, if the ctrl is not pressed
-                // (Ctrl key allows multiple selections)
-                Sudoku.grid.deselectAllCells();
-                self.setIsSelected(true);
-            }
-        });
-
-        self.element.addEventListener('mouseenter', () => {
-            // Allow multiple cells to be selected
-            if (Sudoku.controls.mousePressed) {
-                self.setIsSelected(true);
-            }
-        });
-
-        // On mouse up, this is the last seleted cell
-        self.element.addEventListener('mouseup', () => Sudoku.grid.setLastNavigatedCell(this));
-
-        document.addEventListener('keydown', event => {
-            // Remove all errors status when the cell changes
-            Sudoku.grid.removeAllErrors();
-
-            // Change the cell value if it's selected
-            if (self.getIsSelected()) {
-                if (Sudoku.controls.isNumberKey(event.code)) {
-                    const numberValue = parseInt(event.key, 10);
-                    if (numberValue === self.getValue()) {
-                        // Remove the value, if the same number is entered
-                        self.setValue(null);
-                    } else {
-                        // Set a number value
-                        self.setValue(numberValue);
-                    }
-                } else if (Sudoku.controls.isDeleteKey(event.code)) {
-                    // Remove the value
-                    self.setValue(null);
-                }
-            }
-
-            // See if there are any errors
-            Sudoku.grid.checkForErrors();
-        });
-    };
 
     /**
      * Set the error status of the element
