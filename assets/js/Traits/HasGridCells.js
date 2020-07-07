@@ -22,6 +22,16 @@ export default function HasGridCells() {
     self.getCells = () => self.gridCells;
 
     /**
+     * Get a cell by its cell number
+     * @param {number} number A 1-based cell number
+     * @return {GridCell|null}
+     */
+    self.getCell = number => {
+        const cell = self.gridCells.find(cell => cell.getCellNumber() === number);
+        return (cell === undefined) ? null : cell;
+    };
+
+    /**
      * Get a list of cell values
      * @return {Array}
      */

@@ -522,15 +522,6 @@ function Grid() {
     self.setLastNavigatedCell(null);
   };
   /**
-   * @param {number} index A 0-based index
-   * @return {GridCell}
-   */
-
-
-  self.getCellByIndex = function (index) {
-    return self.getCells()[index];
-  };
-  /**
    * @return {GridCell[]}
    */
 
@@ -1430,82 +1421,9 @@ function Timer() {
   !*** ./assets/js/Traits/HasGridCells.js ***!
   \******************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HasGridCells; });
-/* harmony import */ var _Grid_GridCell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Grid/GridCell */ "./assets/js/Grid/GridCell.js");
-
-function HasGridCells() {
-  var self = this;
-  /**
-   * Cells in the row
-   * @type {GridCell[]}
-   */
-
-  self.gridCells = [];
-  /**
-   * Add a cell to the row
-   * @param {GridCell} cell
-   * @return {number}
-   */
-
-  self.addCell = function (cell) {
-    return self.gridCells.push(cell);
-  };
-  /**
-   * @return {GridCell[]}
-   */
-
-
-  self.getCells = function () {
-    return self.gridCells;
-  };
-  /**
-   * Get a list of cell values
-   * @return {Array}
-   */
-
-
-  self.getCellValues = function () {
-    return self.gridCells.map(function (cell) {
-      return cell.getValue();
-    }).filter(function (value) {
-      return value !== null;
-    });
-  };
-  /**
-   * See if the list of cell values contains duplicates
-   * @return {boolean}
-   */
-
-
-  self.checkDuplicateCellValues = function () {
-    // Pairs of value:gridCell[]
-    // Arrays of cells that have a certain value
-    var cellValues = {};
-    self.gridCells.forEach(function (cell) {
-      // Get the filled in value of the cell
-      var cellValue = cell.getValue(); // A value is needed for checking
-
-      if (cellValue === null) {
-        return;
-      } // Get the cells that have that value an add the cell
-
-
-      var cells = cellValues[cellValue] || [];
-      cells.push(cell);
-      cellValues[cellValue] = cells; // Set an error status on all duplicate cells, if there are any
-
-      if (cells.length > 1) {
-        cells.forEach(function (cell) {
-          return cell.setErrorStatus(true);
-        });
-      }
-    });
-  };
-}
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Applications/MAMP/htdocs/private/sudoku/assets/js/Traits/HasGridCells.js: Unexpected token (32:4)\n\n\u001b[0m \u001b[90m 30 | \u001b[39m    self\u001b[33m.\u001b[39mgetCell \u001b[33m=\u001b[39m number \u001b[33m=>\u001b[39m (\u001b[0m\n\u001b[0m \u001b[90m 31 | \u001b[39m        \u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 32 | \u001b[39m    )\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 33 | \u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 34 | \u001b[39m    \u001b[90m/**\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 35 | \u001b[39m\u001b[90m     * Get a list of cell values\u001b[39m\u001b[0m\n    at Parser._raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:746:17)\n    at Parser.raiseWithData (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:739:17)\n    at Parser.raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:733:17)\n    at Parser.unexpected (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:8807:16)\n    at Parser.parseParenAndDistinguishExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10303:12)\n    at Parser.parseExprAtom (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10007:21)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9656:23)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9636:21)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9506:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9479:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9434:21)\n    at Parser.parseFunctionBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10701:24)\n    at Parser.parseArrowExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10677:10)\n    at Parser.parseExprAtom (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9960:18)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9656:23)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9636:21)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9506:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9479:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9434:21)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9466:25)\n    at Parser.parseExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9386:23)\n    at Parser.parseStatementContent (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11285:23)\n    at Parser.parseStatement (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11156:17)\n    at Parser.parseBlockOrModuleBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11731:25)\n    at Parser.parseBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11717:10)\n    at Parser.parseBlock (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11701:10)\n    at Parser.parseFunctionBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10708:24)\n    at Parser.parseFunctionBodyAndFinish (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10691:10)\n    at /Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11871:12\n    at Parser.withTopicForbiddingContext (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11031:14)");
 
 /***/ }),
 

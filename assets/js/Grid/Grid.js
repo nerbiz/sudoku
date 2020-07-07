@@ -95,12 +95,6 @@ export default function Grid() {
     };
 
     /**
-     * @param {number} index A 0-based index
-     * @return {GridCell}
-     */
-    self.getCellByIndex = index => self.getCells()[index];
-
-    /**
      * @return {GridCell[]}
      */
     self.getSelectedCells = () => _selectedCells;
@@ -133,7 +127,7 @@ export default function Grid() {
     self.setLastNavigatedCell = cell => {
         // The default last navigated cell is the center one
         if (cell === null) {
-            _lastNavigatedCell = self.getCellByIndex(40);
+            _lastNavigatedCell = self.getCell(41);
         } else {
             _lastNavigatedCell = cell;
         }
