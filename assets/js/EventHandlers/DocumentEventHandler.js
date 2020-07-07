@@ -7,7 +7,7 @@ export default function DocumentEventHandler() {
      */
     self.register = () => {
         registerKeyboardNavigation();
-        registerErrorEvent();
+        registerValueSetting();
     };
 
     /**
@@ -54,10 +54,10 @@ export default function DocumentEventHandler() {
     };
 
     /**
-     * Register error events
+     * Register setting of values, with error checking
      * @return {void}
      */
-    const registerErrorEvent = () => {
+    const registerValueSetting = () => {
         document.addEventListener('keydown', event => {
             // Remove all errors status when the cell changes
             Sudoku.grid.removeAllErrors();

@@ -250,7 +250,7 @@ function DocumentEventHandler() {
 
   self.register = function () {
     registerKeyboardNavigation();
-    registerErrorEvent();
+    registerValueSetting();
   };
   /**
    * Register keyboard navigation events
@@ -296,12 +296,12 @@ function DocumentEventHandler() {
     });
   };
   /**
-   * Register error events
+   * Register setting of values, with error checking
    * @return {void}
    */
 
 
-  var registerErrorEvent = function registerErrorEvent() {
+  var registerValueSetting = function registerValueSetting() {
     document.addEventListener('keydown', function (event) {
       // Remove all errors status when the cell changes
       Sudoku.grid.removeAllErrors();
@@ -843,6 +843,15 @@ function GridCell(cellNumber) {
 
 
   self.setDigit = function (digit) {
+    // Remove the marks if the digit is null (delete signal)
+    // But only if no value is filled in
+    if (digit === null && self.getValue() === null) {
+      _cornerMarks = [];
+      _centerMarks = [];
+      fillCornerMarks();
+      fillCenterMarks();
+    }
+
     switch (Sudoku.inputMode.getMode()) {
       case _InputMode__WEBPACK_IMPORTED_MODULE_4__["default"].MODE_VALUE:
         self.setValue(digit);
@@ -878,7 +887,7 @@ function GridCell(cellNumber) {
     } // Show or hide the pencil marks
 
 
-    toggleMarksVisibility(digit === null); // Show the value on screen
+    showMarks(digit === null); // Show the value on screen
 
     self.getElement().getElementsByClassName('cell-value')[0].innerText = digit;
     _value = digit;
@@ -910,9 +919,19 @@ function GridCell(cellNumber) {
       if (digit !== null && cornerMarks.length < 8) {
         cornerMarks.push(digit);
       }
-    } // Clear all corner marks first
+    }
+
+    _cornerMarks = cornerMarks;
+    fillCornerMarks();
+  };
+  /**
+   * Fill corner marks in the cell
+   * @return {void}
+   */
 
 
+  var fillCornerMarks = function fillCornerMarks() {
+    // Clear all corner marks first
     var allElements = self.getElement().getElementsByClassName('corner-mark');
 
     for (var i = 0; i < allElements.length; i++) {
@@ -920,12 +939,11 @@ function GridCell(cellNumber) {
     } // Show the corner marks
 
 
-    cornerMarks.sort(function (a, b) {
+    self.getCornerMarks().sort(function (a, b) {
       return a - b;
     }).forEach(function (item, index) {
       document.getElementById("corner-mark-".concat(self.getCellNumber(), "-").concat(index + 1)).innerText = item.toString(10);
     });
-    _cornerMarks = cornerMarks;
   };
   /**
    * @return {number[]}
@@ -954,13 +972,22 @@ function GridCell(cellNumber) {
       if (digit !== null && centerMarks.length < 5) {
         centerMarks.push(digit);
       }
-    } // Show the center marks
+    }
+
+    _centerMarks = centerMarks;
+    fillCenterMarks();
+  };
+  /**
+   * Fill corner marks in the cell
+   * @return {void}
+   */
 
 
-    self.getElement().getElementsByClassName('center-marks')[0].innerText = centerMarks.sort(function (a, b) {
+  var fillCenterMarks = function fillCenterMarks() {
+    var centerMarks = self.getCenterMarks().sort(function (a, b) {
       return a - b;
     }).join('');
-    _centerMarks = centerMarks;
+    self.getElement().getElementsByClassName('center-marks')[0].innerText = centerMarks;
   };
   /**
    * Toggle the visibility of the pencil marks
@@ -968,7 +995,7 @@ function GridCell(cellNumber) {
    */
 
 
-  var toggleMarksVisibility = function toggleMarksVisibility(show) {
+  var showMarks = function showMarks(show) {
     var toggleMethod = show ? 'remove' : 'add'; // Toggle the corner marks
 
     for (var i = 1; i < 9; i++) {

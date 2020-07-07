@@ -130,6 +130,15 @@ export default function GridCell(cellNumber) {
      * @return {void}
      */
     self.setDigit = digit => {
+        // Remove the marks if the digit is null (delete signal)
+        // But only if no value is filled in
+        if (digit === null && self.getValue() === null) {
+            _cornerMarks = [];
+            _centerMarks = [];
+            fillCornerMarks();
+            fillCenterMarks();
+        }
+
         switch (Sudoku.inputMode.getMode()) {
             case InputMode.MODE_VALUE:
                 self.setValue(digit);
@@ -159,7 +168,7 @@ export default function GridCell(cellNumber) {
         }
 
         // Show or hide the pencil marks
-        toggleMarksVisibility((digit === null));
+        showMarks(digit === null);
 
         // Show the value on screen
         self.getElement().getElementsByClassName('cell-value')[0].innerText = digit;
@@ -191,6 +200,15 @@ export default function GridCell(cellNumber) {
             }
         }
 
+        _cornerMarks = cornerMarks;
+        fillCornerMarks();
+    };
+
+    /**
+     * Fill corner marks in the cell
+     * @return {void}
+     */
+    const fillCornerMarks = () => {
         // Clear all corner marks first
         const allElements = self.getElement().getElementsByClassName('corner-mark');
         for (let i = 0; i < allElements.length; i++) {
@@ -198,13 +216,12 @@ export default function GridCell(cellNumber) {
         }
 
         // Show the corner marks
-        cornerMarks.sort((a, b) => a - b)
+        self.getCornerMarks()
+            .sort((a, b) => a - b)
             .forEach((item, index) => {
                 document.getElementById(`corner-mark-${self.getCellNumber()}-${index + 1}`)
                     .innerText = item.toString(10);
             });
-
-        _cornerMarks = cornerMarks;
     };
 
     /**
@@ -231,18 +248,24 @@ export default function GridCell(cellNumber) {
             }
         }
 
-        // Show the center marks
-        self.getElement().getElementsByClassName('center-marks')[0]
-            .innerText = centerMarks.sort((a, b) => a - b).join('');
-
         _centerMarks = centerMarks;
+        fillCenterMarks();
+    };
+
+    /**
+     * Fill corner marks in the cell
+     * @return {void}
+     */
+    const fillCenterMarks = () => {
+        const centerMarks = self.getCenterMarks().sort((a, b) => a - b).join('');
+        self.getElement().getElementsByClassName('center-marks')[0].innerText = centerMarks;
     };
 
     /**
      * Toggle the visibility of the pencil marks
      * @param {boolean} show
      */
-    const toggleMarksVisibility = show => {
+    const showMarks = show => {
         const toggleMethod = (show) ? 'remove' : 'add';
 
         // Toggle the corner marks
