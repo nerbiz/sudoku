@@ -17,6 +17,11 @@ export default function HasGridCells() {
     self.addCell = cell => self.gridCells.push(cell);
 
     /**
+     * @return {GridCell[]}
+     */
+    self.getCells = () => self.gridCells;
+
+    /**
      * Get a list of cell values
      * @return {Array}
      */

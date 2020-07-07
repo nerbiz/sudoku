@@ -5,32 +5,36 @@ export default function Timer() {
      * The initial amount of elapsed milliseconds
      * Useful to keep track of previously elapsed time, when unpausing
      * @type {number}
+     * @private
      */
-    self.initialMs = 0;
+    let _initialMs = 0;
 
     /**
      * The start moment of the timer
      * @type {Date|null}
+     * @private
      */
-    self.startMoment = null;
+    let _startMoment = null;
 
     /**
      * The element that shows the elapsed time
      * @type {HTMLElement}
+     * @private
      */
-    self.timeElement = document.getElementById('elapsed-time');
+    const _timeElement = document.getElementById('elapsed-time');
 
     /**
      * The interval for showing the time on screen
      * @type {number|null}
+     * @private
      */
-    self.timeInterval = null;
+    let _timeInterval = null;
 
     /**
      * Set the start/unpause moment for calculating elapsed time
      * @return {Date}
      */
-    self.start = self.unpause = () => self.startMoment = new Date();
+    self.start = self.unpause = () => _startMoment = new Date();
 
     /**
      * Pause the timer
@@ -38,8 +42,8 @@ export default function Timer() {
      */
     self.pause = () => {
         // Keep the elapsed milliseconds, for use with unpausing
-        self.initialMs += self.getElapsedMsSinceStart();
-        self.startMoment = null;
+        _initialMs += self.getElapsedMsSinceStart();
+        _startMoment = null;
     };
 
     /**
@@ -47,8 +51,8 @@ export default function Timer() {
      * @return {number}
      */
     self.getElapsedMsSinceStart = () => {
-        return (self.startMoment !== null)
-            ? (new Date()).getTime() - self.startMoment.getTime()
+        return (_startMoment !== null)
+            ? (new Date()).getTime() - _startMoment.getTime()
             : 0;
     };
 
@@ -56,7 +60,7 @@ export default function Timer() {
      * Get the amount of elapsed milliseconds, since the timer started
      * @return {number}
      */
-    self.getTotalElapsedMs = () => self.initialMs + self.getElapsedMsSinceStart();
+    self.getTotalElapsedMs = () => _initialMs + self.getElapsedMsSinceStart();
 
     /**
      * Get a string representation ('0:00') of elapsed time
@@ -88,11 +92,11 @@ export default function Timer() {
      */
     self.showTime = (show = true) => {
         if (show) {
-            self.timeInterval = setInterval(() => {
-                self.timeElement.innerText = self.getElapsedTimeString();
+            _timeInterval = setInterval(() => {
+                _timeElement.innerText = self.getElapsedTimeString();
             }, 1000);
         } else {
-            clearInterval(self.timeInterval);
+            clearInterval(_timeInterval);
         }
     };
 }

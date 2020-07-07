@@ -14,44 +14,51 @@ export default function GridCell(cellNumber) {
     /**
      * The 1-based cell number in the grid
      * @type {number}
+     * @private
      */
-    self.cellNumber = cellNumber;
-
-    /**
-     * The row the cell belongs to
-     * @type {GridRow|null}
-     */
-    self.gridRow = null;
-
-    /**
-     * The column the cell belongs to
-     * @type {GridColumn|null}
-     */
-    self.gridColumn = null;
-
-    /**
-     * The 3x3 box the cell belongs to
-     * @type {GridBox|null}
-     */
-    self.gridBox = null;
+    const _cellNumber = cellNumber;
 
     /**
      * The HTML element that is the cell
      * @type {HTMLElement|null}
+     * @private
      */
-    self.element = null;
+    let _element = null;
+
+    /**
+     * The row the cell belongs to
+     * @type {GridRow|null}
+     * @private
+     */
+    let _gridRow = null;
+
+    /**
+     * The column the cell belongs to
+     * @type {GridColumn|null}
+     * @private
+     */
+    let _gridColumn = null;
+
+    /**
+     * The 3x3 box the cell belongs to
+     * @type {GridBox|null}
+     * @private
+     */
+    let _gridBox = null;
 
     /**
      * Whether the cell value is set at the start
      * @type {boolean}
+     * @private
      */
-    self.isPrefilled = false;
+    let _isPrefilled = false;
 
     /**
      * The background color number of the cell
      * @type {number}
+     * @private
      */
-    self.colorNumber = 1;
+    let _colorNumber = 1;
 
     /**
      * The value of the cell
@@ -87,15 +94,35 @@ export default function GridCell(cellNumber) {
      */
     self.init = () => {
         // Get the HTML cell element
-        self.element = document.getElementById(`grid-cell-${self.cellNumber}`);
-        if (self.element === null) {
-            throw new Error(`Cell element with ID 'grid-cell-${self.cellNumber}' not found`);
+        _element = document.getElementById(`grid-cell-${self.getCellNumber()}`);
+        if (_element === null) {
+            throw new Error(`Cell element with ID 'grid-cell-${self.getCellNumber()}' not found`);
         }
 
         // Register event handlers
         const eventHandler = new GridCellEventHandler(self);
         eventHandler.register();
     };
+
+    /**
+     * @return {number}
+     */
+    self.getCellNumber = () => _cellNumber;
+
+    /**
+     * @return {HTMLElement|null}
+     */
+    self.getElement = () => _element;
+
+    /**
+     * @return {boolean}
+     */
+    self.isPrefilled = () => _isPrefilled;
+
+    /**
+     * @return {number}
+     */
+    self.getColorNumber = () => _colorNumber;
 
     /**
      * Wrapper for value, corner-marks and center-marks setting
@@ -135,7 +162,7 @@ export default function GridCell(cellNumber) {
         toggleMarksVisibility((digit === null));
 
         // Show the value on screen
-        self.element.getElementsByClassName('cell-value')[0].innerText = digit;
+        self.getElement().getElementsByClassName('cell-value')[0].innerText = digit;
 
         _value = digit;
     };
@@ -147,7 +174,7 @@ export default function GridCell(cellNumber) {
 
     /**
      * Add or remove a digit from the corner marks
-     * @param {number} digit
+     * @param {number|null} digit
      * @return {void}
      */
     self.setCornerMark = digit => {
@@ -159,22 +186,23 @@ export default function GridCell(cellNumber) {
             cornerMarks.splice(existingIndex, 1);
         } else {
             // Don't add if the maximum amount is reached
-            if (cornerMarks.length < 8) {
+            if (digit !== null && cornerMarks.length < 8) {
                 cornerMarks.push(digit);
             }
         }
 
         // Clear all corner marks first
-        const allElements = self.element.getElementsByClassName('corner-mark');
+        const allElements = self.getElement().getElementsByClassName('corner-mark');
         for (let i = 0; i < allElements.length; i++) {
             allElements[i].innerText = null;
         }
 
         // Show the corner marks
         cornerMarks.sort((a, b) => a - b)
-            .forEach((item, index) => document
-                .getElementById(`corner-mark-${self.cellNumber}-${index + 1}`)
-                .innerText = item.toString(10));
+            .forEach((item, index) => {
+                document.getElementById(`corner-mark-${self.getCellNumber()}-${index + 1}`)
+                    .innerText = item.toString(10);
+            });
 
         _cornerMarks = cornerMarks;
     };
@@ -186,7 +214,7 @@ export default function GridCell(cellNumber) {
 
     /**
      * Add or remove a digit from the center marks
-     * @param {number} digit
+     * @param {number|null} digit
      * @return {void}
      */
     self.setCenterMark = digit => {
@@ -198,13 +226,13 @@ export default function GridCell(cellNumber) {
             centerMarks.splice(existingIndex, 1);
         } else {
             // Don't add if the maximum amount is reached
-            if (centerMarks.length < 5) {
+            if (digit !== null && centerMarks.length < 5) {
                 centerMarks.push(digit);
             }
         }
 
         // Show the center marks
-        self.element.getElementsByClassName('center-marks')[0]
+        self.getElement().getElementsByClassName('center-marks')[0]
             .innerText = centerMarks.sort((a, b) => a - b).join('');
 
         _centerMarks = centerMarks;
@@ -219,12 +247,12 @@ export default function GridCell(cellNumber) {
 
         // Toggle the corner marks
         for (let i = 1; i < 9; i++) {
-            document.getElementById(`corner-mark-${self.cellNumber}-${i}`)
+            document.getElementById(`corner-mark-${self.getCellNumber()}-${i}`)
                 .classList[toggleMethod]('hide');
         }
 
         // Toggle the center marks
-        self.element.getElementsByClassName('center-marks')[0]
+        self.getElement().getElementsByClassName('center-marks')[0]
             .classList[toggleMethod]('hide');
     };
 
@@ -239,7 +267,7 @@ export default function GridCell(cellNumber) {
      */
     self.setIsSelected = selected => {
         if (selected) {
-            self.element.classList.add('selected');
+            self.getElement().classList.add('selected');
 
             // Don't add duplicates to the list of selected cells
             if (! self.getIsSelected()) {
@@ -248,7 +276,7 @@ export default function GridCell(cellNumber) {
         }
 
         else {
-            self.element.classList.remove('selected');
+            self.getElement().classList.remove('selected');
         }
 
         _isSelected = selected;
@@ -258,30 +286,30 @@ export default function GridCell(cellNumber) {
      * @param {GridRow} row
      * @return {GridRow}
      */
-    self.setRow = row => self.gridRow = row;
+    self.setRow = row => _gridRow = row;
 
     /**
      * @param {GridColumn} column
      * @return {GridColumn}
      */
-    self.setColumn = column => self.gridColumn = column;
+    self.setColumn = column => _gridColumn = column;
 
     /**
      * @param {GridBox} box
      * @return {GridBox}
      */
-    self.setBox = box => self.gridBox = box;
+    self.setBox = box => _gridBox = box;
 
     /**
      * Set the error status of the element
      * @param {boolean} on
      * @return {void}
      */
-    self.setErrorStatus = (on = true) => {
+    self.setErrorStatus = on => {
         if (on) {
-            self.element.classList.add('has-error');
+            self.getElement().classList.add('has-error');
         } else {
-            self.element.classList.remove('has-error');
+            self.getElement().classList.remove('has-error');
         }
     };
 
@@ -289,10 +317,10 @@ export default function GridCell(cellNumber) {
      * Get the state of the cell
      * @return {string}
      */
-    self.getState = () => 'n' + self.cellNumber
-        + (self.isPrefilled ? 'p' : '')
+    self.getState = () => 'n' + self.getCellNumber()
+        + (self.isPrefilled() ? 'p' : '')
         + 'v' + self.getValue()
-        + 'c' + self.colorNumber
+        + 'c' + self.getColorNumber()
         + 'cr' + self.getCornerMarks().join('')
         + 'cn' + self.getCenterMarks().join('');
 }

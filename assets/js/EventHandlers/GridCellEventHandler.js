@@ -10,8 +10,9 @@ export default function GridCellEventHandler(gridCell) {
     /**
      * The cell to register event handlers for
      * @type {GridCell}
+     * @private
      */
-    self.gridCell = gridCell;
+    const _gridCell = gridCell;
 
     /**
      * Register event handlers for a grid cell
@@ -27,14 +28,14 @@ export default function GridCellEventHandler(gridCell) {
      * @return {void}
      */
     const registerMouseDownEvent = () => {
-        self.gridCell.element.addEventListener('mousedown', () => {
-            if (Sudoku.controls.ctrlKeyPressed) {
+        _gridCell.getElement().addEventListener('mousedown', () => {
+            if (Sudoku.controls.ctrlKeyIsPressed()) {
                 // Toggle the selected status when clicked, if the ctrl key is pressed
-                self.gridCell.setIsSelected(! self.gridCell.getIsSelected());
+                _gridCell.setIsSelected(! _gridCell.getIsSelected());
             } else {
                 // Select only this cell, if the ctrl key is not pressed
                 Sudoku.grid.deselectAllCells();
-                self.gridCell.setIsSelected(true);
+                _gridCell.setIsSelected(true);
             }
         });
     };
@@ -43,10 +44,10 @@ export default function GridCellEventHandler(gridCell) {
      * @return {void}
      */
     const registerMouseEnterEvent = () => {
-        self.gridCell.element.addEventListener('mouseenter', () => {
+        _gridCell.getElement().addEventListener('mouseenter', () => {
             // Allow multiple cells to be selected
-            if (Sudoku.controls.mousePressed) {
-                self.gridCell.setIsSelected(true);
+            if (Sudoku.controls.mouseIsPressed()) {
+                _gridCell.setIsSelected(true);
             }
         });
     };
@@ -56,9 +57,9 @@ export default function GridCellEventHandler(gridCell) {
      */
     const registerMouseUpEvent = () => {
         // On mouse up, this is the last selected cell
-        self.gridCell.element.addEventListener(
+        _gridCell.getElement().addEventListener(
             'mouseup',
-            () => Sudoku.grid.setLastNavigatedCell(self.gridCell)
+            () => Sudoku.grid.setLastNavigatedCell(_gridCell)
         );
     };
 }

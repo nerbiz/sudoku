@@ -17,7 +17,7 @@ Sudoku.timer.start();
 Sudoku.timer.showTime();
 Sudoku.inputMode.init();
 Sudoku.controls.init();
-Sudoku.grid.collectCells();
+Sudoku.grid.init();
 Sudoku.documentEventHandler.register();
 
 /*

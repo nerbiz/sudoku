@@ -12,8 +12,9 @@ export default function GridColumn(columnNumber) {
     /**
      * The 1-based row number in the grid
      * @type {number}
+     * @private
      */
-    self.columnNumber = columnNumber;
+    let _columnNumber = columnNumber;
 
     /**
      * Get the cell numbers that self column has
@@ -21,12 +22,12 @@ export default function GridColumn(columnNumber) {
      */
     self.getCellNumbers = () => {
         const numbers = [];
-        let number = self.columnNumber;
+        let number = _columnNumber;
 
         // Add the first cell number
         numbers.push(number);
 
-        // Add 9 to the number 8 times
+        // Add 8 numbers, each incremented by 9
         for (let j = 0; j < 8; j++) {
             number += 9;
             numbers.push(number);

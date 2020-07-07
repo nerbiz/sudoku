@@ -6,20 +6,23 @@ export default function Controls() {
     /**
      * Indicates whether a mouse button is currently pressed
      * @type {boolean}
+     * @private
      */
-    self.mousePressed = false;
+    let _mousePressed = false;
 
     /**
      * Indicates whether a ctrl button is currently pressed
      * @type {boolean}
+     * @private
      */
-    self.ctrlKeyPressed = false;
+    let _ctrlKeyPressed = false;
 
     /**
      * Arrow key codes
      * @type {Object}
+     * @private
      */
-    self.arrowKeys = {
+    const _arrowKeys = {
         up: ['ArrowUp', 'KeyW'],
         down: ['ArrowDown', 'KeyS'],
         left: ['ArrowLeft', 'KeyA'],
@@ -29,17 +32,19 @@ export default function Controls() {
     /**
      * Arrow key codes, as 1 array
      * @type {string[]}
+     * @private
      */
-    self.arrowKeysConcatenated = self.arrowKeys.up
-        .concat(self.arrowKeys.down)
-        .concat(self.arrowKeys.left)
-        .concat(self.arrowKeys.right);
+    const _arrowKeysConcatenated = _arrowKeys.up
+        .concat(_arrowKeys.down)
+        .concat(_arrowKeys.left)
+        .concat(_arrowKeys.right);
 
     /**
      * Number key codes
      * @type {string[]}
+     * @private
      */
-    self.numberKeys = [
+    const _numberKeys = [
         'Digit1', 'Numpad1', 'Digit2', 'Numpad2', 'Digit3', 'Numpad3',
         'Digit4', 'Numpad4', 'Digit5', 'Numpad5', 'Digit6', 'Numpad6',
         'Digit7', 'Numpad7', 'Digit8', 'Numpad8', 'Digit9', 'Numpad9',
@@ -48,24 +53,24 @@ export default function Controls() {
     /**
      * Delete key codes
      * @type {string[]}
+     * @private
      */
-    self.deleteKeys = ['Delete', 'Backspace'];
+    const _deleteKeys = ['Delete', 'Backspace'];
 
     /**
      * Initialize the object
      * @return {void}
      */
     self.init = () => {
-        document.addEventListener('mousedown', () => self.mousePressed = true);
-        document.addEventListener('mouseup', () => self.mousePressed = false);
+        document.addEventListener('mousedown', () => _mousePressed = true);
+        document.addEventListener('mouseup', () => _mousePressed = false);
 
+        // Callback for keydown and keyup
         const ctrlKeyCheck = event => {
-            self.ctrlKeyPressed = Visitor.usesMacOs
-                ? event.metaKey
-                : event.ctrlKey;
+            _ctrlKeyPressed = Visitor.usesMacOs ? event.metaKey : event.ctrlKey;
 
             // Prevent browser navigation (key combination is used for selecting cells)
-            if (self.ctrlKeyPressed && ['ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
+            if (_ctrlKeyPressed && ['ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
                 event.preventDefault();
             }
         };
@@ -75,18 +80,28 @@ export default function Controls() {
     };
 
     /**
+     * @return {boolean}
+     */
+    self.mouseIsPressed = () => _mousePressed;
+
+    /**
+     * @return {boolean}
+     */
+    self.ctrlKeyIsPressed = () => _ctrlKeyPressed;
+
+    /**
      * Checks whether a keycode is a number key
      * @param {string} keyCode
      * @return {boolean}
      */
-    self.isNumberKey = keyCode => (self.numberKeys.indexOf(keyCode) > -1);
+    self.isNumberKey = keyCode => (_numberKeys.indexOf(keyCode) > -1);
 
     /**
      * Checks whether a keycode is a delete key
      * @param {string} keyCode
      * @return {boolean}
      */
-    self.isDeleteKey = keyCode => (self.deleteKeys.indexOf(keyCode) > -1);
+    self.isDeleteKey = keyCode => (_deleteKeys.indexOf(keyCode) > -1);
 
     /**
      * Checks whether a keycode is an arrow key
@@ -97,13 +112,13 @@ export default function Controls() {
     self.isArrowKey = (keyCode, direction = 'any') => {
         // Check for any arrow key
         if (direction === 'any') {
-            return (self.arrowKeysConcatenated.indexOf(keyCode) > -1);
+            return (_arrowKeysConcatenated.indexOf(keyCode) > -1);
         }
 
         // Check for a specific arrow key
         return (
-            self.arrowKeys[direction]
-            && self.arrowKeys[direction].indexOf(keyCode) > -1
+            _arrowKeys[direction]
+            && _arrowKeys[direction].indexOf(keyCode) > -1
         );
     };
 }

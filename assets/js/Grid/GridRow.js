@@ -12,8 +12,9 @@ export default function GridRow(rowNumber) {
     /**
      * The 1-based row number in the grid
      * @type {number}
+     * @private
      */
-    self.rowNumber = rowNumber;
+    let _rowNumber = rowNumber;
 
     /**
      * Get the cell numbers that self row has
@@ -21,9 +22,10 @@ export default function GridRow(rowNumber) {
      */
     self.getCellNumbers = () => {
         const numbers = [];
+        const rowIndex = _rowNumber - 1;
 
         for (let i = 1; i < 10; i++) {
-            numbers.push(i + ((self.rowNumber - 1) * 9));
+            numbers.push(i + (rowIndex * 9));
         }
 
         return numbers;

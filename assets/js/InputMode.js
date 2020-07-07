@@ -19,8 +19,9 @@ export default function InputMode() {
     /**
      * The radio buttons that can change the mode
      * @type {NodeListOf<HTMLElement>}
+     * @private
      */
-    self.radioButtons = document.getElementsByName('input_mode');
+    const _radioButtons = document.getElementsByName('input_mode');
 
     /**
      * Initialize the object
@@ -36,7 +37,7 @@ export default function InputMode() {
      * @return {void}
      */
     const selectCurrentRadioButton = () => {
-        self.radioButtons.forEach(radioButton => {
+        _radioButtons.forEach(radioButton => {
             if (parseInt(radioButton.value, 10) === self.getMode()) {
                 radioButton.checked = true;
             }
@@ -48,7 +49,7 @@ export default function InputMode() {
      * @return {void}
      */
     const registerEventListeners = () => {
-        self.radioButtons.forEach(radioButton => {
+        _radioButtons.forEach(radioButton => {
             radioButton.addEventListener('change', () => {
                 self.setMode(parseInt(radioButton.value, 10));
             });
@@ -96,10 +97,8 @@ export default function InputMode() {
      */
     self.changeMode = () => {
         // Increase the mode number
-        _mode++;
-
         // Wrap around, when max number is reached
-        if (_mode > InputMode.MODE_CENTER) {
+        if (++_mode > InputMode.MODE_CENTER) {
             _mode = InputMode.MODE_VALUE;
         }
     }

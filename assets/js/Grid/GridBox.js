@@ -12,15 +12,16 @@ export default function GridBox(boxNumber) {
     /**
      * The 1-based box number in the grid
      * @type {number}
+     * @private
      */
-    self.boxNumber = boxNumber;
+    let _boxNumber = boxNumber;
 
     /**
      * Get the cell numbers that self box has
      * @return {Array}
      */
     self.getCellNumbers = () => {
-        const boxIndex = self.boxNumber - 1;
+        const boxIndex = _boxNumber - 1;
         // The row index of the box (0, 1 or 2)
         const boxRowIndex = Math.floor(boxIndex / 3);
 
