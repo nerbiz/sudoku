@@ -127,19 +127,24 @@ export default function GridCell(cellNumber) {
     /**
      * Wrapper for value, corner-marks and center-marks setting
      * @param {number|null} digit
+     * @param {number|null} mode The input mode, uses current mode by default
      * @return {void}
+     * @see InputMode for the mode constants
      */
-    self.setDigit = digit => {
+    self.setDigit = (digit, mode = null) => {
+        // Use the current input mode, if null
+        if (mode === null) {
+            mode = Sudoku.inputMode.getMode();
+        }
+
         // Remove the marks if the digit is null (delete signal)
         // But only if no value is filled in
         if (digit === null && self.getValue() === null) {
-            _cornerMarks = [];
-            _centerMarks = [];
-            fillCornerMarks();
-            fillCenterMarks();
+            self.setCornerMarks([]);
+            self.setCenterMarks([]);
         }
 
-        switch (Sudoku.inputMode.getMode()) {
+        switch (mode) {
             case InputMode.MODE_VALUE:
                 self.setValue(digit);
                 break;
@@ -200,6 +205,14 @@ export default function GridCell(cellNumber) {
             }
         }
 
+        self.setCornerMarks(cornerMarks);
+    };
+
+    /**
+     * @param {number[]} cornerMarks
+     * @return {number[]}
+     */
+    self.setCornerMarks = cornerMarks => {
         _cornerMarks = cornerMarks;
         fillCornerMarks();
     };
@@ -248,6 +261,14 @@ export default function GridCell(cellNumber) {
             }
         }
 
+        self.setCenterMarks(centerMarks);
+    };
+
+    /**
+     * @param {number[]} centerMarks
+     * @return {number[]}
+     */
+    self.setCenterMarks = centerMarks => {
         _centerMarks = centerMarks;
         fillCenterMarks();
     };

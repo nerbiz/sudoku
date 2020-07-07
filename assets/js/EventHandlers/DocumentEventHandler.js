@@ -1,3 +1,5 @@
+import ChangeDigitCommand from '../Commands/ChangeDigitCommand';
+
 export default function DocumentEventHandler() {
     const self = this;
 
@@ -54,27 +56,19 @@ export default function DocumentEventHandler() {
     };
 
     /**
-     * Register setting of values, with error checking
+     * Register setting of values
      * @return {void}
      */
     const registerValueSetting = () => {
         document.addEventListener('keydown', event => {
-            // Remove all errors status when the cell changes
-            Sudoku.grid.removeAllErrors();
-
-            Sudoku.grid.getSelectedCells().forEach(cell => {
-                // Change the cell value
-                if (Sudoku.controls.isNumberKey(event.code)) {
-                    // Set a number value
-                    cell.setDigit(parseInt(event.key, 10));
-                } else if (Sudoku.controls.isDeleteKey(event.code)) {
-                    // Remove the value
-                    cell.setDigit(null);
-                }
-            });
-
-            // See if there are any errors
-            Sudoku.grid.checkForErrors();
+            if (Sudoku.controls.isNumberKey(event.code)) {
+                // Set a number value
+                const digit = parseInt(event.key, 10);
+                Sudoku.history.executeCommand(new ChangeDigitCommand(digit));
+            } else if (Sudoku.controls.isDeleteKey(event.code)) {
+                // Remove the value
+                Sudoku.history.executeCommand(new ChangeDigitCommand(null));
+            }
         });
     };
 }

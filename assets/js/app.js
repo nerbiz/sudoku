@@ -3,9 +3,11 @@ import InputMode from './InputMode';
 import Grid from './Grid/Grid';
 import Timer from './Timer';
 import DocumentEventHandler from './EventHandlers/DocumentEventHandler';
+import CommandHistory from './Commands/CommandHistory';
 
 // 'Namespace' of the project
 window.Sudoku = {
+    history: new CommandHistory(),
     controls: new Controls(),
     inputMode: new InputMode(),
     grid: new Grid(),
