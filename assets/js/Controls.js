@@ -18,6 +18,13 @@ export default function Controls() {
     let _ctrlKeyPressed = false;
 
     /**
+     * Indicates whether a shift button is currently pressed
+     * @type {boolean}
+     * @private
+     */
+    let _shiftKeyPressed = false;
+
+    /**
      * Arrow key codes
      * @type {Object}
      * @private
@@ -64,19 +71,31 @@ export default function Controls() {
     self.init = () => {
         document.addEventListener('mousedown', () => _mousePressed = true);
         document.addEventListener('mouseup', () => _mousePressed = false);
+        document.addEventListener('keydown', keyDownUpCallback);
+        document.addEventListener('keyup', keyDownUpCallback);
+    };
 
-        // Callback for keydown and keyup
-        const ctrlKeyCheck = event => {
-            _ctrlKeyPressed = Visitor.usesMacOs ? event.metaKey : event.ctrlKey;
+    /**
+     * Callback for keydown and keyup
+     * @param {Event} event
+     * @return {void}
+     */
+    const keyDownUpCallback = event => {
+        _ctrlKeyPressed = Visitor.usesMacOs ? event.metaKey : event.ctrlKey;
 
-            // Prevent browser navigation (key combination is used for selecting cells)
-            if (_ctrlKeyPressed && ['ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
+        // Prevent browser keyboard shortcut
+        if (_ctrlKeyPressed) {
+            if(
+                // Browser navigation
+                ['ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1
+                // Browser history
+                || event.code === 'KeyY'
+            ) {
                 event.preventDefault();
             }
-        };
+        }
 
-        document.addEventListener('keydown', ctrlKeyCheck);
-        document.addEventListener('keyup', ctrlKeyCheck);
+        _shiftKeyPressed = event.shiftKey;
     };
 
     /**
@@ -88,6 +107,11 @@ export default function Controls() {
      * @return {boolean}
      */
     self.ctrlKeyIsPressed = () => _ctrlKeyPressed;
+
+    /**
+     * @return {boolean}
+     */
+    self.shiftKeyIsPressed = () => _shiftKeyPressed;
 
     /**
      * Checks whether a keycode is a number key

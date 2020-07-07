@@ -20,10 +20,10 @@ export default function CommandHistory() {
     /**
      * Add a command to be executed
      * @param {Command} command
-     * @param {boolean} clearFuture
+     * @param {boolean} clearFuture Whether to clear the future (redo) stack
      * @return {number}
      */
-    self.executeCommand = (command, clearFuture = true) => {
+    self.execute = (command, clearFuture = true) => {
         command.execute();
         _past.push(command);
 
@@ -63,6 +63,6 @@ export default function CommandHistory() {
 
         // Redo the command
         const command = _future.pop();
-        self.executeCommand(command, false);
+        self.execute(command, false);
     };
 }

@@ -64,10 +64,22 @@ export default function DocumentEventHandler() {
             if (Sudoku.controls.isNumberKey(event.code)) {
                 // Set a number value
                 const digit = parseInt(event.key, 10);
-                Sudoku.history.executeCommand(new ChangeDigitCommand(digit));
+                Sudoku.history.execute(new ChangeDigitCommand(digit));
             } else if (Sudoku.controls.isDeleteKey(event.code)) {
                 // Remove the value
-                Sudoku.history.executeCommand(new ChangeDigitCommand(null));
+                Sudoku.history.execute(new ChangeDigitCommand(null));
+            } else if (event.code === 'KeyZ') {
+                if (Sudoku.controls.ctrlKeyIsPressed()) {
+                    if (Sudoku.controls.shiftKeyIsPressed()) {
+                        Sudoku.history.redo();
+                    } else {
+                        Sudoku.history.undo();
+                    }
+                }
+            } else if (event.code === 'KeyY') {
+                if (Sudoku.controls.ctrlKeyIsPressed()) {
+                    Sudoku.history.redo();
+                }
             }
         });
     };
