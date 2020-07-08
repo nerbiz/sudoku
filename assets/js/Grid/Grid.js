@@ -159,7 +159,7 @@ export default function Grid() {
         // Application version
         'a1'
         // Elapsed milliseconds
-        + 't' + Sudoku.timer.getTotalElapsedMs()
+        + 't' + Sudoku.clock.getTotalElapsedMs()
         // Cells state
         + self.getCells().map(cell => cell.getState()).join('');
 }

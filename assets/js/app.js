@@ -1,7 +1,7 @@
 import Controls from './Controls';
 import InputMode from './InputMode';
 import Grid from './Grid/Grid';
-import Timer from './Timer';
+import Clock from './Clock';
 import DocumentEventHandler from './EventHandlers/DocumentEventHandler';
 import CommandHistory from './Commands/CommandHistory';
 
@@ -11,12 +11,12 @@ window.Sudoku = {
     controls: new Controls(),
     inputMode: new InputMode(),
     grid: new Grid(),
-    timer: new Timer(),
+    clock: new Clock(),
     documentEventHandler: new DocumentEventHandler(),
 };
 
-Sudoku.timer.start();
-Sudoku.timer.showTime();
+Sudoku.clock.start();
+Sudoku.clock.showTime();
 Sudoku.inputMode.init();
 Sudoku.controls.init();
 Sudoku.grid.init();

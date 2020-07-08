@@ -86,6 +86,129 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./assets/js/Clock.js":
+/*!****************************!*\
+  !*** ./assets/js/Clock.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Clock; });
+function Clock() {
+  var self = this;
+  /**
+   * The initial amount of elapsed milliseconds
+   * Useful to keep track of previously elapsed time, when unpausing
+   * @type {number}
+   * @private
+   */
+
+  var _initialMs = 0;
+  /**
+   * The start moment of the timer
+   * @type {Date|null}
+   * @private
+   */
+
+  var _startMoment = null;
+  /**
+   * The element that shows the elapsed time
+   * @type {HTMLElement}
+   * @private
+   */
+
+  var _timeElement = document.getElementById('elapsed-time');
+  /**
+   * The interval for showing the time on screen
+   * @type {number|null}
+   * @private
+   */
+
+
+  var _timeInterval = null;
+  /**
+   * Set the start/unpause moment for calculating elapsed time
+   * @return {Date}
+   */
+
+  self.start = self.unpause = function () {
+    return _startMoment = new Date();
+  };
+  /**
+   * Pause the timer
+   * @return {void}
+   */
+
+
+  self.pause = function () {
+    // Keep the elapsed milliseconds, for use with unpausing
+    _initialMs += self.getElapsedMsSinceStart();
+    _startMoment = null;
+  };
+  /**
+   * Get the elapsed milliseconds, since the start moment
+   * @return {number}
+   */
+
+
+  self.getElapsedMsSinceStart = function () {
+    return _startMoment !== null ? new Date().getTime() - _startMoment.getTime() : 0;
+  };
+  /**
+   * Get the amount of elapsed milliseconds, since the timer started
+   * @return {number}
+   */
+
+
+  self.getTotalElapsedMs = function () {
+    return _initialMs + self.getElapsedMsSinceStart();
+  };
+  /**
+   * Get a string representation ('0:00') of elapsed time
+   * Uses '0:00:00' format if there is at least 1 hour
+   * @return {string}
+   */
+
+
+  self.getElapsedTimeString = function () {
+    var totalSeconds = Math.floor(self.getTotalElapsedMs() / 1000); // Calculate hours, minutes and seconds
+
+    var hours = Math.floor(totalSeconds / 3600);
+    var minutes = Math.floor(totalSeconds % 3600 / 60); // Seconds need a leading zero
+
+    var seconds = (totalSeconds % 60).toString(10).padStart(2, '0'); // Minutes only need a leading zero if there is at least 1 hour
+
+    if (hours > 0) {
+      minutes = minutes.toString().padStart(2, '0');
+      return "".concat(hours, ":").concat(minutes, ":").concat(seconds);
+    }
+
+    return "".concat(minutes, ":").concat(seconds);
+  };
+  /**
+   * Decide whether to show the elapsed time on screen
+   * @param {boolean} show
+   * @return {void}
+   */
+
+
+  self.showTime = function () {
+    var show = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+    if (show) {
+      _timeInterval = setInterval(function () {
+        _timeElement.innerText = self.getElapsedTimeString();
+      }, 1000);
+    } else {
+      clearInterval(_timeInterval);
+    }
+  };
+}
+
+/***/ }),
+
 /***/ "./assets/js/Commands/ChangeDigitCommand.js":
 /*!**************************************************!*\
   !*** ./assets/js/Commands/ChangeDigitCommand.js ***!
@@ -885,7 +1008,7 @@ function Grid() {
   self.getState = function () {
     return (// Application version
       'a1' // Elapsed milliseconds
-      + 't' + Sudoku.timer.getTotalElapsedMs() // Cells state
+      + 't' + Sudoku.clock.getTotalElapsedMs() // Cells state
       + self.getCells().map(function (cell) {
         return cell.getState();
       }).join('')
@@ -1618,129 +1741,6 @@ function InputMode() {
 
 /***/ }),
 
-/***/ "./assets/js/Timer.js":
-/*!****************************!*\
-  !*** ./assets/js/Timer.js ***!
-  \****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Timer; });
-function Timer() {
-  var self = this;
-  /**
-   * The initial amount of elapsed milliseconds
-   * Useful to keep track of previously elapsed time, when unpausing
-   * @type {number}
-   * @private
-   */
-
-  var _initialMs = 0;
-  /**
-   * The start moment of the timer
-   * @type {Date|null}
-   * @private
-   */
-
-  var _startMoment = null;
-  /**
-   * The element that shows the elapsed time
-   * @type {HTMLElement}
-   * @private
-   */
-
-  var _timeElement = document.getElementById('elapsed-time');
-  /**
-   * The interval for showing the time on screen
-   * @type {number|null}
-   * @private
-   */
-
-
-  var _timeInterval = null;
-  /**
-   * Set the start/unpause moment for calculating elapsed time
-   * @return {Date}
-   */
-
-  self.start = self.unpause = function () {
-    return _startMoment = new Date();
-  };
-  /**
-   * Pause the timer
-   * @return {void}
-   */
-
-
-  self.pause = function () {
-    // Keep the elapsed milliseconds, for use with unpausing
-    _initialMs += self.getElapsedMsSinceStart();
-    _startMoment = null;
-  };
-  /**
-   * Get the elapsed milliseconds, since the start moment
-   * @return {number}
-   */
-
-
-  self.getElapsedMsSinceStart = function () {
-    return _startMoment !== null ? new Date().getTime() - _startMoment.getTime() : 0;
-  };
-  /**
-   * Get the amount of elapsed milliseconds, since the timer started
-   * @return {number}
-   */
-
-
-  self.getTotalElapsedMs = function () {
-    return _initialMs + self.getElapsedMsSinceStart();
-  };
-  /**
-   * Get a string representation ('0:00') of elapsed time
-   * Uses '0:00:00' format if there is at least 1 hour
-   * @return {string}
-   */
-
-
-  self.getElapsedTimeString = function () {
-    var totalSeconds = Math.floor(self.getTotalElapsedMs() / 1000); // Calculate hours, minutes and seconds
-
-    var hours = Math.floor(totalSeconds / 3600);
-    var minutes = Math.floor(totalSeconds % 3600 / 60); // Seconds need a leading zero
-
-    var seconds = (totalSeconds % 60).toString(10).padStart(2, '0'); // Minutes only need a leading zero if there is at least 1 hour
-
-    if (hours > 0) {
-      minutes = minutes.toString().padStart(2, '0');
-      return "".concat(hours, ":").concat(minutes, ":").concat(seconds);
-    }
-
-    return "".concat(minutes, ":").concat(seconds);
-  };
-  /**
-   * Decide whether to show the elapsed time on screen
-   * @param {boolean} show
-   * @return {void}
-   */
-
-
-  self.showTime = function () {
-    var show = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-
-    if (show) {
-      _timeInterval = setInterval(function () {
-        _timeElement.innerText = self.getElapsedTimeString();
-      }, 1000);
-    } else {
-      clearInterval(_timeInterval);
-    }
-  };
-}
-
-/***/ }),
-
 /***/ "./assets/js/Traits/HasGridCells.js":
 /*!******************************************!*\
   !*** ./assets/js/Traits/HasGridCells.js ***!
@@ -1872,7 +1872,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Controls__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Controls */ "./assets/js/Controls.js");
 /* harmony import */ var _InputMode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InputMode */ "./assets/js/InputMode.js");
 /* harmony import */ var _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Grid/Grid */ "./assets/js/Grid/Grid.js");
-/* harmony import */ var _Timer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Timer */ "./assets/js/Timer.js");
+/* harmony import */ var _Clock__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Clock */ "./assets/js/Clock.js");
 /* harmony import */ var _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EventHandlers/DocumentEventHandler */ "./assets/js/EventHandlers/DocumentEventHandler.js");
 /* harmony import */ var _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Commands/CommandHistory */ "./assets/js/Commands/CommandHistory.js");
 
@@ -1887,11 +1887,11 @@ window.Sudoku = {
   controls: new _Controls__WEBPACK_IMPORTED_MODULE_0__["default"](),
   inputMode: new _InputMode__WEBPACK_IMPORTED_MODULE_1__["default"](),
   grid: new _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__["default"](),
-  timer: new _Timer__WEBPACK_IMPORTED_MODULE_3__["default"](),
+  clock: new _Clock__WEBPACK_IMPORTED_MODULE_3__["default"](),
   documentEventHandler: new _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__["default"]()
 };
-Sudoku.timer.start();
-Sudoku.timer.showTime();
+Sudoku.clock.start();
+Sudoku.clock.showTime();
 Sudoku.inputMode.init();
 Sudoku.controls.init();
 Sudoku.grid.init();
