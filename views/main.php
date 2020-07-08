@@ -67,7 +67,9 @@ use Sudoku\Webpack;
                     Spacebar, I, O and P keys: change input mode<br>
                     Hold ctrl or command key: enable multiple cell selections<br>
                     Ctrl or command key + mouseclick: (de)select a cell<br>
-                    Ctrl or command key + arrow keys or WASD keys: select multiple cells
+                    Ctrl or command key + arrow keys or WASD keys: select multiple cells<br>
+                    Ctrl+Z: undo<br>
+                    Ctrl+Shift+Z or Ctrl+Y: redo
                 </p>
                 <p>
                     Mouseclick: select a cell<br>
