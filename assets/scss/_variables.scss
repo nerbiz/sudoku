@@ -23,6 +23,12 @@ $cell-colors: (
   6: #fda09b,
 );
 
+// Colors for the keyboard buttons
+$key-colors: (
+  border: #ccc,
+  background: #eee,
+);
+
 $font-families: (
   'sans-serif': ('Josefin Sans', sans-serif),
 );

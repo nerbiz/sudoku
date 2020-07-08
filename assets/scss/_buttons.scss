@@ -1,0 +1,14 @@
+.keyboard-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px map_get($key-colors, 'border') solid;
+  border-radius: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  min-width: 30px;
+  height: 30px;
+  line-height: 1;
+  background-color: map_get($key-colors, 'background');
+  box-shadow: 0 2px 0 0 map_get($key-colors, 'border');
+}

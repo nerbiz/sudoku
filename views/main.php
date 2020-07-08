@@ -5,6 +5,7 @@ use Sudoku\Webpack;
 <!DOCTYPE html>
 <html class="page-html">
     <head>
+        <meta charset="utf-8">
         <title>
             <?php echo getenv('APP_NAME'); ?>
         </title>
@@ -59,19 +60,76 @@ use Sudoku\Webpack;
                     </label><br>
                 </p>
 
-                <p>Controls:</p>
+                <h2>Controls</h2>
+
+                <h4>Navigating the grid</h4>
                 <p>
-                    Arrow keys and WASD keys: navigate the grid<br>
-                    Numbers and keypad: set a pencil mark or value<br>
-                    Delete and backspace keys: remove a cell value<br>
-                    Spacebar, I, O and P keys: change input mode<br>
-                    Hold ctrl or command key: enable multiple cell selections<br>
-                    Ctrl or command key + mouseclick: (de)select a cell<br>
-                    Ctrl or command key + arrow keys or WASD keys: select multiple cells<br>
-                    Ctrl+Z: undo<br>
-                    Ctrl+Shift+Z or Ctrl+Y: redo<br>
-                    Esc: pause / unpause
+                    <span class="keyboard-button">↑</span>
+                    <span class="keyboard-button">←</span>
+                    <span class="keyboard-button">↓</span>
+                    <span class="keyboard-button">→</span>
+                    <span class="keyboard-button">w</span>
+                    <span class="keyboard-button">a</span>
+                    <span class="keyboard-button">s</span>
+                    <span class="keyboard-button">d</span>
                 </p>
+
+                <h4>Setting a pencil mark or value</h4>
+                <span class="keyboard-button">1</span>
+                <span class="keyboard-button">2</span>
+                <span class="keyboard-button">3</span>
+                <span class="keyboard-button">4</span>
+                <span class="keyboard-button">5</span>
+                <span class="keyboard-button">6</span>
+                <span class="keyboard-button">7</span>
+                <span class="keyboard-button">8</span>
+                <span class="keyboard-button">9</span>
+
+                <h4>Removing a cell value</h4>
+                <span class="keyboard-button">Delete</span>
+                <span class="keyboard-button">Backspace</span>
+
+                <h4>Changing the input mode</h4>
+                <span class="keyboard-button">Spacebar</span>
+                <span class="keyboard-button">i</span>
+                <span class="keyboard-button">o</span>
+                <span class="keyboard-button">p</span>
+
+                <h4>Making multiple cell selections</h4>
+                <span class="keyboard-button">Ctrl</span> or
+                <span class="keyboard-button">Cmd</span> (hold)
+
+                <h4>(De)select a cell</h4>
+                <span class="keyboard-button">Ctrl</span>
+                + mouseclick
+
+                <h4>Selecting multiple cells</h4>
+                (<span class="keyboard-button">Ctrl</span> or
+                <span class="keyboard-button">Cmd</span>) +
+                <span class="keyboard-button">↑</span>
+                <span class="keyboard-button">←</span>
+                <span class="keyboard-button">↓</span>
+                <span class="keyboard-button">→</span>
+                <span class="keyboard-button">w</span>
+                <span class="keyboard-button">a</span>
+                <span class="keyboard-button">s</span>
+                <span class="keyboard-button">d</span>
+
+                <h4>Undoing an action</h4>
+                <span class="keyboard-button">Ctrl</span> +
+                <span class="keyboard-button">z</span>
+
+                <h4>Redoing an action</h4>
+                <span class="keyboard-button">Ctrl</span> +
+                <span class="keyboard-button">y</span>
+                or
+                <span class="keyboard-button">Ctrl</span> +
+                <span class="keyboard-button">Shift</span> +
+                <span class="keyboard-button">z</span>
+
+                <h4>Pausing and resuming</h4>
+                <span class="keyboard-button">Esc</span>
+
                 <p>
                     Mouseclick: select a cell<br>
                     Mouse drag: select multiple cells<br>
