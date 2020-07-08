@@ -144,6 +144,7 @@ function ChangeDigitCommand(digit) {
     _cells.forEach(function (cell) {
       state[cell.getCellNumber()] = {
         value: cell.getValue(),
+        // Copy the array, because they go by reference
         cornerMarks: cell.getCornerMarks().map(function (item) {
           return item;
         }),
@@ -503,6 +504,7 @@ function DocumentEventHandler() {
   self.register = function () {
     registerKeyboardNavigation();
     registerValueSetting();
+    registerCellsDeselecting();
   };
   /**
    * Register keyboard navigation events
@@ -574,6 +576,19 @@ function DocumentEventHandler() {
         if (Sudoku.controls.ctrlKeyIsPressed()) {
           Sudoku.history.redo();
         }
+      }
+    });
+  };
+  /**
+   * Deselect all cells when clicking outside the grid
+   * @return {void}
+   */
+
+
+  var registerCellsDeselecting = function registerCellsDeselecting() {
+    document.addEventListener('mousedown', function (event) {
+      if (event.target.closest('.grid-cell') === null) {
+        Sudoku.grid.deselectAllCells();
       }
     });
   };

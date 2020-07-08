@@ -44,6 +44,7 @@ export default function ChangeDigitCommand(digit) {
         _cells.forEach(cell => {
             state[cell.getCellNumber()] = {
                 value: cell.getValue(),
+                // Copy the array, because they go by reference
                 cornerMarks: cell.getCornerMarks().map(item => item),
                 centerMarks: cell.getCenterMarks().map(item => item),
             };

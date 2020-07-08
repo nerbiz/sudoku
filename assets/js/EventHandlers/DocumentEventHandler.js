@@ -10,6 +10,7 @@ export default function DocumentEventHandler() {
     self.register = () => {
         registerKeyboardNavigation();
         registerValueSetting();
+        registerCellsDeselecting();
     };
 
     /**
@@ -80,6 +81,18 @@ export default function DocumentEventHandler() {
                 if (Sudoku.controls.ctrlKeyIsPressed()) {
                     Sudoku.history.redo();
                 }
+            }
+        });
+    };
+
+    /**
+     * Deselect all cells when clicking outside the grid
+     * @return {void}
+     */
+    const registerCellsDeselecting = () => {
+        document.addEventListener('mousedown', event => {
+            if (event.target.closest('.grid-cell') === null) {
+                Sudoku.grid.deselectAllCells();
             }
         });
     };
