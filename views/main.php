@@ -100,7 +100,8 @@ use Sudoku\Webpack;
                 <span class="keyboard-button">Cmd</span> (hold)
 
                 <h4>(De)select a cell</h4>
-                <span class="keyboard-button">Ctrl</span>
+                (<span class="keyboard-button">Ctrl</span> or
+                <span class="keyboard-button">Cmd</span>)
                 + mouseclick
 
                 <h4>Selecting multiple cells</h4>
@@ -116,14 +117,16 @@ use Sudoku\Webpack;
                 <span class="keyboard-button">d</span>
 
                 <h4>Undoing an action</h4>
-                <span class="keyboard-button">Ctrl</span> +
+                (<span class="keyboard-button">Ctrl</span> or
+                <span class="keyboard-button">Cmd</span>) +
                 <span class="keyboard-button">z</span>
 
                 <h4>Redoing an action</h4>
-                <span class="keyboard-button">Ctrl</span> +
-                <span class="keyboard-button">y</span>
-                or
-                <span class="keyboard-button">Ctrl</span> +
+                (<span class="keyboard-button">Ctrl</span> or
+                <span class="keyboard-button">Cmd</span>) +
+                <span class="keyboard-button">y</span><br>
+                or (<span class="keyboard-button">Ctrl</span> or
+                <span class="keyboard-button">Cmd</span>) +
                 <span class="keyboard-button">Shift</span> +
                 <span class="keyboard-button">z</span>
 
