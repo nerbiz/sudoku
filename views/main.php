@@ -43,7 +43,7 @@ use Sudoku\Webpack;
                 <?php endfor; ?>
             </section>
 
-            <section id="game-info">
+            <section id="sudoku-controls">
                 <p>Time: <span id="elapsed-time">0:00</span></p>
 
                 <p>
@@ -69,7 +69,8 @@ use Sudoku\Webpack;
                     Ctrl or command key + mouseclick: (de)select a cell<br>
                     Ctrl or command key + arrow keys or WASD keys: select multiple cells<br>
                     Ctrl+Z: undo<br>
-                    Ctrl+Shift+Z or Ctrl+Y: redo
+                    Ctrl+Shift+Z or Ctrl+Y: redo<br>
+                    Esc: pause / unpause
                 </p>
                 <p>
                     Mouseclick: select a cell<br>

@@ -31,10 +31,29 @@ export default function Clock() {
     let _timeInterval = null;
 
     /**
-     * Set the start/unpause moment for calculating elapsed time
-     * @return {Date}
+     * Indicates whether the clock is paused
+     * @type {boolean}
+     * @private
      */
-    self.start = self.unpause = () => _startMoment = new Date();
+    let _paused = false;
+
+    /**
+     * Initialize the object
+     * @return {void}
+     */
+    self.init = () => {
+        self.start();
+        self.showTime();
+    };
+
+    /**
+     * Set the start/unpause moment for calculating elapsed time
+     * @return {void}
+     */
+    self.start = self.unpause = () => {
+        _startMoment = new Date();
+        _paused = false;
+    };
 
     /**
      * Pause the timer
@@ -44,7 +63,13 @@ export default function Clock() {
         // Keep the elapsed milliseconds, for use with unpausing
         _initialMs += self.getElapsedMsSinceStart();
         _startMoment = null;
+        _paused = true;
     };
+
+    /**
+     * @return {boolean}
+     */
+    self.isPaused = () => _paused;
 
     /**
      * Get the elapsed milliseconds, since the start moment

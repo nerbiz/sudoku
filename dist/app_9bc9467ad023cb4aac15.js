@@ -129,12 +129,30 @@ function Clock() {
 
   var _timeInterval = null;
   /**
-   * Set the start/unpause moment for calculating elapsed time
-   * @return {Date}
+   * Indicates whether the clock is paused
+   * @type {boolean}
+   * @private
    */
 
+  var _paused = false;
+  /**
+   * Initialize the object
+   * @return {void}
+   */
+
+  self.init = function () {
+    self.start();
+    self.showTime();
+  };
+  /**
+   * Set the start/unpause moment for calculating elapsed time
+   * @return {void}
+   */
+
+
   self.start = self.unpause = function () {
-    return _startMoment = new Date();
+    _startMoment = new Date();
+    _paused = false;
   };
   /**
    * Pause the timer
@@ -146,6 +164,15 @@ function Clock() {
     // Keep the elapsed milliseconds, for use with unpausing
     _initialMs += self.getElapsedMsSinceStart();
     _startMoment = null;
+    _paused = true;
+  };
+  /**
+   * @return {boolean}
+   */
+
+
+  self.isPaused = function () {
+    return _paused;
   };
   /**
    * Get the elapsed milliseconds, since the start moment
@@ -699,6 +726,9 @@ function DocumentEventHandler() {
         if (Sudoku.controls.ctrlKeyIsPressed()) {
           Sudoku.history.redo();
         }
+      } else if (event.code === 'Escape') {
+        // Pause / unpause
+        Sudoku.clock.isPaused() ? Sudoku.clock.unpause() : Sudoku.clock.pause();
       }
     });
   };
@@ -1890,8 +1920,7 @@ window.Sudoku = {
   clock: new _Clock__WEBPACK_IMPORTED_MODULE_3__["default"](),
   documentEventHandler: new _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__["default"]()
 };
-Sudoku.clock.start();
-Sudoku.clock.showTime();
+Sudoku.clock.init();
 Sudoku.inputMode.init();
 Sudoku.controls.init();
 Sudoku.grid.init();
@@ -1899,7 +1928,7 @@ Sudoku.documentEventHandler.register();
 /*
 const LZString = require('lz-string');
 const state = JSON.stringify(Sudoku.grid.getState());
-// Pairs of 2-digits (cell number) and value (1 number)
+// 3 digits per cell: 2 digits for cell number, 1 for value
 // const state = '038149156382416811295104457093378472567629123781806';
 // 81 numbers, representing every cell value (0 = empty)
 // const state = '000300004000000056780000001230000045000098700012000045000005600300002300001320004';

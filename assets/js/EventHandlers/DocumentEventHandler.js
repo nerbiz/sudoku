@@ -81,6 +81,11 @@ export default function DocumentEventHandler() {
                 if (Sudoku.controls.ctrlKeyIsPressed()) {
                     Sudoku.history.redo();
                 }
+            } else if (event.code === 'Escape') {
+                // Pause / unpause
+                Sudoku.clock.isPaused()
+                    ? Sudoku.clock.unpause()
+                    : Sudoku.clock.pause();
             }
         });
     };
