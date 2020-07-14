@@ -1341,6 +1341,11 @@ function GridCell(cellNumber) {
 
 
   self.setCornerMark = function (digit) {
+    // Don't set a corner mark, if a value is filled in
+    if (self.getValue() !== null) {
+      return;
+    }
+
     var cornerMarks = self.getCornerMarks(); // Remove if the digit exists, otherwise add it
 
     var existingIndex = cornerMarks.indexOf(digit);
@@ -1403,6 +1408,11 @@ function GridCell(cellNumber) {
 
 
   self.setCenterMark = function (digit) {
+    // Don't set a center mark, if a value is filled in
+    if (self.getValue() !== null) {
+      return;
+    }
+
     var centerMarks = self.getCenterMarks(); // Remove if the digit exists, otherwise add it
 
     var existingIndex = centerMarks.indexOf(digit);

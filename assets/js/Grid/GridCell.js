@@ -192,6 +192,11 @@ export default function GridCell(cellNumber) {
      * @return {void}
      */
     self.setCornerMark = digit => {
+        // Don't set a corner mark, if a value is filled in
+        if (self.getValue() !== null) {
+            return;
+        }
+
         const cornerMarks = self.getCornerMarks();
 
         // Remove if the digit exists, otherwise add it
@@ -248,6 +253,11 @@ export default function GridCell(cellNumber) {
      * @return {void}
      */
     self.setCenterMark = digit => {
+        // Don't set a center mark, if a value is filled in
+        if (self.getValue() !== null) {
+            return;
+        }
+
         const centerMarks = self.getCenterMarks();
 
         // Remove if the digit exists, otherwise add it
