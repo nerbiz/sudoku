@@ -248,6 +248,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ChangeDigitCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
 /* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
+/* harmony import */ var _InputMode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../InputMode */ "./assets/js/InputMode.js");
+
 
 
 Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(ChangeDigitCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
@@ -258,6 +260,7 @@ Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(ChangeDigitCommand, _C
 
 function ChangeDigitCommand(digit) {
   var self = this;
+  _Command__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * The digit to apply to cell(s)
    * @type {number|null}
@@ -266,20 +269,25 @@ function ChangeDigitCommand(digit) {
 
   var _digit = digit;
   /**
-   * The input mode for the digit
-   * @type {number}
-   * @private
-   */
-
-  var _inputMode = Sudoku.inputMode.getMode();
-  /**
    * The cells to apply the digit to
    * @type {GridCell[]}
    * @private
    */
 
-
   var _cells = Sudoku.grid.getSelectedCells();
+  /**
+   * The input mode for the digit
+   * @type {number}
+   * @private
+   */
+
+
+  var _inputMode = function () {
+    var currentMode = Sudoku.inputMode.getMode(); // When more than 1 cell is selected,
+    // switch to pencil mark notation if the input mode is 'value'
+
+    return _cells.length > 1 && currentMode === _InputMode__WEBPACK_IMPORTED_MODULE_2__["default"].MODE_VALUE ? _InputMode__WEBPACK_IMPORTED_MODULE_2__["default"].MODE_CORNER : currentMode;
+  }();
   /**
    * Contains the state of cells, before changing the digit
    * @type {Object}

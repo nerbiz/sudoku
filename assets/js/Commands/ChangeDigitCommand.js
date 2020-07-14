@@ -1,5 +1,6 @@
 import {extend} from '../functions';
 import Command from './Command';
+import InputMode from '../InputMode';
 
 extend(ChangeDigitCommand, Command);
 
@@ -9,6 +10,7 @@ extend(ChangeDigitCommand, Command);
  */
 export default function ChangeDigitCommand(digit) {
     const self = this;
+    Command.call(self);
 
     /**
      * The digit to apply to cell(s)
@@ -18,18 +20,26 @@ export default function ChangeDigitCommand(digit) {
     const _digit = digit;
 
     /**
-     * The input mode for the digit
-     * @type {number}
-     * @private
-     */
-    const _inputMode = Sudoku.inputMode.getMode();
-
-    /**
      * The cells to apply the digit to
      * @type {GridCell[]}
      * @private
      */
     const _cells = Sudoku.grid.getSelectedCells();
+
+    /**
+     * The input mode for the digit
+     * @type {number}
+     * @private
+     */
+    const _inputMode = (() => {
+        const currentMode = Sudoku.inputMode.getMode();
+
+        // When more than 1 cell is selected,
+        // switch to pencil mark notation if the input mode is 'value'
+        return (_cells.length > 1 && currentMode === InputMode.MODE_VALUE)
+            ? InputMode.MODE_CORNER
+            : currentMode;
+    })();
 
     /**
      * Contains the state of cells, before changing the digit
