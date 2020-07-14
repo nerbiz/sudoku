@@ -1,5 +1,8 @@
 <?php
 use Sudoku\Webpack;
+use Sudoku\Visitor;
+
+$ctrlButtonName = Visitor::usesMacOs() ? 'Cmd' : 'Ctrl';
 ?>
 
 <!DOCTYPE html>
@@ -95,19 +98,21 @@ use Sudoku\Webpack;
                 <span class="keyboard-button">o</span>
                 <span class="keyboard-button">p</span>
 
-                <h4>Making multiple cell selections</h4>
-                <span class="keyboard-button">Ctrl</span> or
-                <span class="keyboard-button">Cmd</span> (hold)
+                <h4>Allow multiple cell selections</h4>
+                <span class="keyboard-button">
+                    <?php echo $ctrlButtonName; ?>
+                </span> (hold)
 
                 <h4>(De)select a cell</h4>
-                (<span class="keyboard-button">Ctrl</span> or
-                <span class="keyboard-button">Cmd</span>)
-                + mouseclick
+                <span class="keyboard-button">
+                    <?php echo $ctrlButtonName; ?>
+                </span> + mouseclick
 
                 <h4>Selecting multiple cells</h4>
-                (<span class="keyboard-button">Ctrl</span> or
-                <span class="keyboard-button">Cmd</span>) +
-                <span class="keyboard-button">↑</span>
+                <span class="keyboard-button">
+                    <?php echo $ctrlButtonName; ?>
+                </span>
+                + <span class="keyboard-button">↑</span>
                 <span class="keyboard-button">←</span>
                 <span class="keyboard-button">↓</span>
                 <span class="keyboard-button">→</span>
@@ -117,17 +122,20 @@ use Sudoku\Webpack;
                 <span class="keyboard-button">d</span>
 
                 <h4>Undoing an action</h4>
-                (<span class="keyboard-button">Ctrl</span> or
-                <span class="keyboard-button">Cmd</span>) +
-                <span class="keyboard-button">z</span>
+                <span class="keyboard-button">
+                    <?php echo $ctrlButtonName; ?>
+                </span>
+                + <span class="keyboard-button">z</span>
 
                 <h4>Redoing an action</h4>
-                (<span class="keyboard-button">Ctrl</span> or
-                <span class="keyboard-button">Cmd</span>) +
-                <span class="keyboard-button">y</span><br>
-                or (<span class="keyboard-button">Ctrl</span> or
-                <span class="keyboard-button">Cmd</span>) +
-                <span class="keyboard-button">Shift</span> +
+                <span class="keyboard-button">
+                    <?php echo $ctrlButtonName; ?>
+                </span>
+                + <span class="keyboard-button">y</span>
+                or <span class="keyboard-button">
+                    <?php echo $ctrlButtonName; ?>
+                </span>
+                + <span class="keyboard-button">Shift</span> +
                 <span class="keyboard-button">z</span>
 
                 <h4>Pausing and resuming</h4>

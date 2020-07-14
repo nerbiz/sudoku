@@ -3,7 +3,7 @@
  * @type {boolean}
  * @static
  */
-Visitor.usesMacOs = (navigator.userAgent.match(/Macintosh/) !== null);
+Visitor.usesMacOs = (navigator.userAgent.toLowerCase().match(/macintosh/) !== null);
 
 export default function Visitor() {
     const self = this;
