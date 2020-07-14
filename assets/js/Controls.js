@@ -96,14 +96,18 @@ export default function Controls() {
         _ctrlKeyPressed = Visitor.usesMacOs ? event.metaKey : event.ctrlKey;
 
         // Prevent browser keyboard shortcut
-        if (! self.cancelKeyboardEvent(event) && _ctrlKeyPressed) {
-            if(
-                // Browser navigation
-                ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].indexOf(event.code) > -1
-                // Browser history
-                || event.code === 'KeyY'
-            ) {
+        if (! self.cancelKeyboardEvent(event)) {
+            // Browser navigation
+            const arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+            if (arrowKeys.indexOf(event.code) > -1) {
                 event.preventDefault();
+            }
+
+            if (_ctrlKeyPressed) {
+                // Browser history
+                if (event.code === 'KeyY') {
+                    event.preventDefault();
+                }
             }
         }
 
