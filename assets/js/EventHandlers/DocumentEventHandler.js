@@ -14,24 +14,12 @@ export default function DocumentEventHandler() {
     };
 
     /**
-     * Decide whether to cancel a keydown listener
-     * @param {Event} event
-     * @return {boolean}
-     */
-    const cancelKeydownListener = event => {
-        const nodeName = event.target.nodeName.toLowerCase();
-
-        // Don't use custom listener on input elements
-        return (['input', 'textarea'].indexOf(nodeName) > -1);
-    };
-
-    /**
      * Register keyboard navigation events
      * @return {void}
      */
     const registerKeyboardNavigation = () => {
         document.addEventListener('keydown', event => {
-            if (cancelKeydownListener(event)) {
+            if (Sudoku.controls.cancelKeyboardEvent(event)) {
                 return;
             }
 
@@ -78,7 +66,7 @@ export default function DocumentEventHandler() {
      */
     const registerValueSetting = () => {
         document.addEventListener('keydown', event => {
-            if (cancelKeydownListener(event)) {
+            if (Sudoku.controls.cancelKeyboardEvent(event)) {
                 return;
             }
 

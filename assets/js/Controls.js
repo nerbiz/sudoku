@@ -76,6 +76,18 @@ export default function Controls() {
     };
 
     /**
+     * Decide whether to cancel a keyboard listener
+     * @param {Event} event
+     * @return {boolean}
+     */
+    self.cancelKeyboardEvent = event => {
+        const nodeName = event.target.nodeName.toLowerCase();
+
+        // Don't use custom listener on input elements
+        return (['input', 'textarea'].indexOf(nodeName) > -1);
+    };
+
+    /**
      * Callback for keydown and keyup
      * @param {Event} event
      * @return {void}
@@ -84,10 +96,10 @@ export default function Controls() {
         _ctrlKeyPressed = Visitor.usesMacOs ? event.metaKey : event.ctrlKey;
 
         // Prevent browser keyboard shortcut
-        if (_ctrlKeyPressed) {
+        if (! self.cancelKeyboardEvent(event) && _ctrlKeyPressed) {
             if(
                 // Browser navigation
-                ['ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1
+                ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].indexOf(event.code) > -1
                 // Browser history
                 || event.code === 'KeyY'
             ) {

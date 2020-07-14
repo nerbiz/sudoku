@@ -115,7 +115,7 @@ function Clock() {
   var _startMoment = null;
   /**
    * The element that shows the elapsed time
-   * @type {HTMLElement}
+   * @type {HTMLSpanElement}
    * @private
    */
 
@@ -546,6 +546,18 @@ function Controls() {
     document.addEventListener('keyup', keyDownUpCallback);
   };
   /**
+   * Decide whether to cancel a keyboard listener
+   * @param {Event} event
+   * @return {boolean}
+   */
+
+
+  self.cancelKeyboardEvent = function (event) {
+    var nodeName = event.target.nodeName.toLowerCase(); // Don't use custom listener on input elements
+
+    return ['input', 'textarea'].indexOf(nodeName) > -1;
+  };
+  /**
    * Callback for keydown and keyup
    * @param {Event} event
    * @return {void}
@@ -555,9 +567,9 @@ function Controls() {
   var keyDownUpCallback = function keyDownUpCallback(event) {
     _ctrlKeyPressed = _Utilities_Visitor__WEBPACK_IMPORTED_MODULE_0__["default"].usesMacOs ? event.metaKey : event.ctrlKey; // Prevent browser keyboard shortcut
 
-    if (_ctrlKeyPressed) {
+    if (!self.cancelKeyboardEvent(event) && _ctrlKeyPressed) {
       if ( // Browser navigation
-      ['ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1 // Browser history
+      ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].indexOf(event.code) > -1 // Browser history
       || event.code === 'KeyY') {
         event.preventDefault();
       }
@@ -657,18 +669,6 @@ function DocumentEventHandler() {
     registerCellsDeselecting();
   };
   /**
-   * Decide whether to cancel a keydown listener
-   * @param {Event} event
-   * @return {boolean}
-   */
-
-
-  var cancelKeydownListener = function cancelKeydownListener(event) {
-    var nodeName = event.target.nodeName.toLowerCase(); // Don't use custom listener on input elements
-
-    return ['input', 'textarea'].indexOf(nodeName) > -1;
-  };
-  /**
    * Register keyboard navigation events
    * @return {void}
    */
@@ -676,7 +676,7 @@ function DocumentEventHandler() {
 
   var registerKeyboardNavigation = function registerKeyboardNavigation() {
     document.addEventListener('keydown', function (event) {
-      if (cancelKeydownListener(event)) {
+      if (Sudoku.controls.cancelKeyboardEvent(event)) {
         return;
       }
 
@@ -723,7 +723,7 @@ function DocumentEventHandler() {
 
   var registerValueSetting = function registerValueSetting() {
     document.addEventListener('keydown', function (event) {
-      if (cancelKeydownListener(event)) {
+      if (Sudoku.controls.cancelKeyboardEvent(event)) {
         return;
       }
 
@@ -1164,7 +1164,7 @@ function GridCell(cellNumber) {
   var _cellNumber = cellNumber;
   /**
    * The HTML element that is the cell
-   * @type {HTMLElement|null}
+   * @type {HTMLDivElement|null}
    * @private
    */
 
@@ -1258,7 +1258,7 @@ function GridCell(cellNumber) {
     return _cellNumber;
   };
   /**
-   * @return {HTMLElement|null}
+   * @return {HTMLDivElement|null}
    */
 
 
@@ -1820,17 +1820,29 @@ __webpack_require__.r(__webpack_exports__);
 function Meta() {
   var self = this;
   /**
-   * The title input field
-   * @type {HTMLElement}
+   * The page title element
+   * @type {HTMLTitleElement}
    */
 
-  var titleField = document.getElementsByName('title')[0];
+  var titleElement = document.getElementsByTagName('title')[0];
+  /**
+   * The name of the application
+   * @type {string}
+   */
+
+  var appName = titleElement.innerText;
+  /**
+   * The title input field
+   * @type {HTMLInputElement}
+   */
+
+  var titleField = document.getElementsByName('puzzle_title')[0];
   /**
    * The description input field
-   * @type {HTMLElement}
+   * @type {HTMLTextAreaElement}
    */
 
-  var descriptionField = document.getElementsByName('description')[0];
+  var descriptionField = document.getElementsByName('puzzle_description')[0];
   /**
    * An optional title for the sudoku
    * @type {string|null}
@@ -1857,7 +1869,9 @@ function Meta() {
 
   var enableTextFields = function enableTextFields() {
     var titleCallback = function titleCallback() {
-      return title = titleField.value;
+      title = titleField.value.trim(); // Update the page title
+
+      titleElement.innerText = title !== '' ? "".concat(title, " - ").concat(appName) : appName;
     };
 
     titleField.addEventListener('change', titleCallback);
@@ -1871,10 +1885,6 @@ function Meta() {
     descriptionField.addEventListener('change', descriptionCallback);
     descriptionField.addEventListener('keyup', descriptionCallback);
     descriptionField.addEventListener('paste', descriptionCallback);
-  };
-
-  self.debug = function () {
-    console.log(title, description);
   };
 }
 

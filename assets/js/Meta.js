@@ -2,16 +2,28 @@ export default function Meta() {
     const self = this;
 
     /**
-     * The title input field
-     * @type {HTMLElement}
+     * The page title element
+     * @type {HTMLTitleElement}
      */
-    const titleField = document.getElementsByName('title')[0];
+    const titleElement = document.getElementsByTagName('title')[0];
+
+    /**
+     * The name of the application
+     * @type {string}
+     */
+    const appName = titleElement.innerText;
+
+    /**
+     * The title input field
+     * @type {HTMLInputElement}
+     */
+    const titleField = document.getElementsByName('puzzle_title')[0];
 
     /**
      * The description input field
-     * @type {HTMLElement}
+     * @type {HTMLTextAreaElement}
      */
-    const descriptionField = document.getElementsByName('description')[0];
+    const descriptionField = document.getElementsByName('puzzle_description')[0];
 
     /**
      * An optional title for the sudoku
@@ -36,18 +48,23 @@ export default function Meta() {
      * @return {void}
      */
     const enableTextFields = () => {
-        const titleCallback = () => title = titleField.value;
+        const titleCallback = () => {
+            title = titleField.value.trim();
+
+            // Update the page title
+            titleElement.innerText = (title !== '')
+                ? `${title} - ${appName}`
+                : appName;
+        };
+
         titleField.addEventListener('change', titleCallback);
         titleField.addEventListener('keyup', titleCallback);
         titleField.addEventListener('paste', titleCallback);
 
         const descriptionCallback = () => description = descriptionField.value;
+
         descriptionField.addEventListener('change', descriptionCallback);
         descriptionField.addEventListener('keyup', descriptionCallback);
         descriptionField.addEventListener('paste', descriptionCallback);
     };
-
-    self.debug = () => {
-        console.log(title, description);
-    }
 }

@@ -20,7 +20,7 @@ export default function GridCell(cellNumber) {
 
     /**
      * The HTML element that is the cell
-     * @type {HTMLElement|null}
+     * @type {HTMLDivElement|null}
      * @private
      */
     let _element = null;
@@ -110,7 +110,7 @@ export default function GridCell(cellNumber) {
     self.getCellNumber = () => _cellNumber;
 
     /**
-     * @return {HTMLElement|null}
+     * @return {HTMLDivElement|null}
      */
     self.getElement = () => _element;
 

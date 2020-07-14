@@ -18,7 +18,7 @@ export default function Clock() {
 
     /**
      * The element that shows the elapsed time
-     * @type {HTMLElement}
+     * @type {HTMLSpanElement}
      * @private
      */
     const _timeElement = document.getElementById('elapsed-time');
