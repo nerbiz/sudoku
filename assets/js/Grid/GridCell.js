@@ -137,11 +137,15 @@ export default function GridCell(cellNumber) {
             mode = Sudoku.inputMode.getMode();
         }
 
-        // Remove the marks if the digit is null (delete signal)
-        // But only if no value is filled in
-        if (digit === null && self.getValue() === null) {
-            self.setCornerMarks([]);
-            self.setCenterMarks([]);
+        // Null means deleting
+        if (digit === null) {
+            // Remove the marks only if no value is filled in
+            if (self.getValue() === null) {
+                self.setCornerMarks([]);
+                self.setCenterMarks([]);
+            } else {
+                self.setValue(null);
+            }
         }
 
         switch (mode) {
