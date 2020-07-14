@@ -60,7 +60,9 @@ $box-border: $box-border-width map_get($color-palette, 4) solid;
   }
 
   &.has-error {
-    background-color: $color-error;
+    .grid-cell-content {
+      border: 2px $color-error solid;
+    }
   }
 
   // Add 3x3 box border to cells in first row

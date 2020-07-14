@@ -87,8 +87,8 @@ body {
     background-color: #9af8fd; }
   .grid-cell.selected {
     background-color: #4fd5f0; }
-  .grid-cell.has-error {
-    background-color: #f69274; }
+  .grid-cell.has-error .grid-cell-content {
+    border: 2px #f69274 solid; }
 
 .grid-cell-borders {
   position: absolute;
