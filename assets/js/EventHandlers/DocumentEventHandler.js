@@ -14,11 +14,27 @@ export default function DocumentEventHandler() {
     };
 
     /**
+     * Decide whether to cancel a keydown listener
+     * @param {Event} event
+     * @return {boolean}
+     */
+    const cancelKeydownListener = event => {
+        const nodeName = event.target.nodeName.toLowerCase();
+
+        // Don't use custom listener on input elements
+        return (['input', 'textarea'].indexOf(nodeName) > -1);
+    };
+
+    /**
      * Register keyboard navigation events
      * @return {void}
      */
     const registerKeyboardNavigation = () => {
         document.addEventListener('keydown', event => {
+            if (cancelKeydownListener(event)) {
+                return;
+            }
+
             if (Sudoku.controls.isArrowKey(event.code)) {
                 // Deselect all cells, if the ctrl key is not pressed
                 if (! Sudoku.controls.ctrlKeyIsPressed()) {
@@ -62,6 +78,10 @@ export default function DocumentEventHandler() {
      */
     const registerValueSetting = () => {
         document.addEventListener('keydown', event => {
+            if (cancelKeydownListener(event)) {
+                return;
+            }
+
             if (Sudoku.controls.isNumberKey(event.code)) {
                 // Set a number value
                 const digit = parseInt(event.key, 10);

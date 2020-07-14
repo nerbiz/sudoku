@@ -4,10 +4,12 @@ import Grid from './Grid/Grid';
 import Clock from './Clock';
 import DocumentEventHandler from './EventHandlers/DocumentEventHandler';
 import CommandHistory from './Commands/CommandHistory';
+import Meta from './Meta';
 
 // 'Namespace' of the project
 window.Sudoku = {
     history: new CommandHistory(),
+    meta: new Meta(),
     controls: new Controls(),
     inputMode: new InputMode(),
     grid: new Grid(),
@@ -16,6 +18,7 @@ window.Sudoku = {
 };
 
 Sudoku.clock.init();
+Sudoku.meta.init();
 Sudoku.inputMode.init();
 Sudoku.controls.init();
 Sudoku.grid.init();

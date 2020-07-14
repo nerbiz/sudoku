@@ -146,6 +146,8 @@ export default function GridCell(cellNumber) {
             } else {
                 self.setValue(null);
             }
+
+            return;
         }
 
         switch (mode) {

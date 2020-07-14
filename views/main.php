@@ -48,6 +48,14 @@ $ctrlButtonName = Visitor::usesMacOs() ? 'Cmd' : 'Ctrl';
             </section>
 
             <section id="sudoku-controls">
+                <p>
+                    Puzzle title<br>
+                    <input type="text" name="title"><br>
+
+                    Puzzle description<br>
+                    <textarea name="description"></textarea>
+                </p>
+
                 <p>Time: <span id="elapsed-time">0:00</span></p>
 
                 <p>

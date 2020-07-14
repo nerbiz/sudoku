@@ -657,6 +657,18 @@ function DocumentEventHandler() {
     registerCellsDeselecting();
   };
   /**
+   * Decide whether to cancel a keydown listener
+   * @param {Event} event
+   * @return {boolean}
+   */
+
+
+  var cancelKeydownListener = function cancelKeydownListener(event) {
+    var nodeName = event.target.nodeName.toLowerCase(); // Don't use custom listener on input elements
+
+    return ['input', 'textarea'].indexOf(nodeName) > -1;
+  };
+  /**
    * Register keyboard navigation events
    * @return {void}
    */
@@ -664,6 +676,10 @@ function DocumentEventHandler() {
 
   var registerKeyboardNavigation = function registerKeyboardNavigation() {
     document.addEventListener('keydown', function (event) {
+      if (cancelKeydownListener(event)) {
+        return;
+      }
+
       if (Sudoku.controls.isArrowKey(event.code)) {
         // Deselect all cells, if the ctrl key is not pressed
         if (!Sudoku.controls.ctrlKeyIsPressed()) {
@@ -707,6 +723,10 @@ function DocumentEventHandler() {
 
   var registerValueSetting = function registerValueSetting() {
     document.addEventListener('keydown', function (event) {
+      if (cancelKeydownListener(event)) {
+        return;
+      }
+
       if (Sudoku.controls.isNumberKey(event.code)) {
         // Set a number value
         var digit = parseInt(event.key, 10);
@@ -1287,6 +1307,8 @@ function GridCell(cellNumber) {
       } else {
         self.setValue(null);
       }
+
+      return;
     }
 
     switch (mode) {
@@ -1785,6 +1807,79 @@ function InputMode() {
 
 /***/ }),
 
+/***/ "./assets/js/Meta.js":
+/*!***************************!*\
+  !*** ./assets/js/Meta.js ***!
+  \***************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Meta; });
+function Meta() {
+  var self = this;
+  /**
+   * The title input field
+   * @type {HTMLElement}
+   */
+
+  var titleField = document.getElementsByName('title')[0];
+  /**
+   * The description input field
+   * @type {HTMLElement}
+   */
+
+  var descriptionField = document.getElementsByName('description')[0];
+  /**
+   * An optional title for the sudoku
+   * @type {string|null}
+   */
+
+  var title = null;
+  /**
+   * An optional description for the sudoku
+   * @type {string|null}
+   */
+
+  var description = null;
+  /**
+   * Initialize the object
+   */
+
+  self.init = function () {
+    enableTextFields();
+  };
+  /**
+   * @return {void}
+   */
+
+
+  var enableTextFields = function enableTextFields() {
+    var titleCallback = function titleCallback() {
+      return title = titleField.value;
+    };
+
+    titleField.addEventListener('change', titleCallback);
+    titleField.addEventListener('keyup', titleCallback);
+    titleField.addEventListener('paste', titleCallback);
+
+    var descriptionCallback = function descriptionCallback() {
+      return description = descriptionField.value;
+    };
+
+    descriptionField.addEventListener('change', descriptionCallback);
+    descriptionField.addEventListener('keyup', descriptionCallback);
+    descriptionField.addEventListener('paste', descriptionCallback);
+  };
+
+  self.debug = function () {
+    console.log(title, description);
+  };
+}
+
+/***/ }),
+
 /***/ "./assets/js/Traits/HasGridCells.js":
 /*!******************************************!*\
   !*** ./assets/js/Traits/HasGridCells.js ***!
@@ -1919,6 +2014,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Clock__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Clock */ "./assets/js/Clock.js");
 /* harmony import */ var _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EventHandlers/DocumentEventHandler */ "./assets/js/EventHandlers/DocumentEventHandler.js");
 /* harmony import */ var _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Commands/CommandHistory */ "./assets/js/Commands/CommandHistory.js");
+/* harmony import */ var _Meta__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Meta */ "./assets/js/Meta.js");
+
 
 
 
@@ -1928,6 +2025,7 @@ __webpack_require__.r(__webpack_exports__);
 
 window.Sudoku = {
   history: new _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_5__["default"](),
+  meta: new _Meta__WEBPACK_IMPORTED_MODULE_6__["default"](),
   controls: new _Controls__WEBPACK_IMPORTED_MODULE_0__["default"](),
   inputMode: new _InputMode__WEBPACK_IMPORTED_MODULE_1__["default"](),
   grid: new _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__["default"](),
@@ -1935,6 +2033,7 @@ window.Sudoku = {
   documentEventHandler: new _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__["default"]()
 };
 Sudoku.clock.init();
+Sudoku.meta.init();
 Sudoku.inputMode.init();
 Sudoku.controls.init();
 Sudoku.grid.init();
