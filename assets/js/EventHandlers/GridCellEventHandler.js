@@ -31,11 +31,11 @@ export default function GridCellEventHandler(gridCell) {
         _gridCell.getElement().addEventListener('mousedown', () => {
             if (Sudoku.controls.ctrlKeyIsPressed()) {
                 // Toggle the selected status when clicked, if the ctrl key is pressed
-                _gridCell.setIsSelected(! _gridCell.getIsSelected());
+                _gridCell.setSelectedState(! _gridCell.isSelected());
             } else {
                 // Select only this cell, if the ctrl key is not pressed
                 Sudoku.grid.deselectAllCells();
-                _gridCell.setIsSelected(true);
+                _gridCell.setSelectedState(true);
             }
         });
     };
@@ -47,7 +47,7 @@ export default function GridCellEventHandler(gridCell) {
         _gridCell.getElement().addEventListener('mouseenter', () => {
             // Allow multiple cells to be selected
             if (Sudoku.controls.mouseIsPressed()) {
-                _gridCell.setIsSelected(true);
+                _gridCell.setSelectedState(true);
             }
         });
     };

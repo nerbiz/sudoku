@@ -64,7 +64,7 @@ export default function HasGridCells() {
 
             // Set an error status on all duplicate cells, if there are any
             if (cells.length > 1) {
-                cells.forEach(cell => cell.setErrorStatus(true));
+                cells.forEach(cell => cell.setErrorState(true));
             }
         });
     };

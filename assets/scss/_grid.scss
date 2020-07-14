@@ -55,8 +55,14 @@ $box-border: $box-border-width map_get($color-palette, 4) solid;
     background-color: map_get($color-palette, 2);
   }
 
-  &.selected {
+  &.is-selected {
     background-color: map_get($color-palette, 3);
+  }
+
+  &.is-highlighted {
+    .grid-cell-content {
+      border: 3px rgba($color-black, 0.15) double;
+    }
   }
 
   &.has-error {

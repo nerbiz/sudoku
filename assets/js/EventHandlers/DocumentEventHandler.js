@@ -54,7 +54,7 @@ export default function DocumentEventHandler() {
 
                 // Make the new cell the active one
                 newCell = Sudoku.grid.getCell(newCellIndex + 1);
-                newCell.setIsSelected(true);
+                newCell.setSelectedState(true);
                 Sudoku.grid.setLastNavigatedCell(newCell);
             }
         });

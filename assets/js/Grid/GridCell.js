@@ -89,6 +89,13 @@ export default function GridCell(cellNumber) {
     let _isSelected = false;
 
     /**
+     * Whether the cell is currently highlighted
+     * @type {boolean}
+     * @private
+     */
+    let _isHighlighted = false;
+
+    /**
      * Initialize the object
      * @return {void}
      */
@@ -185,6 +192,24 @@ export default function GridCell(cellNumber) {
         self.getElement().getElementsByClassName('cell-value')[0].innerText = digit;
 
         _value = digit;
+
+        // Highlight other cells, also when the value is removed
+        Sudoku.grid.highlightRelatedCells();
+    };
+
+    /**
+     * Check if the cell has a value
+     * @param {number|null} digit
+     * @return {boolean}
+     */
+    self.hasValue = (digit = null) => {
+        // Check if the cell has any value
+        if (digit === null) {
+            return (self.getValue() !== null);
+        }
+
+        // Or check for a specific value
+        return (self.getValue() === digit);
     };
 
     /**
@@ -249,6 +274,21 @@ export default function GridCell(cellNumber) {
     };
 
     /**
+     * Check if the cell has a corner mark
+     * @param {number|null} digit
+     * @return {boolean}
+     */
+    self.hasCornerMark = (digit = null) => {
+        // Check if the cell has any corner mark
+        if (digit === null) {
+            return (self.getCornerMarks().length > 0);
+        }
+
+        // Or check for a specific value
+        return (self.getCornerMarks().indexOf(digit) > -1);
+    };
+
+    /**
      * @return {number[]}
      */
     self.getCenterMarks = () => _centerMarks;
@@ -299,11 +339,26 @@ export default function GridCell(cellNumber) {
     };
 
     /**
+     * Check if the cell has a center mark
+     * @param {number|null} digit
+     * @return {boolean}
+     */
+    self.hasCenterMark = (digit = null) => {
+        // Check if the cell has any center mark
+        if (digit === null) {
+            return (self.getCenterMarks().length > 0);
+        }
+
+        // Or check for a specific value
+        return (self.getCenterMarks().indexOf(digit) > -1);
+    };
+
+    /**
      * Toggle the visibility of the pencil marks
      * @param {boolean} show
      */
     const showMarks = show => {
-        const toggleMethod = (show) ? 'remove' : 'add';
+        const toggleMethod = show ? 'remove' : 'add';
 
         // Toggle the corner marks
         for (let i = 1; i < 9; i++) {
@@ -319,28 +374,49 @@ export default function GridCell(cellNumber) {
     /**
      * @return {boolean}
      */
-    self.getIsSelected = () => _isSelected;
+    self.isSelected = () => _isSelected;
 
     /**
      * @param {boolean} selected
      * @return {void}
      */
-    self.setIsSelected = selected => {
-        if (selected) {
-            self.getElement().classList.add('selected');
+    self.setSelectedState = selected => {
+        const toggleMethod = selected ? 'add' : 'remove';
+        self.getElement().classList[toggleMethod]('is-selected');
 
-            // Don't add duplicates to the list of selected cells
-            if (! self.getIsSelected()) {
-                Sudoku.grid.addSelectedCell(self);
-            }
-        }
-
-        else {
-            self.getElement().classList.remove('selected');
+        // Don't add duplicates to the list
+        if (selected && ! self.isSelected()) {
+            Sudoku.grid.addSelectedCell(self);
         }
 
         _isSelected = selected;
     };
+
+    /**
+     * @return {boolean}
+     */
+    self.isHighlighted = () => _isHighlighted;
+
+    /**
+     * @param {boolean} highlighted
+     * @return {void}
+     */
+    self.setHighlightedState = highlighted => {
+        const toggleMethod = highlighted ? 'add' : 'remove';
+        self.getElement().classList[toggleMethod]('is-highlighted');
+
+        // Don't add duplicates to the list
+        if (highlighted && ! self.isHighlighted()) {
+            Sudoku.grid.addHighlightedCell(self);
+        }
+
+        _isHighlighted = highlighted;
+    };
+
+    /**
+     * @return {GridRow|null}
+     */
+    self.getRow = () => _gridRow;
 
     /**
      * @param {GridRow} row
@@ -349,10 +425,20 @@ export default function GridCell(cellNumber) {
     self.setRow = row => _gridRow = row;
 
     /**
+     * @return {GridColumn|null}
+     */
+    self.getColumn = () => _gridColumn;
+
+    /**
      * @param {GridColumn} column
      * @return {GridColumn}
      */
     self.setColumn = column => _gridColumn = column;
+
+    /**
+     * @return {GridBox|null}
+     */
+    self.getBox = () => _gridBox;
 
     /**
      * @param {GridBox} box
@@ -365,12 +451,9 @@ export default function GridCell(cellNumber) {
      * @param {boolean} on
      * @return {void}
      */
-    self.setErrorStatus = on => {
-        if (on) {
-            self.getElement().classList.add('has-error');
-        } else {
-            self.getElement().classList.remove('has-error');
-        }
+    self.setErrorState = on => {
+        const toggleMethod = on ? 'add' : 'remove';
+        self.getElement().classList[toggleMethod]('has-error');
     };
 
     /**
