@@ -346,6 +346,21 @@ function ChangeDigitCommand(digit) {
 
     Sudoku.grid.checkForErrors();
   };
+
+  self.debug = function (type) {
+    return JSON.stringify(_cellsState);
+
+    if (type === 'undo') {
+      console.log('Undo, revert to state:');
+      console.log(JSON.stringify(_cellsState));
+    } else if (type === 'redo') {
+      var cellNumbers = _cells.map(function (cell) {
+        return cell.getCellNumber();
+      }).join(',');
+
+      console.log('Setting digit', _digit, 'in', cellNumbers);
+    }
+  };
 }
 
 /***/ }),
@@ -388,84 +403,9 @@ function Command() {
   !*** ./assets/js/Commands/CommandHistory.js ***!
   \**********************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CommandHistory; });
-/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
-
-function CommandHistory() {
-  var self = this;
-  /**
-   * The list of commands that have been executed
-   * @type {Command[]}
-   * @private
-   */
-
-  var _past = [];
-  /**
-   * The list of commands to redo
-   * @type {Command[]}
-   * @private
-   */
-
-  var _future = [];
-  /**
-   * Add a command to be executed
-   * @param {Command} command
-   * @param {boolean} clearFuture Whether to clear the future (redo) stack
-   * @return {number}
-   */
-
-  self.execute = function (command) {
-    var clearFuture = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    command.execute();
-
-    _past.push(command); // Clear the future (redo) list if needed
-
-
-    if (clearFuture) {
-      _future = [];
-    }
-  };
-  /**
-   * Undo the most recent command
-   * @return {void}
-   */
-
-
-  self.undo = function () {
-    // A command needs to exist
-    if (_past.length < 1) {
-      return;
-    } // Undo the command
-
-
-    var command = _past.pop();
-
-    command.undo(); // Put the command in the future stack, for redoing
-
-    _future.push(command);
-  };
-  /**
-   * Execute the most recent command from the future stack
-   * @return {void}
-   */
-
-
-  self.redo = function () {
-    // A command needs to exist
-    if (_future.length < 1) {
-      return;
-    } // Redo the command
-
-
-    var command = _future.pop();
-
-    self.execute(command, false);
-  };
-}
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Applications/MAMP/htdocs/private/sudoku/assets/js/Commands/CommandHistory.js: Unexpected token (30:45)\n\n\u001b[0m \u001b[90m 28 | \u001b[39m        _past\u001b[33m.\u001b[39mpush(command)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 29 | \u001b[39m        console\u001b[33m.\u001b[39mlog(\u001b[32m'Past contents'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 | \u001b[39m        console\u001b[33m.\u001b[39mlog(_past\u001b[33m.\u001b[39mforEach(command \u001b[33m=>\u001b[39m ))\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m                                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 31 | \u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 32 | \u001b[39m        \u001b[90m// Clear the future (redo) list if needed\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 33 | \u001b[39m        \u001b[36mif\u001b[39m (clearFuture) {\u001b[0m\n    at Parser._raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:746:17)\n    at Parser.raiseWithData (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:739:17)\n    at Parser.raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:733:17)\n    at Parser.unexpected (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:8807:16)\n    at Parser.parseExprAtom (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10130:20)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9656:23)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9636:21)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9506:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9479:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9434:21)\n    at Parser.parseFunctionBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10701:24)\n    at Parser.parseArrowExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10677:10)\n    at Parser.parseExprAtom (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9960:18)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9656:23)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9636:21)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9506:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9479:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9434:21)\n    at Parser.parseExprListItem (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10792:18)\n    at Parser.parseCallExpressionArguments (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9850:22)\n    at Parser.parseSubscript (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9750:31)\n    at Parser.parseSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9679:19)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9662:17)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9636:21)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9506:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9479:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9434:21)\n    at Parser.parseExprListItem (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10792:18)\n    at Parser.parseCallExpressionArguments (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9850:22)\n    at Parser.parseSubscript (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9750:31)");
 
 /***/ }),
 

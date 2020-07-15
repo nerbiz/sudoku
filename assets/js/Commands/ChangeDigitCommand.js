@@ -83,8 +83,9 @@ export default function ChangeDigitCommand(digit) {
             const state = _cellsState[cell.getCellNumber()];
 
             cell.setValue(state.value);
-            cell.setCornerMarks(state.cornerMarks);
-            cell.setCenterMarks(state.centerMarks);
+            // Copy the array, because they go by reference
+            cell.setCornerMarks(state.cornerMarks.map(item => item));
+            cell.setCenterMarks(state.centerMarks.map(item => item));
         });
 
         Sudoku.grid.checkForErrors();
