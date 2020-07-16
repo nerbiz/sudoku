@@ -90,10 +90,15 @@ export default function DocumentEventHandler() {
                     Sudoku.history.redo();
                 }
             } else if (event.code === 'Escape') {
-                // Pause / unpause
-                Sudoku.clock.isPaused()
-                    ? Sudoku.clock.unpause()
-                    : Sudoku.clock.pause();
+                if (Sudoku.modal.isOpen()) {
+                    // Close a modal dialog
+                    Sudoku.modal.close();
+                } else {
+                    // Pause / unpause the clock
+                    Sudoku.clock.isPaused()
+                        ? Sudoku.clock.unpause()
+                        : Sudoku.clock.pause();
+                }
             }
         });
     };

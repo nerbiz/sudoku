@@ -339,27 +339,59 @@ function ChangeDigitCommand(digit) {
     _cells.forEach(function (cell) {
       var state = _cellsState[cell.getCellNumber()];
 
-      cell.setValue(state.value);
-      cell.setCornerMarks(state.cornerMarks);
-      cell.setCenterMarks(state.centerMarks);
+      cell.setValue(state.value); // Copy the array, because they go by reference
+
+      cell.setCornerMarks(state.cornerMarks.map(function (item) {
+        return item;
+      }));
+      cell.setCenterMarks(state.centerMarks.map(function (item) {
+        return item;
+      }));
     });
 
     Sudoku.grid.checkForErrors();
   };
+}
 
-  self.debug = function (type) {
-    return JSON.stringify(_cellsState);
+/***/ }),
 
-    if (type === 'undo') {
-      console.log('Undo, revert to state:');
-      console.log(JSON.stringify(_cellsState));
-    } else if (type === 'redo') {
-      var cellNumbers = _cells.map(function (cell) {
-        return cell.getCellNumber();
-      }).join(',');
+/***/ "./assets/js/Commands/CloseModalCommand.js":
+/*!*************************************************!*\
+  !*** ./assets/js/Commands/CloseModalCommand.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-      console.log('Setting digit', _digit, 'in', cellNumbers);
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CloseModalCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
+/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(CloseModalCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/**
+ * @constructor
+ */
+
+function CloseModalCommand() {
+  var self = this;
+  _Command__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * @inheritDoc
+   */
+
+  self.execute = function () {
+    Sudoku.clock.unpause();
+    Sudoku.modal.showBackdrop(false); // Close all the modals
+
+    var modals = document.getElementsByClassName('modal');
+
+    for (var i = 0; i < modals.length; i++) {
+      modals[i].classList.remove('show');
     }
+
+    Sudoku.modal.setOpenState(false);
   };
 }
 
@@ -403,9 +435,130 @@ function Command() {
   !*** ./assets/js/Commands/CommandHistory.js ***!
   \**********************************************/
 /*! exports provided: default */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Applications/MAMP/htdocs/private/sudoku/assets/js/Commands/CommandHistory.js: Unexpected token (30:45)\n\n\u001b[0m \u001b[90m 28 | \u001b[39m        _past\u001b[33m.\u001b[39mpush(command)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 29 | \u001b[39m        console\u001b[33m.\u001b[39mlog(\u001b[32m'Past contents'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 | \u001b[39m        console\u001b[33m.\u001b[39mlog(_past\u001b[33m.\u001b[39mforEach(command \u001b[33m=>\u001b[39m ))\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m                                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 31 | \u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 32 | \u001b[39m        \u001b[90m// Clear the future (redo) list if needed\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 33 | \u001b[39m        \u001b[36mif\u001b[39m (clearFuture) {\u001b[0m\n    at Parser._raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:746:17)\n    at Parser.raiseWithData (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:739:17)\n    at Parser.raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:733:17)\n    at Parser.unexpected (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:8807:16)\n    at Parser.parseExprAtom (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10130:20)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9656:23)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9636:21)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9506:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9479:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9434:21)\n    at Parser.parseFunctionBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10701:24)\n    at Parser.parseArrowExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10677:10)\n    at Parser.parseExprAtom (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9960:18)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9656:23)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9636:21)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9506:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9479:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9434:21)\n    at Parser.parseExprListItem (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10792:18)\n    at Parser.parseCallExpressionArguments (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9850:22)\n    at Parser.parseSubscript (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9750:31)\n    at Parser.parseSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9679:19)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9662:17)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9636:21)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9506:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9479:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9434:21)\n    at Parser.parseExprListItem (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10792:18)\n    at Parser.parseCallExpressionArguments (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9850:22)\n    at Parser.parseSubscript (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9750:31)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CommandHistory; });
+/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
+
+function CommandHistory() {
+  var self = this;
+  /**
+   * The list of commands that have been executed
+   * @type {Command[]}
+   * @private
+   */
+
+  var _past = [];
+  /**
+   * The list of commands to redo
+   * @type {Command[]}
+   * @private
+   */
+
+  var _future = [];
+  /**
+   * Add a command to be executed
+   * @param {Command} command
+   * @param {boolean} clearFuture Whether to clear the future (redo) stack
+   * @return {number}
+   */
+
+  self.execute = function (command) {
+    var clearFuture = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    command.execute();
+
+    _past.push(command); // Clear the future (redo) list if needed
+
+
+    if (clearFuture) {
+      _future = [];
+    }
+  };
+  /**
+   * Undo the most recent command
+   * @return {void}
+   */
+
+
+  self.undo = function () {
+    // A command needs to exist
+    if (_past.length < 1) {
+      return;
+    } // Undo the command
+
+
+    var command = _past.pop();
+
+    command.undo(); // Put the command in the future stack, for redoing
+
+    _future.push(command);
+  };
+  /**
+   * Execute the most recent command from the future stack
+   * @return {void}
+   */
+
+
+  self.redo = function () {
+    // A command needs to exist
+    if (_future.length < 1) {
+      return;
+    } // Redo the command
+
+
+    var command = _future.pop();
+
+    self.execute(command, false);
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/js/Commands/OpenModalCommand.js":
+/*!************************************************!*\
+  !*** ./assets/js/Commands/OpenModalCommand.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return OpenModalCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
+/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(OpenModalCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/**
+ * @param {string} modalId ID of the modal dialog to open
+ * @constructor
+ */
+
+function OpenModalCommand(modalId) {
+  var self = this;
+  _Command__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * The modal dialog to show
+   * @type {HTMLElement}
+   * @private
+   */
+
+  var _modalElement = document.getElementById(modalId);
+  /**
+   * @inheritDoc
+   */
+
+
+  self.execute = function () {
+    Sudoku.clock.pause();
+    Sudoku.modal.setOpenState(true);
+    Sudoku.modal.showBackdrop(true);
+
+    _modalElement.classList.add('show');
+  };
+}
 
 /***/ }),
 
@@ -490,8 +643,21 @@ function Controls() {
     document.addEventListener('mouseup', function () {
       return _mousePressed = false;
     });
-    document.addEventListener('keydown', keyDownUpCallback);
-    document.addEventListener('keyup', keyDownUpCallback);
+    registerClickDisabling();
+    document.addEventListener('keydown', keyPressCallback);
+  };
+  /**
+   * Disable click events for certain elements
+   * @return {void}
+   */
+
+
+  var registerClickDisabling = function registerClickDisabling() {
+    document.addEventListener('click', function (event) {
+      if (event.target.closest('.click-prevent') !== null) {
+        event.preventDefault();
+      }
+    });
   };
   /**
    * Decide whether to cancel a keyboard listener
@@ -512,7 +678,7 @@ function Controls() {
    */
 
 
-  var keyDownUpCallback = function keyDownUpCallback(event) {
+  var keyPressCallback = function keyPressCallback(event) {
     _ctrlKeyPressed = _Utilities_Visitor__WEBPACK_IMPORTED_MODULE_0__["default"].usesMacOs ? event.metaKey : event.ctrlKey; // Prevent browser keyboard shortcut
 
     if (!self.cancelKeyboardEvent(event)) {
@@ -703,8 +869,13 @@ function DocumentEventHandler() {
           Sudoku.history.redo();
         }
       } else if (event.code === 'Escape') {
-        // Pause / unpause
-        Sudoku.clock.isPaused() ? Sudoku.clock.unpause() : Sudoku.clock.pause();
+        if (Sudoku.modal.isOpen()) {
+          // Close a modal dialog
+          Sudoku.modal.close();
+        } else {
+          // Pause / unpause the clock
+          Sudoku.clock.isPaused() ? Sudoku.clock.unpause() : Sudoku.clock.pause();
+        }
       }
     });
   };
@@ -1973,13 +2144,13 @@ function Meta() {
    * @type {HTMLInputElement}
    */
 
-  var titleField = document.getElementsByName('puzzle_title')[0];
+  var titleField = document.getElementById('puzzle-title');
   /**
    * The description input field
    * @type {HTMLTextAreaElement}
    */
 
-  var descriptionField = document.getElementsByName('puzzle_description')[0];
+  var descriptionField = document.getElementById('puzzle-description');
   /**
    * An optional title for the sudoku
    * @type {string|null}
@@ -2022,6 +2193,132 @@ function Meta() {
     descriptionField.addEventListener('change', descriptionCallback);
     descriptionField.addEventListener('keyup', descriptionCallback);
     descriptionField.addEventListener('paste', descriptionCallback);
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/js/Modal.js":
+/*!****************************!*\
+  !*** ./assets/js/Modal.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Modal; });
+/* harmony import */ var _Commands_CloseModalCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Commands/CloseModalCommand */ "./assets/js/Commands/CloseModalCommand.js");
+/* harmony import */ var _Commands_OpenModalCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Commands/OpenModalCommand */ "./assets/js/Commands/OpenModalCommand.js");
+
+
+function Modal() {
+  var self = this;
+  /**
+   * The modal dialog backdrop
+   * @type {HTMLElement}
+   * @private
+   */
+
+  var _backdropElement = document.getElementById('modal-backdrop');
+  /**
+   * Indicates whether a modal is currently open
+   * @type {boolean}
+   * @private
+   */
+
+
+  var _isOpen = false;
+  /**
+   * Reusable close command, for all modals
+   * @type {CloseModalCommand}
+   * @private
+   */
+
+  var _closeCommand = new _Commands_CloseModalCommand__WEBPACK_IMPORTED_MODULE_0__["default"]();
+  /**
+   * Initialize the object
+   */
+
+
+  self.init = function () {
+    _enableOpening();
+
+    _enableClosing();
+  };
+  /**
+   * Show or hide the modal backdrop
+   * @param {boolean} show
+   */
+
+
+  self.showBackdrop = function (show) {
+    var toggleMethod = show ? 'add' : 'remove';
+
+    _backdropElement.classList[toggleMethod]('show');
+  };
+  /**
+   * @return {boolean}
+   */
+
+
+  self.isOpen = function () {
+    return _isOpen;
+  };
+  /**
+   * @param {boolean} open
+   * @return {boolean}
+   */
+
+
+  self.setOpenState = function (open) {
+    return _isOpen = open;
+  };
+  /**
+   * Close an open modal dialog, if there is any
+   * @return {void}
+   */
+
+
+  self.close = function () {
+    return _closeCommand.execute();
+  };
+  /**
+   * Enable opening of modal dialogs
+   * @return {void}
+   * @private
+   */
+
+
+  var _enableOpening = function _enableOpening() {
+    var openButtons = document.getElementsByClassName('open-modal');
+
+    for (var i = 0; i < openButtons.length; i++) {
+      openButtons[i].addEventListener('click', function (event) {
+        // Open the modal dialog
+        var modalId = event.target.dataset.modalId;
+        var command = new _Commands_OpenModalCommand__WEBPACK_IMPORTED_MODULE_1__["default"](modalId);
+        command.execute();
+      });
+    }
+  };
+  /**
+   * Enable closing of modal dialogs
+   * @return {void}
+   * @private
+   */
+
+
+  var _enableClosing = function _enableClosing() {
+    // Enable close buttons of the modal dialogs
+    var closeButtons = document.getElementsByClassName('close-modal');
+
+    for (var i = 0; i < closeButtons.length; i++) {
+      closeButtons[i].addEventListener('click', self.close);
+    } // Clicking the backdrop also closes modal dialogs
+
+
+    _backdropElement.addEventListener('click', self.close);
   };
 }
 
@@ -2162,6 +2459,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EventHandlers/DocumentEventHandler */ "./assets/js/EventHandlers/DocumentEventHandler.js");
 /* harmony import */ var _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Commands/CommandHistory */ "./assets/js/Commands/CommandHistory.js");
 /* harmony import */ var _Meta__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Meta */ "./assets/js/Meta.js");
+/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Modal */ "./assets/js/Modal.js");
+
 
 
 
@@ -2177,9 +2476,11 @@ window.Sudoku = {
   inputMode: new _InputMode__WEBPACK_IMPORTED_MODULE_1__["default"](),
   grid: new _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__["default"](),
   clock: new _Clock__WEBPACK_IMPORTED_MODULE_3__["default"](),
+  modal: new _Modal__WEBPACK_IMPORTED_MODULE_7__["default"](),
   documentEventHandler: new _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__["default"]()
 };
 Sudoku.clock.init();
+Sudoku.modal.init();
 Sudoku.meta.init();
 Sudoku.inputMode.init();
 Sudoku.controls.init();

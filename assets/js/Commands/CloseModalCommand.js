@@ -4,19 +4,11 @@ import Command from './Command';
 extend(CloseModalCommand, Command);
 
 /**
- * @param modalId ID of the modal dialog to close
  * @constructor
  */
-export default function CloseModalCommand(modalId) {
+export default function CloseModalCommand() {
     const self = this;
     Command.call(self);
-
-    /**
-     * The modal dialog to show
-     * @type {HTMLElement}
-     * @private
-     */
-    const _modalElement = document.getElementById(modalId);
 
     /**
      * @inheritDoc
@@ -25,7 +17,13 @@ export default function CloseModalCommand(modalId) {
         Sudoku.clock.unpause();
 
         Sudoku.modal.showBackdrop(false);
-        _modalElement.classList.remove('show');
+
+        // Close all the modals
+        const modals = document.getElementsByClassName('modal');
+        for (let i = 0; i < modals.length; i++) {
+            modals[i].classList.remove('show');
+        }
+
         Sudoku.modal.setOpenState(false);
     };
 }

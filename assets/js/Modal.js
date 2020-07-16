@@ -19,6 +19,13 @@ export default function Modal() {
     let _isOpen = false;
 
     /**
+     * Reusable close command, for all modals
+     * @type {CloseModalCommand}
+     * @private
+     */
+    const _closeCommand = new CloseModalCommand();
+
+    /**
      * Initialize the object
      */
     self.init = () => {
@@ -47,6 +54,12 @@ export default function Modal() {
     self.setOpenState = open => _isOpen = open;
 
     /**
+     * Close an open modal dialog, if there is any
+     * @return {void}
+     */
+    self.close = () => _closeCommand.execute();
+
+    /**
      * Enable opening of modal dialogs
      * @return {void}
      * @private
@@ -70,15 +83,13 @@ export default function Modal() {
      * @private
      */
     const _enableClosing = () => {
+        // Enable close buttons of the modal dialogs
         const closeButtons = document.getElementsByClassName('close-modal');
-
         for (let i = 0; i < closeButtons.length; i++) {
-            closeButtons[i].addEventListener('click', event => {
-                // Close the modal dialog
-                const modalId = event.target.dataset.modalId;
-                const command = new CloseModalCommand(modalId);
-                command.execute();
-            });
+            closeButtons[i].addEventListener('click', self.close);
         }
+
+        // Clicking the backdrop also closes modal dialogs
+        _backdropElement.addEventListener('click', self.close);
     };
 }
