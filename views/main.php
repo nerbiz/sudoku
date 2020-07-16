@@ -50,10 +50,10 @@ $ctrlButtonName = Visitor::usesMacOs() ? 'Cmd' : 'Ctrl';
             <section id="sudoku-controls">
                 <p>
                     Puzzle title<br>
-                    <input type="text" name="puzzle_title"><br>
+                    <input type="text" id="puzzle-title"><br>
 
                     Puzzle description<br>
-                    <textarea name="puzzle_description"></textarea>
+                    <textarea id="puzzle-description"></textarea>
                 </p>
 
                 <p>Time: <span id="elapsed-time">0:00</span></p>
@@ -61,14 +61,26 @@ $ctrlButtonName = Visitor::usesMacOs() ? 'Cmd' : 'Ctrl';
                 <p>
                     Input mode:<br>
                     <label>
-                        <input type="radio" name="input_mode" value="1"> Normal
-                    </label><br>
+                        <input type="radio" name="input_mode" value="1">
+                        Normal
+                    </label>
                     <label>
-                        <input type="radio" name="input_mode" value="2"> Corner marks
-                    </label><br>
+                        <input type="radio" name="input_mode" value="2">
+                        Corner marks
+                    </label>
                     <label>
-                        <input type="radio" name="input_mode" value="3"> Center marks
-                    </label><br>
+                        <input type="radio" name="input_mode" value="3">
+                        Center marks
+                    </label>
+                </p>
+
+                <p>
+                    <a href="#"
+                       class="click-prevent open-modal"
+                       data-modal-id="settings-modal"
+                    >
+                        Settings
+                    </a>
                 </p>
 
                 <h2>Controls</h2>
@@ -155,6 +167,9 @@ $ctrlButtonName = Visitor::usesMacOs() ? 'Cmd' : 'Ctrl';
                 </p>
             </section>
         </main>
+
+        <section id="modal-backdrop"></section>
+        <?php require __DIR__ . '/parts/settings-modal.php'; ?>
 
         <script src="<?php echo Webpack::getAssetUrl('app.js'); ?>"></script>
     </body>

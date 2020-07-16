@@ -71,8 +71,20 @@ export default function Controls() {
     self.init = () => {
         document.addEventListener('mousedown', () => _mousePressed = true);
         document.addEventListener('mouseup', () => _mousePressed = false);
-        document.addEventListener('keydown', keyDownUpCallback);
-        document.addEventListener('keyup', keyDownUpCallback);
+        registerClickDisabling();
+        document.addEventListener('keydown', keyPressCallback);
+    };
+
+    /**
+     * Disable click events for certain elements
+     * @return {void}
+     */
+    const registerClickDisabling = () => {
+        document.addEventListener('click', event => {
+            if (event.target.closest('.click-prevent') !== null) {
+                event.preventDefault();
+            }
+        });
     };
 
     /**
@@ -92,7 +104,7 @@ export default function Controls() {
      * @param {Event} event
      * @return {void}
      */
-    const keyDownUpCallback = event => {
+    const keyPressCallback = event => {
         _ctrlKeyPressed = Visitor.usesMacOs ? event.metaKey : event.ctrlKey;
 
         // Prevent browser keyboard shortcut

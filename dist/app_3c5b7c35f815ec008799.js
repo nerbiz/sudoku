@@ -355,6 +355,53 @@ function ChangeDigitCommand(digit) {
 
 /***/ }),
 
+/***/ "./assets/js/Commands/CloseModalCommand.js":
+/*!*************************************************!*\
+  !*** ./assets/js/Commands/CloseModalCommand.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CloseModalCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
+/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(CloseModalCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/**
+ * @param modalId ID of the modal dialog to close
+ * @constructor
+ */
+
+function CloseModalCommand(modalId) {
+  var self = this;
+  _Command__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * The modal dialog to show
+   * @type {HTMLElement}
+   * @private
+   */
+
+  var _modalElement = document.getElementById(modalId);
+  /**
+   * @inheritDoc
+   */
+
+
+  self.execute = function () {
+    Sudoku.clock.unpause();
+    Sudoku.modal.showBackdrop(false);
+
+    _modalElement.classList.remove('show');
+
+    Sudoku.modal.setOpenState(false);
+  };
+}
+
+/***/ }),
+
 /***/ "./assets/js/Commands/Command.js":
 /*!***************************************!*\
   !*** ./assets/js/Commands/Command.js ***!
@@ -474,6 +521,52 @@ function CommandHistory() {
 
 /***/ }),
 
+/***/ "./assets/js/Commands/OpenModalCommand.js":
+/*!************************************************!*\
+  !*** ./assets/js/Commands/OpenModalCommand.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return OpenModalCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
+/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(OpenModalCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/**
+ * @param {string} modalId ID of the modal dialog to open
+ * @constructor
+ */
+
+function OpenModalCommand(modalId) {
+  var self = this;
+  _Command__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * The modal dialog to show
+   * @type {HTMLElement}
+   * @private
+   */
+
+  var _modalElement = document.getElementById(modalId);
+  /**
+   * @inheritDoc
+   */
+
+
+  self.execute = function () {
+    Sudoku.clock.pause();
+    Sudoku.modal.setOpenState(true);
+    Sudoku.modal.showBackdrop(true);
+
+    _modalElement.classList.add('show');
+  };
+}
+
+/***/ }),
+
 /***/ "./assets/js/Controls.js":
 /*!*******************************!*\
   !*** ./assets/js/Controls.js ***!
@@ -555,8 +648,21 @@ function Controls() {
     document.addEventListener('mouseup', function () {
       return _mousePressed = false;
     });
-    document.addEventListener('keydown', keyDownUpCallback);
-    document.addEventListener('keyup', keyDownUpCallback);
+    registerClickDisabling();
+    document.addEventListener('keydown', keyPressCallback);
+  };
+  /**
+   * Disable click events for certain elements
+   * @return {void}
+   */
+
+
+  var registerClickDisabling = function registerClickDisabling() {
+    document.addEventListener('click', function (event) {
+      if (event.target.closest('.click-prevent') !== null) {
+        event.preventDefault();
+      }
+    });
   };
   /**
    * Decide whether to cancel a keyboard listener
@@ -577,7 +683,7 @@ function Controls() {
    */
 
 
-  var keyDownUpCallback = function keyDownUpCallback(event) {
+  var keyPressCallback = function keyPressCallback(event) {
     _ctrlKeyPressed = _Utilities_Visitor__WEBPACK_IMPORTED_MODULE_0__["default"].usesMacOs ? event.metaKey : event.ctrlKey; // Prevent browser keyboard shortcut
 
     if (!self.cancelKeyboardEvent(event)) {
@@ -2038,13 +2144,13 @@ function Meta() {
    * @type {HTMLInputElement}
    */
 
-  var titleField = document.getElementsByName('puzzle_title')[0];
+  var titleField = document.getElementById('puzzle-title');
   /**
    * The description input field
    * @type {HTMLTextAreaElement}
    */
 
-  var descriptionField = document.getElementsByName('puzzle_description')[0];
+  var descriptionField = document.getElementById('puzzle-description');
   /**
    * An optional title for the sudoku
    * @type {string|null}
@@ -2087,6 +2193,116 @@ function Meta() {
     descriptionField.addEventListener('change', descriptionCallback);
     descriptionField.addEventListener('keyup', descriptionCallback);
     descriptionField.addEventListener('paste', descriptionCallback);
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/js/Modal.js":
+/*!****************************!*\
+  !*** ./assets/js/Modal.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Modal; });
+/* harmony import */ var _Commands_CloseModalCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Commands/CloseModalCommand */ "./assets/js/Commands/CloseModalCommand.js");
+/* harmony import */ var _Commands_OpenModalCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Commands/OpenModalCommand */ "./assets/js/Commands/OpenModalCommand.js");
+
+
+function Modal() {
+  var self = this;
+  /**
+   * The modal dialog backdrop
+   * @type {HTMLElement}
+   * @private
+   */
+
+  var _backdropElement = document.getElementById('modal-backdrop');
+  /**
+   * Indicates whether a modal is currently open
+   * @type {boolean}
+   * @private
+   */
+
+
+  var _isOpen = false;
+  /**
+   * Initialize the object
+   */
+
+  self.init = function () {
+    _enableOpening();
+
+    _enableClosing();
+  };
+  /**
+   * Show or hide the modal backdrop
+   * @param {boolean} show
+   */
+
+
+  self.showBackdrop = function (show) {
+    var toggleMethod = show ? 'add' : 'remove';
+
+    _backdropElement.classList[toggleMethod]('show');
+  };
+  /**
+   * @return {boolean}
+   */
+
+
+  self.isOpen = function () {
+    return _isOpen;
+  };
+  /**
+   * @param {boolean} open
+   * @return {boolean}
+   */
+
+
+  self.setOpenState = function (open) {
+    return _isOpen = open;
+  };
+  /**
+   * Enable opening of modal dialogs
+   * @return {void}
+   * @private
+   */
+
+
+  var _enableOpening = function _enableOpening() {
+    var openButtons = document.getElementsByClassName('open-modal');
+
+    for (var i = 0; i < openButtons.length; i++) {
+      openButtons[i].addEventListener('click', function (event) {
+        // Open the modal dialog
+        var modalId = event.target.dataset.modalId;
+        var command = new _Commands_OpenModalCommand__WEBPACK_IMPORTED_MODULE_1__["default"](modalId);
+        command.execute();
+      });
+    }
+  };
+  /**
+   * Enable closing of modal dialogs
+   * @return {void}
+   * @private
+   */
+
+
+  var _enableClosing = function _enableClosing() {
+    var closeButtons = document.getElementsByClassName('close-modal');
+
+    for (var i = 0; i < closeButtons.length; i++) {
+      closeButtons[i].addEventListener('click', function (event) {
+        // Close the modal dialog
+        var modalId = event.target.dataset.modalId;
+        var command = new _Commands_CloseModalCommand__WEBPACK_IMPORTED_MODULE_0__["default"](modalId);
+        command.execute();
+      });
+    }
   };
 }
 
@@ -2227,6 +2443,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EventHandlers/DocumentEventHandler */ "./assets/js/EventHandlers/DocumentEventHandler.js");
 /* harmony import */ var _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Commands/CommandHistory */ "./assets/js/Commands/CommandHistory.js");
 /* harmony import */ var _Meta__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Meta */ "./assets/js/Meta.js");
+/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Modal */ "./assets/js/Modal.js");
+
 
 
 
@@ -2242,9 +2460,11 @@ window.Sudoku = {
   inputMode: new _InputMode__WEBPACK_IMPORTED_MODULE_1__["default"](),
   grid: new _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__["default"](),
   clock: new _Clock__WEBPACK_IMPORTED_MODULE_3__["default"](),
+  modal: new _Modal__WEBPACK_IMPORTED_MODULE_7__["default"](),
   documentEventHandler: new _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__["default"]()
 };
 Sudoku.clock.init();
+Sudoku.modal.init();
 Sudoku.meta.init();
 Sudoku.inputMode.init();
 Sudoku.controls.init();

@@ -5,6 +5,7 @@ import Clock from './Clock';
 import DocumentEventHandler from './EventHandlers/DocumentEventHandler';
 import CommandHistory from './Commands/CommandHistory';
 import Meta from './Meta';
+import Modal from './Modal';
 
 // 'Namespace' of the project
 window.Sudoku = {
@@ -14,10 +15,12 @@ window.Sudoku = {
     inputMode: new InputMode(),
     grid: new Grid(),
     clock: new Clock(),
+    modal: new Modal(),
     documentEventHandler: new DocumentEventHandler(),
 };
 
 Sudoku.clock.init();
+Sudoku.modal.init();
 Sudoku.meta.init();
 Sudoku.inputMode.init();
 Sudoku.controls.init();

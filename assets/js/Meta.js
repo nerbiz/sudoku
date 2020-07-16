@@ -17,13 +17,13 @@ export default function Meta() {
      * The title input field
      * @type {HTMLInputElement}
      */
-    const titleField = document.getElementsByName('puzzle_title')[0];
+    const titleField = document.getElementById('puzzle-title');
 
     /**
      * The description input field
      * @type {HTMLTextAreaElement}
      */
-    const descriptionField = document.getElementsByName('puzzle_description')[0];
+    const descriptionField = document.getElementById('puzzle-description');
 
     /**
      * An optional title for the sudoku
