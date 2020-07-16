@@ -1367,7 +1367,7 @@ function GridCell(cellNumber) {
   var _cellNumber = cellNumber;
   /**
    * The HTML element that is the cell
-   * @type {HTMLDivElement|null}
+   * @type {HTMLLIElement|null}
    * @private
    */
 
@@ -1468,7 +1468,7 @@ function GridCell(cellNumber) {
     return _cellNumber;
   };
   /**
-   * @return {HTMLDivElement|null}
+   * @return {HTMLLIElement|null}
    */
 
 

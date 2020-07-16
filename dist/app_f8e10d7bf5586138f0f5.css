@@ -85,6 +85,8 @@ label {
     border-right: 2px #0fb0e2 solid; }
 
 #main-grid {
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
   width: 464px; }
@@ -92,6 +94,7 @@ label {
 .grid-cell {
   cursor: pointer;
   user-select: none;
+  list-style-type: none;
   position: relative;
   padding-right: 1px;
   padding-bottom: 1px;

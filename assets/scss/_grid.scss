@@ -37,6 +37,8 @@ $box-border: $box-border-width map_get($color-palette, 4) solid;
 
 
 #main-grid {
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
   // Add 14px to account for border widths
@@ -46,6 +48,7 @@ $box-border: $box-border-width map_get($color-palette, 4) solid;
 .grid-cell {
   cursor: pointer;
   user-select: none;
+  list-style-type: none;
   position: relative;
   padding-right: 1px;
   padding-bottom: 1px;
