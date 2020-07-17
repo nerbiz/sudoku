@@ -1,6 +1,6 @@
-import {extend} from '../functions';
-import Command from './Command';
-import InputMode from '../InputMode';
+import {extend} from '../../functions';
+import Command from '../Command';
+import InputMode from '../../InputMode';
 
 extend(ChangeDigitCommand, Command);
 

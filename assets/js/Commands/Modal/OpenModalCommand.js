@@ -1,5 +1,5 @@
-import {extend} from '../functions';
-import Command from './Command';
+import {extend} from '../../functions';
+import Command from '../Command';
 
 extend(OpenModalCommand, Command);
 

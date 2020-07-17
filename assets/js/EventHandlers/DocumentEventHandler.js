@@ -1,4 +1,4 @@
-import ChangeDigitCommand from '../Commands/ChangeDigitCommand';
+import ChangeDigitCommand from '../Commands/Grid/ChangeDigitCommand';
 
 export default function DocumentEventHandler() {
     const self = this;

@@ -1,5 +1,5 @@
-import CloseModalCommand from './Commands/CloseModalCommand';
-import OpenModalCommand from './Commands/OpenModalCommand';
+import CloseModalCommand from './Commands/Modal/CloseModalCommand';
+import OpenModalCommand from './Commands/Modal/OpenModalCommand';
 
 export default function Modal() {
     const self = this;
