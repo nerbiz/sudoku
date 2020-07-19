@@ -1,5 +1,5 @@
 import ChangeDigitCommand from '../Commands/Grid/ChangeDigitCommand';
-import PauseGameCommand from '../Commands/Settings/PauseGameCommand';
+import PauseGameCommand from '../Commands/PauseGameCommand';
 
 export default function DocumentEventHandler() {
     const self = this;
@@ -97,7 +97,7 @@ export default function DocumentEventHandler() {
                     Sudoku.history.redo();
                 }
             } else if (event.code === 'Escape') {
-                if (Sudoku.modal.isOpen()) {
+                if (Sudoku.modal.openState() === true) {
                     // Close a modal dialog
                     Sudoku.modal.close();
                 } else {

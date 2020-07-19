@@ -23,7 +23,7 @@ export default function Modal() {
      * @type {boolean}
      * @private
      */
-    let _isOpen = false;
+    let _openState = false;
 
     /**
      * The ID of the currently opened modal
@@ -57,15 +57,16 @@ export default function Modal() {
     };
 
     /**
+     * @param {boolean|null} state
      * @return {boolean}
      */
-    self.isOpen = () => _isOpen;
+    self.openState = (state = null) => {
+        if (state !== null) {
+            _openState = state;
+        }
 
-    /**
-     * @param {boolean} open
-     * @return {boolean}
-     */
-    self.setOpenState = open => _isOpen = open;
+        return _openState;
+    };
 
     /**
      * @param {string|null} modalId

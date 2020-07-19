@@ -491,7 +491,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CloseAllModalsCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
 /* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Command */ "./assets/js/Commands/Command.js");
-/* harmony import */ var _Settings_PauseGameCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Settings/PauseGameCommand */ "./assets/js/Commands/Settings/PauseGameCommand.js");
+/* harmony import */ var _PauseGameCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../PauseGameCommand */ "./assets/js/Commands/PauseGameCommand.js");
 
 
 
@@ -508,7 +508,7 @@ function CloseAllModalsCommand() {
    * @private
    */
 
-  var _pauseGameCommand = new _Settings_PauseGameCommand__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  var _pauseGameCommand = new _PauseGameCommand__WEBPACK_IMPORTED_MODULE_2__["default"]();
   /**
    * @inheritDoc
    */
@@ -525,7 +525,7 @@ function CloseAllModalsCommand() {
       modals[i].classList.remove('show');
     }
 
-    Sudoku.modal.setOpenState(false);
+    Sudoku.modal.openState(false);
   };
 }
 
@@ -543,7 +543,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return OpenModalCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
 /* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Command */ "./assets/js/Commands/Command.js");
-/* harmony import */ var _Settings_PauseGameCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Settings/PauseGameCommand */ "./assets/js/Commands/Settings/PauseGameCommand.js");
+/* harmony import */ var _PauseGameCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../PauseGameCommand */ "./assets/js/Commands/PauseGameCommand.js");
 /* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Modal */ "./assets/js/Modal.js");
 
 
@@ -580,16 +580,27 @@ function OpenModalCommand(modalId) {
     Sudoku.modal.currentModalId(_modalId); // Prevent recursive calls
 
     if (_modalId !== _Modal__WEBPACK_IMPORTED_MODULE_3__["default"].PAUSE_MODAL_ID) {
-      var pauseGameCommand = new _Settings_PauseGameCommand__WEBPACK_IMPORTED_MODULE_2__["default"]();
+      var pauseGameCommand = new _PauseGameCommand__WEBPACK_IMPORTED_MODULE_2__["default"]();
       pauseGameCommand.execute(true);
     }
 
-    Sudoku.modal.setOpenState(true);
+    Sudoku.modal.openState(true);
     Sudoku.modal.showBackdrop(true);
 
     _modalElement.classList.add('show');
   };
 }
+
+/***/ }),
+
+/***/ "./assets/js/Commands/PauseGameCommand.js":
+/*!************************************************!*\
+  !*** ./assets/js/Commands/PauseGameCommand.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Applications/MAMP/htdocs/private/sudoku/assets/js/Commands/PauseGameCommand.js'");
 
 /***/ }),
 
@@ -646,60 +657,6 @@ function AutoErrorCheckingCommand() {
 
     _toggleCheckbox.checked = state;
     Sudoku.settings.autoErrorCheckingState(state);
-    self.state = state;
-  };
-}
-
-/***/ }),
-
-/***/ "./assets/js/Commands/Settings/PauseGameCommand.js":
-/*!*********************************************************!*\
-  !*** ./assets/js/Commands/Settings/PauseGameCommand.js ***!
-  \*********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PauseGameCommand; });
-/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
-/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
-/* harmony import */ var _Modal_OpenModalCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Modal/OpenModalCommand */ "./assets/js/Commands/Modal/OpenModalCommand.js");
-/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Modal */ "./assets/js/Modal.js");
-
-
-
-
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(PauseGameCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
-function PauseGameCommand() {
-  var self = this;
-  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
-  /**
-   * @inheritDoc
-   */
-
-  self.state = function () {
-    return false;
-  };
-  /**
-   * @inheritDoc
-   */
-
-
-  self.execute = function (state) {
-    if (state === true) {
-      Sudoku.clock.pause();
-      var openModalCommand = new _Modal_OpenModalCommand__WEBPACK_IMPORTED_MODULE_2__["default"](_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].PAUSE_MODAL_ID);
-      openModalCommand.execute();
-    } else {
-      // Prevent recursive calls
-      if (Sudoku.modal.currentModalId() !== _Modal__WEBPACK_IMPORTED_MODULE_3__["default"].PAUSE_MODAL_ID) {
-        Sudoku.modal.close();
-      }
-
-      Sudoku.clock.unpause();
-    }
-
     self.state = state;
   };
 }
@@ -1061,7 +1018,7 @@ function Controls() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DocumentEventHandler; });
 /* harmony import */ var _Commands_Grid_ChangeDigitCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Commands/Grid/ChangeDigitCommand */ "./assets/js/Commands/Grid/ChangeDigitCommand.js");
-/* harmony import */ var _Commands_Settings_PauseGameCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Commands/Settings/PauseGameCommand */ "./assets/js/Commands/Settings/PauseGameCommand.js");
+/* harmony import */ var _Commands_PauseGameCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Commands/PauseGameCommand */ "./assets/js/Commands/PauseGameCommand.js");
 
 
 function DocumentEventHandler() {
@@ -1071,7 +1028,7 @@ function DocumentEventHandler() {
    * @private
    */
 
-  var _pauseGameCommand = new _Commands_Settings_PauseGameCommand__WEBPACK_IMPORTED_MODULE_1__["default"]();
+  var _pauseGameCommand = new _Commands_PauseGameCommand__WEBPACK_IMPORTED_MODULE_1__["default"]();
   /**
    * Register event handlers for the document
    * @return {void}
@@ -1162,7 +1119,7 @@ function DocumentEventHandler() {
           Sudoku.history.redo();
         }
       } else if (event.code === 'Escape') {
-        if (Sudoku.modal.isOpen()) {
+        if (Sudoku.modal.openState() === true) {
           // Close a modal dialog
           Sudoku.modal.close();
         } else {
@@ -2598,7 +2555,7 @@ function Modal() {
    */
 
 
-  var _isOpen = false;
+  var _openState = false;
   /**
    * The ID of the currently opened modal
    * @type {string|null}
@@ -2635,21 +2592,19 @@ function Modal() {
     _backdropElement.classList[toggleMethod]('show');
   };
   /**
+   * @param {boolean|null} state
    * @return {boolean}
    */
 
 
-  self.isOpen = function () {
-    return _isOpen;
-  };
-  /**
-   * @param {boolean} open
-   * @return {boolean}
-   */
+  self.openState = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
+    if (state !== null) {
+      _openState = state;
+    }
 
-  self.setOpenState = function (open) {
-    return _isOpen = open;
+    return _openState;
   };
   /**
    * @param {string|null} modalId
@@ -2790,6 +2745,7 @@ function Settings() {
   /**
    * Apply the stored settings
    * @return {void}
+   * 
    * @private
    */
 

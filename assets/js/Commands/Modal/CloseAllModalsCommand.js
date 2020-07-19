@@ -1,6 +1,6 @@
 import {extend} from '../../functions';
 import Command from '../Command';
-import PauseGameCommand from '../Settings/PauseGameCommand';
+import PauseGameCommand from '../PauseGameCommand';
 
 extend(CloseAllModalsCommand, Command);
 
@@ -31,6 +31,6 @@ export default function CloseAllModalsCommand() {
             modals[i].classList.remove('show');
         }
 
-        Sudoku.modal.setOpenState(false);
+        Sudoku.modal.openState(false);
     };
 }

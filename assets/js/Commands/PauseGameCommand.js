@@ -1,7 +1,7 @@
-import {extend} from '../../functions';
-import TogglableCommand from '../TogglableCommand';
-import OpenModalCommand from '../Modal/OpenModalCommand';
-import Modal from '../../Modal';
+import {extend} from '../functions';
+import TogglableCommand from './TogglableCommand';
+import OpenModalCommand from './Modal/OpenModalCommand';
+import Modal from '../Modal';
 
 extend(PauseGameCommand, TogglableCommand);
 

@@ -1,6 +1,6 @@
 import {extend} from '../../functions';
 import Command from '../Command';
-import PauseGameCommand from '../Settings/PauseGameCommand';
+import PauseGameCommand from '../PauseGameCommand';
 import Modal from '../../Modal';
 
 extend(OpenModalCommand, Command);
@@ -38,7 +38,7 @@ export default function OpenModalCommand(modalId) {
             pauseGameCommand.execute(true);
         }
 
-        Sudoku.modal.setOpenState(true);
+        Sudoku.modal.openState(true);
         Sudoku.modal.showBackdrop(true);
         _modalElement.classList.add('show');
     };
