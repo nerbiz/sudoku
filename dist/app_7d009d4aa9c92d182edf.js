@@ -644,41 +644,9 @@ function AutoErrorCheckingCommand() {
   !*** ./assets/js/Commands/Settings/PauseGameCommand.js ***!
   \*********************************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PauseGameCommand; });
-/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
-/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
-
-
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(PauseGameCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
-function PauseGameCommand() {
-  var self = this;
-  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
-  /**
-   * @inheritDoc
-   */
-
-  self.state = function () {
-    return false;
-  };
-  /**
-   * @inheritDoc
-   */
-
-
-  self.execute = function (state) {
-    if (state === true) {
-      Sudoku.clock.pause();
-    } else {
-      Sudoku.clock.unpause();
-    }
-
-    self.state = state;
-  };
-}
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Applications/MAMP/htdocs/private/sudoku/assets/js/Commands/Settings/PauseGameCommand.js: Identifier 'self' has already been declared (20:4)\n\n\u001b[0m \u001b[90m 18 | \u001b[39m\u001b[90m     * @inheritDoc\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 19 | \u001b[39m\u001b[90m     */\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 | \u001b[39m    self\u001b[33m.\u001b[39mexecute \u001b[33m=\u001b[39m state \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 21 | \u001b[39m        \u001b[36mif\u001b[39m (state \u001b[33m===\u001b[39m \u001b[36mtrue\u001b[39m) {\u001b[0m\n\u001b[0m \u001b[90m 22 | \u001b[39m            \u001b[33mSudoku\u001b[39m\u001b[33m.\u001b[39mclock\u001b[33m.\u001b[39mpause()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 23 | \u001b[39m        } \u001b[36melse\u001b[39m {\u001b[0m\n    at Parser._raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:746:17)\n    at Parser.raiseWithData (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:739:17)\n    at Parser.raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:733:17)\n    at ScopeHandler.checkRedeclarationInScope (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:4793:12)\n    at ScopeHandler.declareName (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:4759:12)\n    at Parser.checkLVal (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9261:22)\n    at Parser.parseVarId (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11837:10)\n    at Parser.parseVar (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11812:12)\n    at Parser.parseVarStatement (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11624:10)\n    at Parser.parseStatementContent (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11223:21)\n    at Parser.parseStatement (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11156:17)\n    at Parser.parseBlockOrModuleBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11731:25)\n    at Parser.parseBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11717:10)\n    at Parser.parseBlock (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11701:10)\n    at Parser.parseFunctionBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10708:24)\n    at Parser.parseFunctionBodyAndFinish (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10691:10)\n    at /Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11871:12\n    at Parser.withTopicForbiddingContext (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11031:14)\n    at Parser.parseFunction (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11870:10)\n    at Parser.parseExportDefaultExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:12345:19)\n    at Parser.parseExport (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:12260:31)\n    at Parser.parseStatementContent (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11260:27)\n    at Parser.parseStatement (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11156:17)\n    at Parser.parseBlockOrModuleBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11731:25)\n    at Parser.parseBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11717:10)\n    at Parser.parseTopLevel (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11087:10)\n    at Parser.parse (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:12768:10)\n    at parse (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:12821:38)\n    at parser (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/core/lib/parser/index.js:54:34)\n    at parser.next (<anonymous>)");
 
 /***/ }),
 

@@ -1,6 +1,13 @@
 import CloseAllModalsCommand from './Commands/Modal/CloseAllModalsCommand';
 import OpenModalCommand from './Commands/Modal/OpenModalCommand';
 
+/**
+ * The ID of the modal dialog for pausing the game
+ * @type {string}
+ * @static
+ */
+Modal.PAUSE_MODAL_ID = 'pause-modal';
+
 export default function Modal() {
     const self = this;
 
@@ -17,6 +24,13 @@ export default function Modal() {
      * @private
      */
     let _isOpen = false;
+
+    /**
+     * The ID of the currently opened modal
+     * @type {string|null}
+     * @private
+     */
+    let _currentModalId = null;
 
     /**
      * Reusable close command, for all modals
@@ -52,6 +66,18 @@ export default function Modal() {
      * @return {boolean}
      */
     self.setOpenState = open => _isOpen = open;
+
+    /**
+     * @param {string|null} modalId
+     * @return {string|null}
+     */
+    self.currentModalId = (modalId = null) => {
+        if (modalId !== null) {
+            _currentModalId = modalId;
+        }
+
+        return _currentModalId;
+    };
 
     /**
      * Close an open modal dialog, if there is any

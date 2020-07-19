@@ -1,6 +1,7 @@
 import {extend} from '../../functions';
 import Command from '../Command';
 import PauseGameCommand from '../Settings/PauseGameCommand';
+import Modal from '../../Modal';
 
 extend(OpenModalCommand, Command);
 
@@ -13,18 +14,29 @@ export default function OpenModalCommand(modalId) {
     Command.call(self);
 
     /**
+     * @type {string}
+     * @private
+     */
+    const _modalId = modalId;
+
+    /**
      * The modal dialog to show
      * @type {HTMLElement}
      * @private
      */
-    const _modalElement = document.getElementById(modalId);
+    const _modalElement = document.getElementById(_modalId);
 
     /**
      * @inheritDoc
      */
     self.execute = () => {
-        const pauseGameCommand = new PauseGameCommand();
-        pauseGameCommand.execute(true);
+        Sudoku.modal.currentModalId(_modalId);
+
+        // Prevent recursive calls
+        if (_modalId !== Modal.PAUSE_MODAL_ID) {
+            const pauseGameCommand = new PauseGameCommand();
+            pauseGameCommand.execute(true);
+        }
 
         Sudoku.modal.setOpenState(true);
         Sudoku.modal.showBackdrop(true);
