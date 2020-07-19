@@ -20,7 +20,7 @@ export function extend(constructor, baseConstructor) {
 
 /**
  * Add code from a trait to an object
- * @param {Object} instance
+ * @param {object} instance
  * @param {function} traitConstructor
  * @return {void}
  */

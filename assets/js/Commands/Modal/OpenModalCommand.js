@@ -1,5 +1,6 @@
 import {extend} from '../../functions';
 import Command from '../Command';
+import PauseGameCommand from '../Settings/PauseGameCommand';
 
 extend(OpenModalCommand, Command);
 
@@ -22,7 +23,8 @@ export default function OpenModalCommand(modalId) {
      * @inheritDoc
      */
     self.execute = () => {
-        Sudoku.clock.pause();
+        const pauseGameCommand = new PauseGameCommand();
+        pauseGameCommand.execute(true);
 
         Sudoku.modal.setOpenState(true);
         Sudoku.modal.showBackdrop(true);

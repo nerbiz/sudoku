@@ -26,7 +26,7 @@ export default function Controls() {
 
     /**
      * Arrow key codes
-     * @type {Object}
+     * @type {object}
      * @private
      */
     const _arrowKeys = {

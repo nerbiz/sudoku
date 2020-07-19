@@ -6,14 +6,6 @@ export default function Command() {
      * @return {void}
      */
     self.execute = () => {
-        throw new Error('execute() method is not implemented in the command');
-    };
-
-    /**
-     * Undo the command
-     * @return {void}
-     */
-    self.undo = () => {
-        throw new Error('undo() method is not implemented in the command');
+        throw new Error("'execute' method is not implemented in the command");
     };
 }

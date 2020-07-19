@@ -1,8 +1,8 @@
 import {extend} from '../../functions';
-import Command from '../Command';
+import UndoableCommand from '../UndoableCommand';
 import InputMode from '../../InputMode';
 
-extend(ChangeDigitCommand, Command);
+extend(ChangeDigitCommand, UndoableCommand);
 
 /**
  * @param {number|null} digit
@@ -10,7 +10,7 @@ extend(ChangeDigitCommand, Command);
  */
 export default function ChangeDigitCommand(digit) {
     const self = this;
-    Command.call(self);
+    UndoableCommand.call(self);
 
     /**
      * The digit to apply to cell(s)
@@ -43,7 +43,7 @@ export default function ChangeDigitCommand(digit) {
 
     /**
      * Contains the state of cells, before changing the digit
-     * @type {Object}
+     * @type {object}
      * @private
      */
     const _cellsState = (() => {
@@ -67,16 +67,24 @@ export default function ChangeDigitCommand(digit) {
      * @inheritDoc
      */
     self.execute = () => {
-        Sudoku.grid.removeAllErrors();
+        if (Sudoku.settings.autoErrorCheckingState()) {
+            Sudoku.grid.removeAllErrors();
+        }
+
         _cells.forEach(cell => cell.setDigit(_digit, _inputMode));
-        Sudoku.grid.checkForErrors();
+
+        if (Sudoku.settings.autoErrorCheckingState()) {
+            Sudoku.grid.checkForErrors();
+        }
     }
 
     /**
      * @inheritDoc
      */
     self.undo = () => {
-        Sudoku.grid.removeAllErrors();
+        if (Sudoku.settings.autoErrorCheckingState()) {
+            Sudoku.grid.removeAllErrors();
+        }
 
         // Apply the previous values to the cell(s)
         _cells.forEach(cell => {
@@ -88,6 +96,8 @@ export default function ChangeDigitCommand(digit) {
             cell.setCenterMarks(state.centerMarks.map(item => item));
         });
 
-        Sudoku.grid.checkForErrors();
+        if (Sudoku.settings.autoErrorCheckingState()) {
+            Sudoku.grid.checkForErrors();
+        }
     };
 }

@@ -1,20 +1,27 @@
 import {extend} from '../../functions';
 import Command from '../Command';
+import PauseGameCommand from '../Settings/PauseGameCommand';
 
-extend(CloseModalCommand, Command);
+extend(CloseAllModalsCommand, Command);
 
 /**
  * @constructor
  */
-export default function CloseModalCommand() {
+export default function CloseAllModalsCommand() {
     const self = this;
     Command.call(self);
+
+    /**
+     * @type {PauseGameCommand}
+     * @private
+     */
+    const _pauseGameCommand = new PauseGameCommand();
 
     /**
      * @inheritDoc
      */
     self.execute = () => {
-        Sudoku.clock.unpause();
+        _pauseGameCommand.execute(false);
 
         Sudoku.modal.showBackdrop(false);
 

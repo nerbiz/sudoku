@@ -53,7 +53,9 @@ use Sudoku\Webpack;
                     <textarea id="puzzle-description"></textarea>
                 </p>
 
-                <p>Time: <span id="elapsed-time">0:00</span></p>
+                <p id="clock-wrapper">
+                    Time: <span id="elapsed-time">0:00</span>
+                </p>
 
                 <p>
                     Input mode:<br>
@@ -69,6 +71,12 @@ use Sudoku\Webpack;
                         <input type="radio" name="input_mode" value="3">
                         Center marks
                     </label>
+                </p>
+
+                <p>
+                    <a href="#" id="check-errors" class="click-prevent">
+                        Check for errors
+                    </a>
                 </p>
 
                 <p>

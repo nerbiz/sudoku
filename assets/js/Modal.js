@@ -1,4 +1,4 @@
-import CloseModalCommand from './Commands/Modal/CloseModalCommand';
+import CloseAllModalsCommand from './Commands/Modal/CloseAllModalsCommand';
 import OpenModalCommand from './Commands/Modal/OpenModalCommand';
 
 export default function Modal() {
@@ -20,10 +20,10 @@ export default function Modal() {
 
     /**
      * Reusable close command, for all modals
-     * @type {CloseModalCommand}
+     * @type {CloseAllModalsCommand}
      * @private
      */
-    const _closeCommand = new CloseModalCommand();
+    const _closeCommand = new CloseAllModalsCommand();
 
     /**
      * Initialize the object

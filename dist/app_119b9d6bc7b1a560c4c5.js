@@ -236,17 +236,6 @@ function Clock() {
 
 /***/ }),
 
-/***/ "./assets/js/Commands/ChangeDigitCommand.js":
-/*!**************************************************!*\
-  !*** ./assets/js/Commands/ChangeDigitCommand.js ***!
-  \**************************************************/
-/*! exports provided: default */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Applications/MAMP/htdocs/private/sudoku/assets/js/Commands/ChangeDigitCommand.js'");
-
-/***/ }),
-
 /***/ "./assets/js/Commands/Command.js":
 /*!***************************************!*\
   !*** ./assets/js/Commands/Command.js ***!
@@ -265,16 +254,7 @@ function Command() {
    */
 
   self.execute = function () {
-    throw new Error('execute() method is not implemented in the command');
-  };
-  /**
-   * Undo the command
-   * @return {void}
-   */
-
-
-  self.undo = function () {
-    throw new Error('undo() method is not implemented in the command');
+    throw new Error("'execute' method is not implemented in the command");
   };
 }
 
@@ -290,33 +270,38 @@ function Command() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CommandHistory; });
-/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
+/* harmony import */ var _UndoableCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UndoableCommand */ "./assets/js/Commands/UndoableCommand.js");
 
 function CommandHistory() {
   var self = this;
   /**
    * The list of commands that have been executed
-   * @type {Command[]}
+   * @type {UndoableCommand[]}
    * @private
    */
 
   var _past = [];
   /**
    * The list of commands to redo
-   * @type {Command[]}
+   * @type {UndoableCommand[]}
    * @private
    */
 
   var _future = [];
   /**
    * Add a command to be executed
-   * @param {Command} command
+   * @param {UndoableCommand} command
    * @param {boolean} clearFuture Whether to clear the future (redo) stack
    * @return {number}
    */
 
   self.execute = function (command) {
     var clearFuture = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+    if (!(command instanceof _UndoableCommand__WEBPACK_IMPORTED_MODULE_0__["default"])) {
+      throw new Error('Command needs to have UndoableCommand in its prototype chain');
+    }
+
     command.execute();
 
     _past.push(command); // Clear the future (redo) list if needed
@@ -366,26 +351,154 @@ function CommandHistory() {
 
 /***/ }),
 
-/***/ "./assets/js/Commands/Modal/CloseModalCommand.js":
+/***/ "./assets/js/Commands/Grid/ChangeDigitCommand.js":
 /*!*******************************************************!*\
-  !*** ./assets/js/Commands/Modal/CloseModalCommand.js ***!
+  !*** ./assets/js/Commands/Grid/ChangeDigitCommand.js ***!
   \*******************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CloseModalCommand; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ChangeDigitCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
+/* harmony import */ var _UndoableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../UndoableCommand */ "./assets/js/Commands/UndoableCommand.js");
+/* harmony import */ var _InputMode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../InputMode */ "./assets/js/InputMode.js");
+
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(ChangeDigitCommand, _UndoableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/**
+ * @param {number|null} digit
+ * @constructor
+ */
+
+function ChangeDigitCommand(digit) {
+  var self = this;
+  _UndoableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * The digit to apply to cell(s)
+   * @type {number|null}
+   * @private
+   */
+
+  var _digit = digit;
+  /**
+   * The cells to apply the digit to
+   * @type {GridCell[]}
+   * @private
+   */
+
+  var _cells = Sudoku.grid.getSelectedCells();
+  /**
+   * The input mode for the digit
+   * @type {number}
+   * @private
+   */
+
+
+  var _inputMode = function () {
+    var currentMode = Sudoku.inputMode.getMode(); // When more than 1 cell is selected,
+    // switch to pencil mark notation if the input mode is 'value'
+
+    return _cells.length > 1 && currentMode === _InputMode__WEBPACK_IMPORTED_MODULE_2__["default"].MODE_VALUE ? _InputMode__WEBPACK_IMPORTED_MODULE_2__["default"].MODE_CORNER : currentMode;
+  }();
+  /**
+   * Contains the state of cells, before changing the digit
+   * @type {object}
+   * @private
+   */
+
+
+  var _cellsState = function () {
+    // Pairs of cellNumber:{value, cornerMarks, centerMarks}
+    var state = {}; // Collect the state of all cells
+
+    _cells.forEach(function (cell) {
+      state[cell.getCellNumber()] = {
+        value: cell.getValue(),
+        // Copy the array, because they go by reference
+        cornerMarks: cell.getCornerMarks().map(function (item) {
+          return item;
+        }),
+        centerMarks: cell.getCenterMarks().map(function (item) {
+          return item;
+        })
+      };
+    });
+
+    return state;
+  }();
+  /**
+   * @inheritDoc
+   */
+
+
+  self.execute = function () {
+    if (Sudoku.settings.autoErrorCheckingState()) {
+      Sudoku.grid.removeAllErrors();
+    }
+
+    _cells.forEach(function (cell) {
+      return cell.setDigit(_digit, _inputMode);
+    });
+
+    if (Sudoku.settings.autoErrorCheckingState()) {
+      Sudoku.grid.checkForErrors();
+    }
+  };
+  /**
+   * @inheritDoc
+   */
+
+
+  self.undo = function () {
+    if (Sudoku.settings.autoErrorCheckingState()) {
+      Sudoku.grid.removeAllErrors();
+    } // Apply the previous values to the cell(s)
+
+
+    _cells.forEach(function (cell) {
+      var state = _cellsState[cell.getCellNumber()];
+
+      cell.setValue(state.value); // Copy the array, because they go by reference
+
+      cell.setCornerMarks(state.cornerMarks.map(function (item) {
+        return item;
+      }));
+      cell.setCenterMarks(state.centerMarks.map(function (item) {
+        return item;
+      }));
+    });
+
+    if (Sudoku.settings.autoErrorCheckingState()) {
+      Sudoku.grid.checkForErrors();
+    }
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/js/Commands/Modal/CloseAllModalsCommand.js":
+/*!***********************************************************!*\
+  !*** ./assets/js/Commands/Modal/CloseAllModalsCommand.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CloseAllModalsCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
 /* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Command */ "./assets/js/Commands/Command.js");
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(CloseModalCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(CloseAllModalsCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /**
  * @constructor
  */
 
-function CloseModalCommand() {
+function CloseAllModalsCommand() {
   var self = this;
   _Command__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
@@ -454,6 +567,140 @@ function OpenModalCommand(modalId) {
 
 /***/ }),
 
+/***/ "./assets/js/Commands/Settings/AutoErrorCheckingCommand.js":
+/*!*****************************************************************!*\
+  !*** ./assets/js/Commands/Settings/AutoErrorCheckingCommand.js ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AutoErrorCheckingCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
+/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(AutoErrorCheckingCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+function AutoErrorCheckingCommand() {
+  var self = this;
+  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * @inheritDoc
+   */
+
+  self.state = function () {
+    return Sudoku.settings.autoErrorCheckingState;
+  };
+  /**
+   * The manual error checking button
+   * @type {HTMLElement}
+   * @private
+   */
+
+
+  var _errorCheckingButton = document.getElementById('check-errors');
+  /**
+   * @inheritDoc
+   */
+
+
+  self.execute = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+    var toggleMethod = state ? 'add' : 'remove';
+
+    _errorCheckingButton.classList[toggleMethod]('hide');
+
+    Sudoku.settings.autoErrorCheckingState(state);
+    self.state = state;
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/js/Commands/TogglableCommand.js":
+/*!************************************************!*\
+  !*** ./assets/js/Commands/TogglableCommand.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TogglableCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
+/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(TogglableCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
+function TogglableCommand() {
+  var self = this;
+  _Command__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * The current state of the command
+   * @type {boolean|function|null}
+   * @private
+   */
+
+  self.state = null;
+  /**
+   * @inheritDoc
+   * @param {boolean} state
+   */
+
+  self.execute = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+    throw new Error("'execute' method is not implemented in the command");
+  };
+  /**
+   * Toggle between states of the command
+   * @return {void}
+   */
+
+
+  self.toggle = function () {
+    var state = typeof self.state === 'function' ? self.state() : self.state;
+
+    if (state === null) {
+      throw new Error('The command needs an (initial) true/false state');
+    }
+
+    self.execute(!state);
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/js/Commands/UndoableCommand.js":
+/*!***********************************************!*\
+  !*** ./assets/js/Commands/UndoableCommand.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return UndoableCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
+/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(UndoableCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
+function UndoableCommand() {
+  var self = this;
+  _Command__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * Undo the command
+   * @return {void}
+   */
+
+  self.undo = function () {
+    throw new Error("'undo' method is not implemented in the command");
+  };
+}
+
+/***/ }),
+
 /***/ "./assets/js/Controls.js":
 /*!*******************************!*\
   !*** ./assets/js/Controls.js ***!
@@ -491,7 +738,7 @@ function Controls() {
   var _shiftKeyPressed = false;
   /**
    * Arrow key codes
-   * @type {Object}
+   * @type {object}
    * @private
    */
 
@@ -668,7 +915,7 @@ function Controls() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DocumentEventHandler; });
-/* harmony import */ var _Commands_ChangeDigitCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Commands/ChangeDigitCommand */ "./assets/js/Commands/ChangeDigitCommand.js");
+/* harmony import */ var _Commands_Grid_ChangeDigitCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Commands/Grid/ChangeDigitCommand */ "./assets/js/Commands/Grid/ChangeDigitCommand.js");
 
 function DocumentEventHandler() {
   var self = this;
@@ -744,10 +991,10 @@ function DocumentEventHandler() {
       if (Sudoku.controls.isNumberKey(event.code)) {
         // Set a number value
         var digit = parseInt(event.key, 10);
-        Sudoku.history.execute(new _Commands_ChangeDigitCommand__WEBPACK_IMPORTED_MODULE_0__["default"](digit));
+        Sudoku.history.execute(new _Commands_Grid_ChangeDigitCommand__WEBPACK_IMPORTED_MODULE_0__["default"](digit));
       } else if (Sudoku.controls.isDeleteKey(event.code)) {
         // Remove the value
-        Sudoku.history.execute(new _Commands_ChangeDigitCommand__WEBPACK_IMPORTED_MODULE_0__["default"](null));
+        Sudoku.history.execute(new _Commands_Grid_ChangeDigitCommand__WEBPACK_IMPORTED_MODULE_0__["default"](null));
       } else if (event.code === 'KeyZ') {
         if (Sudoku.controls.ctrlKeyIsPressed()) {
           if (Sudoku.controls.shiftKeyIsPressed()) {
@@ -866,6 +1113,54 @@ function GridCellEventHandler(gridCell) {
     _gridCell.getElement().addEventListener('mouseup', function () {
       return Sudoku.grid.setLastNavigatedCell(_gridCell);
     });
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/js/EventHandlers/SettingsEventHandler.js":
+/*!*********************************************************!*\
+  !*** ./assets/js/EventHandlers/SettingsEventHandler.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SettingsEventHandler; });
+/* harmony import */ var _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Commands/Settings/AutoErrorCheckingCommand */ "./assets/js/Commands/Settings/AutoErrorCheckingCommand.js");
+
+function SettingsEventHandler() {
+  var self = this;
+  /**
+   * @type {AutoErrorCheckingCommand}
+   * @private
+   */
+
+  var _autoErrorCheckingCommand = new _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_0__["default"]();
+  /**
+   * Initialize the object
+   */
+
+
+  self.init = function () {
+    _enableClockToggle();
+
+    _enableAutoErrorChecking();
+
+    _enableHighlighting();
+  };
+
+  var _enableClockToggle = function _enableClockToggle() {};
+
+  var _enableAutoErrorChecking = function _enableAutoErrorChecking() {
+    var checkbox = document.getElementById('setting-auto-error-checking');
+    checkbox.addEventListener('change', function () {
+      _autoErrorCheckingCommand.execute(checkbox.checked);
+    });
+  };
+
+  var _enableHighlighting = function _enableHighlighting() {// Row, column and box, same digit (value and pencil mark)
   };
 }
 
@@ -2100,7 +2395,7 @@ function Meta() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Modal; });
-/* harmony import */ var _Commands_Modal_CloseModalCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Commands/Modal/CloseModalCommand */ "./assets/js/Commands/Modal/CloseModalCommand.js");
+/* harmony import */ var _Commands_Modal_CloseAllModalsCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Commands/Modal/CloseAllModalsCommand */ "./assets/js/Commands/Modal/CloseAllModalsCommand.js");
 /* harmony import */ var _Commands_Modal_OpenModalCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Commands/Modal/OpenModalCommand */ "./assets/js/Commands/Modal/OpenModalCommand.js");
 
 
@@ -2123,11 +2418,11 @@ function Modal() {
   var _isOpen = false;
   /**
    * Reusable close command, for all modals
-   * @type {CloseModalCommand}
+   * @type {CloseAllModalsCommand}
    * @private
    */
 
-  var _closeCommand = new _Commands_Modal_CloseModalCommand__WEBPACK_IMPORTED_MODULE_0__["default"]();
+  var _closeCommand = new _Commands_Modal_CloseAllModalsCommand__WEBPACK_IMPORTED_MODULE_0__["default"]();
   /**
    * Initialize the object
    */
@@ -2213,6 +2508,17 @@ function Modal() {
     _backdropElement.addEventListener('click', self.close);
   };
 }
+
+/***/ }),
+
+/***/ "./assets/js/Settings.js":
+/*!*******************************!*\
+  !*** ./assets/js/Settings.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Applications/MAMP/htdocs/private/sudoku/assets/js/Settings.js: Unexpected token, expected \",\" (44:10)\n\n\u001b[0m \u001b[90m 42 | \u001b[39m            clock\u001b[33m:\u001b[39m self\u001b[33m.\u001b[39mclockState()\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 43 | \u001b[39m            autoErrorChecking\u001b[33m:\u001b[39m self\u001b[33m.\u001b[39mautoErrorCheckingState()\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 44 | \u001b[39m        })\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 45 | \u001b[39m    }\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 46 | \u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 47 | \u001b[39m    \u001b[90m/**\u001b[39m\u001b[0m\n    at Parser._raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:746:17)\n    at Parser.raiseWithData (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:739:17)\n    at Parser.raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:733:17)\n    at Parser.unexpected (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:8807:16)\n    at Parser.expect (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:8793:28)\n    at Parser.parseCallExpressionArguments (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9830:14)\n    at Parser.parseSubscript (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9750:31)\n    at Parser.parseSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9679:19)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9662:17)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9636:21)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9506:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9479:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9434:21)\n    at Parser.parseExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9386:23)\n    at Parser.parseStatementContent (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11285:23)\n    at Parser.parseStatement (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11156:17)\n    at Parser.parseBlockOrModuleBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11731:25)\n    at Parser.parseBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11717:10)\n    at Parser.parseBlock (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11701:10)\n    at Parser.parseFunctionBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10708:24)\n    at Parser.parseArrowExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10677:10)\n    at Parser.parseParenAndDistinguishExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10295:12)\n    at Parser.parseExprAtom (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10007:21)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9656:23)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9636:21)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9506:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9479:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9434:21)\n    at Parser.parseVar (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11815:26)\n    at Parser.parseVarStatement (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11624:10)");
 
 /***/ }),
 
@@ -2352,6 +2658,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Commands/CommandHistory */ "./assets/js/Commands/CommandHistory.js");
 /* harmony import */ var _Meta__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Meta */ "./assets/js/Meta.js");
 /* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Modal */ "./assets/js/Modal.js");
+/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Settings */ "./assets/js/Settings.js");
+/* harmony import */ var _EventHandlers_SettingsEventHandler__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./EventHandlers/SettingsEventHandler */ "./assets/js/EventHandlers/SettingsEventHandler.js");
+
+
 
 
 
@@ -2362,6 +2672,7 @@ __webpack_require__.r(__webpack_exports__);
  // 'Namespace' of the project
 
 window.Sudoku = {
+  settings: new _Settings__WEBPACK_IMPORTED_MODULE_8__["default"](),
   history: new _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_5__["default"](),
   meta: new _Meta__WEBPACK_IMPORTED_MODULE_6__["default"](),
   controls: new _Controls__WEBPACK_IMPORTED_MODULE_0__["default"](),
@@ -2369,8 +2680,10 @@ window.Sudoku = {
   grid: new _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__["default"](),
   clock: new _Clock__WEBPACK_IMPORTED_MODULE_3__["default"](),
   modal: new _Modal__WEBPACK_IMPORTED_MODULE_7__["default"](),
-  documentEventHandler: new _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__["default"]()
+  documentEventHandler: new _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__["default"](),
+  settingsEventHandler: new _EventHandlers_SettingsEventHandler__WEBPACK_IMPORTED_MODULE_9__["default"]()
 };
+Sudoku.settingsEventHandler.init();
 Sudoku.clock.init();
 Sudoku.modal.init();
 Sudoku.meta.init();
@@ -2435,7 +2748,7 @@ function extend(constructor, baseConstructor) {
 ;
 /**
  * Add code from a trait to an object
- * @param {Object} instance
+ * @param {object} instance
  * @param {function} traitConstructor
  * @return {void}
  */

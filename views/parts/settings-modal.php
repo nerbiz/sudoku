@@ -14,6 +14,8 @@ ob_start();
         Check for errors automatically
     </label>
 
+    <h3>Highlighting</h3>
+
     <label>
         <input type="checkbox" id="setting-highlight-row">
         Highlight row of selected cell

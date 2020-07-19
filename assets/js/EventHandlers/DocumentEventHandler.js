@@ -1,7 +1,14 @@
 import ChangeDigitCommand from '../Commands/Grid/ChangeDigitCommand';
+import PauseGameCommand from '../Commands/Settings/PauseGameCommand';
 
 export default function DocumentEventHandler() {
     const self = this;
+
+    /**
+     * @type {PauseGameCommand}
+     * @private
+     */
+    const _pauseGameCommand = new PauseGameCommand();
 
     /**
      * Register event handlers for the document
@@ -94,10 +101,8 @@ export default function DocumentEventHandler() {
                     // Close a modal dialog
                     Sudoku.modal.close();
                 } else {
-                    // Pause / unpause the clock
-                    Sudoku.clock.isPaused()
-                        ? Sudoku.clock.unpause()
-                        : Sudoku.clock.pause();
+                    // Pause / unpause the game
+                    _pauseGameCommand.toggle();
                 }
             }
         });

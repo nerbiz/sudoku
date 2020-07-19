@@ -274,84 +274,9 @@ function Command() {
   !*** ./assets/js/Commands/CommandHistory.js ***!
   \**********************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CommandHistory; });
-/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
-
-function CommandHistory() {
-  var self = this;
-  /**
-   * The list of commands that have been executed
-   * @type {Command[]}
-   * @private
-   */
-
-  var _past = [];
-  /**
-   * The list of commands to redo
-   * @type {Command[]}
-   * @private
-   */
-
-  var _future = [];
-  /**
-   * Add a command to be executed
-   * @param {Command} command
-   * @param {boolean} clearFuture Whether to clear the future (redo) stack
-   * @return {number}
-   */
-
-  self.execute = function (command) {
-    var clearFuture = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    command.execute();
-
-    _past.push(command); // Clear the future (redo) list if needed
-
-
-    if (clearFuture) {
-      _future = [];
-    }
-  };
-  /**
-   * Undo the most recent command
-   * @return {void}
-   */
-
-
-  self.undo = function () {
-    // A command needs to exist
-    if (_past.length < 1) {
-      return;
-    } // Undo the command
-
-
-    var command = _past.pop();
-
-    command.undo(); // Put the command in the future stack, for redoing
-
-    _future.push(command);
-  };
-  /**
-   * Execute the most recent command from the future stack
-   * @return {void}
-   */
-
-
-  self.redo = function () {
-    // A command needs to exist
-    if (_future.length < 1) {
-      return;
-    } // Redo the command
-
-
-    var command = _future.pop();
-
-    self.execute(command, false);
-  };
-}
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Applications/MAMP/htdocs/private/sudoku/assets/js/Commands/CommandHistory.js: Unexpected token (27:34)\n\n\u001b[0m \u001b[90m 25 | \u001b[39m\u001b[90m     */\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 26 | \u001b[39m    self\u001b[33m.\u001b[39mexecute \u001b[33m=\u001b[39m (command\u001b[33m,\u001b[39m clearFuture \u001b[33m=\u001b[39m \u001b[36mtrue\u001b[39m) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 27 | \u001b[39m        \u001b[36mif\u001b[39m (\u001b[33m!\u001b[39m (command \u001b[36minstanceof\u001b[39m ))\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 28 | \u001b[39m        command\u001b[33m.\u001b[39mexecute()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 29 | \u001b[39m        _past\u001b[33m.\u001b[39mpush(command)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\n    at Parser._raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:746:17)\n    at Parser.raiseWithData (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:739:17)\n    at Parser.raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:733:17)\n    at Parser.unexpected (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:8807:16)\n    at Parser.parseExprAtom (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10130:20)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9656:23)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9636:21)\n    at Parser.parseExprOpBaseRightExpr (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9599:34)\n    at Parser.parseExprOpRightExpr (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9592:21)\n    at Parser.parseExprOp (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9558:27)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9516:17)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9479:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9434:21)\n    at Parser.parseParenAndDistinguishExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10267:28)\n    at Parser.parseExprAtom (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10007:21)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9656:23)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9636:21)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9616:28)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9506:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9479:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9434:21)\n    at Parser.parseExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9386:23)\n    at Parser.parseHeaderExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11425:22)\n    at Parser.parseIfStatement (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11507:22)\n    at Parser.parseStatementContent (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11201:21)\n    at Parser.parseStatement (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11156:17)\n    at Parser.parseBlockOrModuleBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11731:25)\n    at Parser.parseBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11717:10)\n    at Parser.parseBlock (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11701:10)\n    at Parser.parseFunctionBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10708:24)");
 
 /***/ }),
 
@@ -2324,6 +2249,93 @@ function Modal() {
 
 /***/ }),
 
+/***/ "./assets/js/Settings.js":
+/*!*******************************!*\
+  !*** ./assets/js/Settings.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Settings; });
+function Settings() {
+  var self = this;
+  /**
+   * Indicates whether the clock is shown
+   * @type {boolean}
+   * @private
+   */
+
+  var _clockShown = true;
+  /**
+   * Indicates whether automatic error checking is enabled
+   * @type {boolean}
+   * @private
+   */
+
+  var _autoErrorCheckingOn = true;
+  /**
+   * Initialize the object
+   */
+
+  self.init = function () {
+    _enableClockToggle();
+
+    _enableAutoErrorChecking();
+
+    _enableHighlighting();
+  };
+
+  var _enableClockToggle = function _enableClockToggle() {};
+
+  var _enableAutoErrorChecking = function _enableAutoErrorChecking() {
+    var checkbox = document.getElementById('setting-auto-error-checking');
+    checkbox.addEventListener('change', function () {
+      self.setAutoErrorCheckingState(checkbox.checked);
+    });
+  };
+
+  var _enableHighlighting = function _enableHighlighting() {// Row, column and box, same digit (value and pencil mark)
+  };
+  /**
+   * @return {boolean}
+   */
+
+
+  self.clockIsShown = function () {
+    return _clockShown;
+  };
+  /**
+   * @param {boolean} show
+   * @return {boolean}
+   */
+
+
+  self.setClockState = function (show) {
+    return _clockShown = show;
+  };
+  /**
+   * @return {boolean}
+   */
+
+
+  self.autoErrorCheckingIsOn = function () {
+    return _autoErrorCheckingOn;
+  };
+  /**
+   * @param {boolean} state
+   * @return {boolean}
+   */
+
+
+  self.setAutoErrorCheckingState = function (state) {
+    return _autoErrorCheckingOn = state;
+  };
+}
+
+/***/ }),
+
 /***/ "./assets/js/Traits/HasGridCells.js":
 /*!******************************************!*\
   !*** ./assets/js/Traits/HasGridCells.js ***!
@@ -2460,6 +2472,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Commands/CommandHistory */ "./assets/js/Commands/CommandHistory.js");
 /* harmony import */ var _Meta__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Meta */ "./assets/js/Meta.js");
 /* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Modal */ "./assets/js/Modal.js");
+/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Settings */ "./assets/js/Settings.js");
+
 
 
 
@@ -2470,6 +2484,7 @@ __webpack_require__.r(__webpack_exports__);
  // 'Namespace' of the project
 
 window.Sudoku = {
+  settings: new _Settings__WEBPACK_IMPORTED_MODULE_8__["default"](),
   history: new _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_5__["default"](),
   meta: new _Meta__WEBPACK_IMPORTED_MODULE_6__["default"](),
   controls: new _Controls__WEBPACK_IMPORTED_MODULE_0__["default"](),
@@ -2479,6 +2494,7 @@ window.Sudoku = {
   modal: new _Modal__WEBPACK_IMPORTED_MODULE_7__["default"](),
   documentEventHandler: new _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__["default"]()
 };
+Sudoku.settings.init();
 Sudoku.clock.init();
 Sudoku.modal.init();
 Sudoku.meta.init();

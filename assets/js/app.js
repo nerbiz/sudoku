@@ -6,9 +6,12 @@ import DocumentEventHandler from './EventHandlers/DocumentEventHandler';
 import CommandHistory from './Commands/CommandHistory';
 import Meta from './Meta';
 import Modal from './Modal';
+import Settings from './Settings';
+import SettingsEventHandler from './EventHandlers/SettingsEventHandler';
 
 // 'Namespace' of the project
 window.Sudoku = {
+    settings: new Settings(),
     history: new CommandHistory(),
     meta: new Meta(),
     controls: new Controls(),
@@ -17,8 +20,11 @@ window.Sudoku = {
     clock: new Clock(),
     modal: new Modal(),
     documentEventHandler: new DocumentEventHandler(),
+    settingsEventHandler: new SettingsEventHandler(),
 };
 
+Sudoku.settings.init();
+Sudoku.settingsEventHandler.init();
 Sudoku.clock.init();
 Sudoku.modal.init();
 Sudoku.meta.init();
