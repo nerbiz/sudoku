@@ -614,6 +614,14 @@ function AutoErrorCheckingCommand() {
 
   var _errorCheckingButton = document.getElementById('check-errors');
   /**
+   * The checkbox that toggles the setting
+   * @type {HTMLElement}
+   * @private
+   */
+
+
+  var _toggleCheckbox = document.getElementById('setting-auto-error-checking');
+  /**
    * @inheritDoc
    */
 
@@ -623,6 +631,7 @@ function AutoErrorCheckingCommand() {
 
     _errorCheckingButton.classList[toggleMethod]('hide');
 
+    _toggleCheckbox.checked = state;
     Sudoku.settings.autoErrorCheckingState(state);
     self.state = state;
   };
@@ -667,7 +676,6 @@ function PauseGameCommand() {
       Sudoku.clock.unpause();
     }
 
-    Sudoku.settings.clockState(state);
     self.state = state;
   };
 }
@@ -707,6 +715,14 @@ function ShowClockCommand() {
 
   var _clockElement = document.getElementById('clock-wrapper');
   /**
+   * The checkbox that toggles the setting
+   * @type {HTMLElement}
+   * @private
+   */
+
+
+  var _toggleCheckbox = document.getElementById('setting-show-clock');
+  /**
    * @inheritDoc
    */
 
@@ -716,6 +732,7 @@ function ShowClockCommand() {
 
     _clockElement.classList[toggleMethod]('hide');
 
+    _toggleCheckbox.checked = state;
     Sudoku.settings.clockState(state);
     self.state = state;
   };
@@ -2656,6 +2673,10 @@ function Modal() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Settings; });
+/* harmony import */ var _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Commands/Settings/ShowClockCommand */ "./assets/js/Commands/Settings/ShowClockCommand.js");
+/* harmony import */ var _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Commands/Settings/AutoErrorCheckingCommand */ "./assets/js/Commands/Settings/AutoErrorCheckingCommand.js");
+
+
 function Settings() {
   var self = this;
   /**
@@ -2685,6 +2706,8 @@ function Settings() {
     }
 
     _fromLocalStorage();
+
+    _applySettings();
   };
   /**
    * Get settings stored in local storage
@@ -2694,7 +2717,7 @@ function Settings() {
 
 
   var _fromLocalStorage = function _fromLocalStorage() {
-    var settings = localStorage.getItem('settings');
+    var settings = JSON.parse(localStorage.getItem('settings'));
     _clockState = settings.clock !== undefined ? settings.clock : true;
     _autoErrorCheckingState = settings.autoErrorChecking !== undefined ? settings.autoErrorChecking : true;
   };
@@ -2710,6 +2733,19 @@ function Settings() {
       clock: self.clockState(),
       autoErrorChecking: self.autoErrorCheckingState()
     }));
+  };
+  /**
+   * Apply the stored settings
+   * @return {void}
+   * @private
+   */
+
+
+  var _applySettings = function _applySettings() {
+    var showClockCommand = new _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    showClockCommand.execute(self.clockState());
+    var autoErrorCheckingCommand = new _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    autoErrorCheckingCommand.execute(self.autoErrorCheckingState());
   };
   /**
    * @param {boolean|null} state Setter if given, getter otherwise

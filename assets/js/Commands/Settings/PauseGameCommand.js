@@ -22,7 +22,6 @@ export default function PauseGameCommand() {
             Sudoku.clock.unpause();
         }
 
-        Sudoku.settings.clockState(state);
         self.state = state;
     };
 }

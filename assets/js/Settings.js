@@ -1,3 +1,6 @@
+import ShowClockCommand from './Commands/Settings/ShowClockCommand';
+import AutoErrorCheckingCommand from './Commands/Settings/AutoErrorCheckingCommand';
+
 export default function Settings() {
     const self = this;
 
@@ -25,6 +28,7 @@ export default function Settings() {
         }
 
         _fromLocalStorage();
+        _applySettings();
     };
 
     /**
@@ -33,7 +37,7 @@ export default function Settings() {
      * @private
      */
     const _fromLocalStorage = () => {
-        const settings = localStorage.getItem('settings');
+        const settings = JSON.parse(localStorage.getItem('settings'));
 
         _clockState = (settings.clock !== undefined)
             ? settings.clock
@@ -54,6 +58,19 @@ export default function Settings() {
             clock: self.clockState(),
             autoErrorChecking: self.autoErrorCheckingState(),
         }));
+    };
+
+    /**
+     * Apply the stored settings
+     * @return {void}
+     * @private
+     */
+    const _applySettings = () => {
+        const showClockCommand = new ShowClockCommand();
+        showClockCommand.execute(self.clockState());
+
+        const autoErrorCheckingCommand = new AutoErrorCheckingCommand();
+        autoErrorCheckingCommand.execute(self.autoErrorCheckingState());
     };
 
     /**
