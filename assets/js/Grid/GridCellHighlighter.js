@@ -45,18 +45,30 @@ export default function GridCellHighlighter() {
                 cellNumbers = cellNumbers.concat(cell.getBox().getCellNumbers());
             }
 
-            // See if the cell has a value, for further highlighting
+            // See if value highlighting is needed or possible
             const cellValue = cell.getValue();
-            if (cellValue === null) {
+            if (cellValue === null
+                || (! Sudoku.settings.highlightValueState()
+                    && ! Sudoku.settings.highlightPencilMarksState())
+            ) {
                 return;
             }
 
             // Add the cell numbers of cells that contain the same digit
             const sameDigitCellNumbers = Sudoku.grid.getCells()
                 .filter(cell => {
-                    return (cell.hasValue(cellValue)
-                        || cell.hasCornerMark(cellValue)
-                        || cell.hasCenterMark(cellValue));
+                    // Filter by cell value
+                    if (Sudoku.settings.highlightValueState() && cell.hasValue(cellValue)) {
+                        return true;
+                    }
+
+                    // Filter by pencil marks
+                    if (Sudoku.settings.highlightPencilMarksState()
+                        && (cell.hasCornerMark(cellValue)
+                            || cell.hasCenterMark(cellValue))
+                    ) {
+                        return true;
+                    }
                 })
                 .map(cell => cell.getCellNumber());
 

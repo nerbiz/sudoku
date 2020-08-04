@@ -794,6 +794,54 @@ function HighlightColumnCommand() {
 
 /***/ }),
 
+/***/ "./assets/js/Commands/Settings/HighlightPencilMarksCommand.js":
+/*!********************************************************************!*\
+  !*** ./assets/js/Commands/Settings/HighlightPencilMarksCommand.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HighlightPencilMarksCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
+/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightPencilMarksCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+function HighlightPencilMarksCommand() {
+  var self = this;
+  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * @inheritDoc
+   */
+
+  self.state = function () {
+    return Sudoku.settings.highlightPencilMarksState;
+  };
+  /**
+   * The checkbox that toggles the setting
+   * @type {HTMLElement}
+   * @private
+   */
+
+
+  var _toggleCheckbox = document.getElementById('setting-highlight-pencil-marks');
+  /**
+   * @inheritDoc
+   */
+
+
+  self.execute = function (state) {
+    _toggleCheckbox.checked = state;
+    Sudoku.settings.highlightPencilMarksState(state);
+    self.state = state;
+  };
+}
+;
+
+/***/ }),
+
 /***/ "./assets/js/Commands/Settings/HighlightRowCommand.js":
 /*!************************************************************!*\
   !*** ./assets/js/Commands/Settings/HighlightRowCommand.js ***!
@@ -835,6 +883,54 @@ function HighlightRowCommand() {
   self.execute = function (state) {
     _toggleCheckbox.checked = state;
     Sudoku.settings.highlightRowState(state);
+    self.state = state;
+  };
+}
+;
+
+/***/ }),
+
+/***/ "./assets/js/Commands/Settings/HighlightValueCommand.js":
+/*!**************************************************************!*\
+  !*** ./assets/js/Commands/Settings/HighlightValueCommand.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HighlightValueCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
+/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightValueCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+function HighlightValueCommand() {
+  var self = this;
+  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * @inheritDoc
+   */
+
+  self.state = function () {
+    return Sudoku.settings.highlightValueState;
+  };
+  /**
+   * The checkbox that toggles the setting
+   * @type {HTMLElement}
+   * @private
+   */
+
+
+  var _toggleCheckbox = document.getElementById('setting-highlight-value');
+  /**
+   * @inheritDoc
+   */
+
+
+  self.execute = function (state) {
+    _toggleCheckbox.checked = state;
+    Sudoku.settings.highlightValueState(state);
     self.state = state;
   };
 }
@@ -1425,6 +1521,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Commands/Settings/HighlightRowCommand */ "./assets/js/Commands/Settings/HighlightRowCommand.js");
 /* harmony import */ var _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Commands/Settings/HighlightColumnCommand */ "./assets/js/Commands/Settings/HighlightColumnCommand.js");
 /* harmony import */ var _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Commands/Settings/HighlightBoxCommand */ "./assets/js/Commands/Settings/HighlightBoxCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Commands/Settings/HighlightValueCommand */ "./assets/js/Commands/Settings/HighlightValueCommand.js");
+
 
 
 
@@ -1476,7 +1574,8 @@ function SettingsEventHandler() {
   var _enableHighlightingToggling = function _enableHighlightingToggling() {
     var highlightRowCommand = new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__["default"]();
     var highlightColumnCommand = new _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_3__["default"]();
-    var highlightBoxCommand = new _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__["default"](); // Row highlighting
+    var highlightBoxCommand = new _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    var highlightValueCommand = new _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_5__["default"](); // Row highlighting
 
     document.getElementById('setting-highlight-row').addEventListener('change', function (event) {
       highlightRowCommand.execute(event.target.checked);
@@ -1488,6 +1587,10 @@ function SettingsEventHandler() {
 
     document.getElementById('setting-highlight-box').addEventListener('change', function (event) {
       highlightBoxCommand.execute(event.target.checked);
+    }); // Same value highlighting
+
+    document.getElementById('setting-highlight-value').addEventListener('change', function (event) {
+      highlightValueCommand.execute(event.target.checked);
     });
   };
 }
@@ -2331,98 +2434,9 @@ function GridCell(cellNumber) {
   !*** ./assets/js/Grid/GridCellHighlighter.js ***!
   \***********************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GridCellHighlighter; });
-/* harmony import */ var _GridCell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GridCell */ "./assets/js/Grid/GridCell.js");
-
-function GridCellHighlighter() {
-  var self = this;
-  /**
-   * A list of currently highlighted cells
-   * @type {GridCell[]}
-   * @private
-   */
-
-  var _highlightedCells = [];
-  /**
-   * Add a cell to the list of highlighted cells
-   * @param {GridCell} cell
-   * @return {number}
-   */
-
-  self.addHighlightedCell = function (cell) {
-    return _highlightedCells.push(cell);
-  };
-  /**
-   * @return {GridCell[]}
-   */
-
-
-  self.getHighlightedCells = function () {
-    return _highlightedCells;
-  };
-  /**
-   * Highlight all cells that are related to selected cell(s)
-   * @return {void}
-   */
-
-
-  self.highlightRelatedCells = function () {
-    self.dehighlightAllCells();
-    var cellNumbers = []; // Add the cell numbers of the row, column and box that the cell is in
-
-    Sudoku.grid.getSelectedCells().forEach(function (cell) {
-      if (Sudoku.settings.highlightRowState()) {
-        cellNumbers = cellNumbers.concat(cell.getRow().getCellNumbers());
-      }
-
-      if (Sudoku.settings.highlightColumnState()) {
-        cellNumbers = cellNumbers.concat(cell.getColumn().getCellNumbers());
-      }
-
-      if (Sudoku.settings.highlightBoxState()) {
-        cellNumbers = cellNumbers.concat(cell.getBox().getCellNumbers());
-      } // See if the cell has a value, for further highlighting
-
-
-      var cellValue = cell.getValue();
-
-      if (cellValue === null) {
-        return;
-      } // Add the cell numbers of cells that contain the same digit
-
-
-      var sameDigitCellNumbers = Sudoku.grid.getCells().filter(function (cell) {
-        return cell.hasValue(cellValue) || cell.hasCornerMark(cellValue) || cell.hasCenterMark(cellValue);
-      }).map(function (cell) {
-        return cell.getCellNumber();
-      });
-      cellNumbers = cellNumbers.concat(sameDigitCellNumbers);
-    });
-    cellNumbers // Remove duplicates
-    .filter(function (value, index, numbers) {
-      return numbers.indexOf(value) === index;
-    }) // Highlight the cells
-    .forEach(function (cellNumber) {
-      Sudoku.grid.getCell(cellNumber).setHighlightedState(true);
-    });
-  };
-  /**
-   * De-highlight all the highlighted cells
-   * @return {void}
-   */
-
-
-  self.dehighlightAllCells = function () {
-    self.getHighlightedCells().forEach(function (cell) {
-      return cell.setHighlightedState(false);
-    });
-    _highlightedCells = [];
-  };
-}
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Applications/MAMP/htdocs/private/sudoku/assets/js/Grid/GridCellHighlighter.js: Unexpected token, expected \")\" (65:62)\n\n\u001b[0m \u001b[90m 63 | \u001b[39m                    \u001b[36mif\u001b[39m (\u001b[33mSudoku\u001b[39m\u001b[33m.\u001b[39msettings\u001b[33m.\u001b[39mhighlightPencilMarksState()\u001b[0m\n\u001b[0m \u001b[90m 64 | \u001b[39m                        \u001b[33m&&\u001b[39m (cell\u001b[33m.\u001b[39mhasCornerMark(cellValue)\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 65 | \u001b[39m                            \u001b[33m||\u001b[39m cell\u001b[33m.\u001b[39mhasCenterMark(cellValue)) {\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 66 | \u001b[39m                        \u001b[36mreturn\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 67 | \u001b[39m                    }\u001b[0m\n\u001b[0m \u001b[90m 68 | \u001b[39m                })\u001b[0m\n    at Parser._raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:762:17)\n    at Parser.raiseWithData (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:755:17)\n    at Parser.raise (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:749:17)\n    at Parser.unexpected (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:8913:16)\n    at Parser.expect (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:8899:28)\n    at Parser.parseHeaderExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11554:10)\n    at Parser.parseIfStatement (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11635:22)\n    at Parser.parseStatementContent (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11329:21)\n    at Parser.parseStatement (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11284:17)\n    at Parser.parseBlockOrModuleBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11864:25)\n    at Parser.parseBlockBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11850:10)\n    at Parser.parseBlock (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11834:10)\n    at Parser.parseFunctionBody (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10832:24)\n    at Parser.parseArrowExpression (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10801:10)\n    at Parser.parseExprAtom (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10066:18)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9759:23)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9739:21)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9609:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9582:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9545:21)\n    at Parser.parseExprListItem (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:10920:18)\n    at Parser.parseCallExpressionArguments (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9956:22)\n    at Parser.parseSubscript (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9856:31)\n    at Parser.parseSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9782:19)\n    at Parser.parseExprSubscripts (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9765:17)\n    at Parser.parseMaybeUnary (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9739:21)\n    at Parser.parseExprOps (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9609:23)\n    at Parser.parseMaybeConditional (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9582:23)\n    at Parser.parseMaybeAssign (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:9545:21)\n    at Parser.parseVar (/Applications/MAMP/htdocs/private/sudoku/node_modules/@babel/parser/lib/index.js:11948:26)");
 
 /***/ }),
 
@@ -2911,6 +2925,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Commands/Settings/HighlightRowCommand */ "./assets/js/Commands/Settings/HighlightRowCommand.js");
 /* harmony import */ var _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Commands/Settings/HighlightColumnCommand */ "./assets/js/Commands/Settings/HighlightColumnCommand.js");
 /* harmony import */ var _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Commands/Settings/HighlightBoxCommand */ "./assets/js/Commands/Settings/HighlightBoxCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Commands/Settings/HighlightValueCommand */ "./assets/js/Commands/Settings/HighlightValueCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Commands/Settings/HighlightPencilMarksCommand */ "./assets/js/Commands/Settings/HighlightPencilMarksCommand.js");
+
+
 
 
 
@@ -2958,6 +2976,22 @@ function Settings() {
 
   var _highlightBoxState;
   /**
+   * Indicates whether highlighting cells with the same value is enabled
+   * @type {boolean}
+   * @private
+   */
+
+
+  var _highlightValueState;
+  /**
+   * Indicates whether highlighting cells with the same value (pencil marks) is enabled
+   * @type {boolean}
+   * @private
+   */
+
+
+  var _highlightPencilMarksState;
+  /**
    * Initialize the object
    */
 
@@ -2986,6 +3020,8 @@ function Settings() {
     _highlightRowState = settings.highlightRow !== undefined ? settings.highlightRow : true;
     _highlightColumnState = settings.highlightColumn !== undefined ? settings.highlightColumn : true;
     _highlightBoxState = settings.highlightBox !== undefined ? settings.highlightBox : true;
+    _highlightValueState = settings.highlightValue !== undefined ? settings.highlightValue : true;
+    _highlightPencilMarksState = settings.highlightPencilMarks !== undefined ? settings.highlightPencilMarks : true;
   };
   /**
    * Export settings to local storage
@@ -3000,7 +3036,9 @@ function Settings() {
       autoErrorChecking: self.autoErrorCheckingState(),
       highlightRow: self.highlightRowState(),
       highlightColumn: self.highlightColumnState(),
-      highlightBox: self.highlightBoxState()
+      highlightBox: self.highlightBoxState(),
+      highlightValue: self.highlightValueState(),
+      highlightPencilMarks: self.highlightPencilMarksState()
     }));
   };
   /**
@@ -3016,6 +3054,8 @@ function Settings() {
     new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__["default"]().execute(self.highlightRowState());
     new _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_3__["default"]().execute(self.highlightColumnState());
     new _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__["default"]().execute(self.highlightBoxState());
+    new _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_5__["default"]().execute(self.highlightValueState());
+    new _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_6__["default"]().execute(self.highlightPencilMarksState());
   };
   /**
    * @param {boolean|null} state Setter if given, getter otherwise
@@ -3104,6 +3144,40 @@ function Settings() {
     }
 
     return _highlightBoxState;
+  };
+  /**
+   * @param {boolean|null} state Setter if given, getter otherwise
+   * @return {boolean}
+   */
+
+
+  self.highlightValueState = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    if (state !== null) {
+      _highlightValueState = state;
+
+      _toLocalStorage();
+    }
+
+    return _highlightValueState;
+  };
+  /**
+   * @param {boolean|null} state Setter if given, getter otherwise
+   * @return {boolean}
+   */
+
+
+  self.highlightPencilMarksState = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    if (state !== null) {
+      _highlightPencilMarksState = state;
+
+      _toLocalStorage();
+    }
+
+    return _highlightPencilMarksState;
   };
 }
 

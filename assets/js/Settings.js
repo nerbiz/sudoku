@@ -3,6 +3,8 @@ import AutoErrorCheckingCommand from './Commands/Settings/AutoErrorCheckingComma
 import HighlightRowCommand from './Commands/Settings/HighlightRowCommand';
 import HighlightColumnCommand from './Commands/Settings/HighlightColumnCommand';
 import HighlightBoxCommand from './Commands/Settings/HighlightBoxCommand';
+import HighlightValueCommand from './Commands/Settings/HighlightValueCommand';
+import HighlightPencilMarksCommand from './Commands/Settings/HighlightPencilMarksCommand';
 
 export default function Settings() {
     const self = this;
@@ -41,6 +43,20 @@ export default function Settings() {
      * @private
      */
     let _highlightBoxState;
+
+    /**
+     * Indicates whether highlighting cells with the same value is enabled
+     * @type {boolean}
+     * @private
+     */
+    let _highlightValueState;
+
+    /**
+     * Indicates whether highlighting cells with the same value (pencil marks) is enabled
+     * @type {boolean}
+     * @private
+     */
+    let _highlightPencilMarksState;
 
     /**
      * Initialize the object
@@ -82,6 +98,14 @@ export default function Settings() {
         _highlightBoxState = (settings.highlightBox !== undefined)
             ? settings.highlightBox
             : true;
+
+        _highlightValueState = (settings.highlightValue !== undefined)
+            ? settings.highlightValue
+            : true;
+
+        _highlightPencilMarksState = (settings.highlightPencilMarks !== undefined)
+            ? settings.highlightPencilMarks
+            : true;
     };
 
     /**
@@ -96,6 +120,8 @@ export default function Settings() {
             highlightRow: self.highlightRowState(),
             highlightColumn: self.highlightColumnState(),
             highlightBox: self.highlightBoxState(),
+            highlightValue: self.highlightValueState(),
+            highlightPencilMarks: self.highlightPencilMarksState(),
         }));
     };
 
@@ -110,6 +136,8 @@ export default function Settings() {
         (new HighlightRowCommand()).execute(self.highlightRowState());
         (new HighlightColumnCommand()).execute(self.highlightColumnState());
         (new HighlightBoxCommand()).execute(self.highlightBoxState());
+        (new HighlightValueCommand()).execute(self.highlightValueState());
+        (new HighlightPencilMarksCommand()).execute(self.highlightPencilMarksState());
     };
 
     /**
@@ -180,5 +208,31 @@ export default function Settings() {
         }
 
         return _highlightBoxState;
+    };
+
+    /**
+     * @param {boolean|null} state Setter if given, getter otherwise
+     * @return {boolean}
+     */
+    self.highlightValueState = (state = null) => {
+        if (state !== null) {
+            _highlightValueState = state;
+            _toLocalStorage();
+        }
+
+        return _highlightValueState;
+    };
+
+    /**
+     * @param {boolean|null} state Setter if given, getter otherwise
+     * @return {boolean}
+     */
+    self.highlightPencilMarksState = (state = null) => {
+        if (state !== null) {
+            _highlightPencilMarksState = state;
+            _toLocalStorage();
+        }
+
+        return _highlightPencilMarksState;
     };
 }

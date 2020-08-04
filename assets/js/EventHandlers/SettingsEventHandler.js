@@ -3,6 +3,8 @@ import AutoErrorCheckingCommand from '../Commands/Settings/AutoErrorCheckingComm
 import HighlightRowCommand from '../Commands/Settings/HighlightRowCommand';
 import HighlightColumnCommand from '../Commands/Settings/HighlightColumnCommand';
 import HighlightBoxCommand from '../Commands/Settings/HighlightBoxCommand';
+import HighlightValueCommand from '../Commands/Settings/HighlightValueCommand';
+import HighlightPencilMarksCommand from '../Commands/Settings/HighlightPencilMarksCommand';
 
 export default function SettingsEventHandler() {
     const self = this;
@@ -50,6 +52,8 @@ export default function SettingsEventHandler() {
         const highlightRowCommand = new HighlightRowCommand();
         const highlightColumnCommand = new HighlightColumnCommand();
         const highlightBoxCommand = new HighlightBoxCommand();
+        const highlightValueCommand = new HighlightValueCommand();
+        const highlightPencilMarksCommand = new HighlightPencilMarksCommand();
 
         // Row highlighting
         document.getElementById('setting-highlight-row')
@@ -67,6 +71,18 @@ export default function SettingsEventHandler() {
         document.getElementById('setting-highlight-box')
             .addEventListener('change', event => {
                 highlightBoxCommand.execute(event.target.checked);
+            });
+
+        // Same value highlighting
+        document.getElementById('setting-highlight-value')
+            .addEventListener('change', event => {
+                highlightValueCommand.execute(event.target.checked);
+            });
+
+        // Same value highlighting
+        document.getElementById('setting-highlight-pencil-marks')
+            .addEventListener('change', event => {
+                highlightPencilMarksCommand.execute(event.target.checked);
             });
     };
 }
