@@ -71,8 +71,8 @@ export default function Controls() {
     self.init = () => {
         document.addEventListener('mousedown', () => _mousePressed = true);
         document.addEventListener('mouseup', () => _mousePressed = false);
-        registerClickDisabling();
         document.addEventListener('keydown', keyPressCallback);
+        registerClickDisabling();
     };
 
     /**
@@ -107,17 +107,17 @@ export default function Controls() {
     const keyPressCallback = event => {
         _ctrlKeyPressed = Visitor.usesMacOs ? event.metaKey : event.ctrlKey;
 
-        // Prevent browser keyboard shortcut
+        // Prevent browser keyboard actions
         if (! self.cancelKeyboardEvent(event)) {
-            // Browser navigation
-            const arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
-            if (arrowKeys.indexOf(event.code) > -1) {
+            if (event.code === 'Space') {
                 event.preventDefault();
             }
 
             if (_ctrlKeyPressed) {
-                // Browser history
-                if (event.code === 'KeyY') {
+                if ([
+                    'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                    'KeyY'
+                ].indexOf(event.code) > -1) {
                     event.preventDefault();
                 }
             }
