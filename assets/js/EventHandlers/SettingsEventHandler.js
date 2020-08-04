@@ -1,6 +1,8 @@
 import ShowClockCommand from '../Commands/Settings/ShowClockCommand';
 import AutoErrorCheckingCommand from '../Commands/Settings/AutoErrorCheckingCommand';
 import HighlightRowCommand from '../Commands/Settings/HighlightRowCommand';
+import HighlightColumnCommand from '../Commands/Settings/HighlightColumnCommand';
+import HighlightBoxCommand from '../Commands/Settings/HighlightBoxCommand';
 
 export default function SettingsEventHandler() {
     const self = this;
@@ -46,11 +48,25 @@ export default function SettingsEventHandler() {
      */
     const _enableHighlightingToggling = () => {
         const highlightRowCommand = new HighlightRowCommand();
+        const highlightColumnCommand = new HighlightColumnCommand();
+        const highlightBoxCommand = new HighlightBoxCommand();
 
-        // Row, column and box, same digit (value and pencil mark)
+        // Row highlighting
         document.getElementById('setting-highlight-row')
             .addEventListener('change', event => {
                 highlightRowCommand.execute(event.target.checked);
+            });
+
+        // Column highlighting
+        document.getElementById('setting-highlight-column')
+            .addEventListener('change', event => {
+                highlightColumnCommand.execute(event.target.checked);
+            });
+
+        // 3x3 box highlighting
+        document.getElementById('setting-highlight-box')
+            .addEventListener('change', event => {
+                highlightBoxCommand.execute(event.target.checked);
             });
     };
 }

@@ -698,6 +698,102 @@ function AutoErrorCheckingCommand() {
 
 /***/ }),
 
+/***/ "./assets/js/Commands/Settings/HighlightBoxCommand.js":
+/*!************************************************************!*\
+  !*** ./assets/js/Commands/Settings/HighlightBoxCommand.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HighlightBoxCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
+/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightBoxCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+function HighlightBoxCommand() {
+  var self = this;
+  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * @inheritDoc
+   */
+
+  self.state = function () {
+    return Sudoku.settings.highlightBoxState;
+  };
+  /**
+   * The checkbox that toggles the setting
+   * @type {HTMLElement}
+   * @private
+   */
+
+
+  var _toggleCheckbox = document.getElementById('setting-highlight-box');
+  /**
+   * @inheritDoc
+   */
+
+
+  self.execute = function (state) {
+    _toggleCheckbox.checked = state;
+    Sudoku.settings.highlightBoxState(state);
+    self.state = state;
+  };
+}
+;
+
+/***/ }),
+
+/***/ "./assets/js/Commands/Settings/HighlightColumnCommand.js":
+/*!***************************************************************!*\
+  !*** ./assets/js/Commands/Settings/HighlightColumnCommand.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HighlightColumnCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
+/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightColumnCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+function HighlightColumnCommand() {
+  var self = this;
+  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * @inheritDoc
+   */
+
+  self.state = function () {
+    return Sudoku.settings.highlightColumnState;
+  };
+  /**
+   * The checkbox that toggles the setting
+   * @type {HTMLElement}
+   * @private
+   */
+
+
+  var _toggleCheckbox = document.getElementById('setting-highlight-column');
+  /**
+   * @inheritDoc
+   */
+
+
+  self.execute = function (state) {
+    _toggleCheckbox.checked = state;
+    Sudoku.settings.highlightColumnState(state);
+    self.state = state;
+  };
+}
+;
+
+/***/ }),
+
 /***/ "./assets/js/Commands/Settings/HighlightRowCommand.js":
 /*!************************************************************!*\
   !*** ./assets/js/Commands/Settings/HighlightRowCommand.js ***!
@@ -1327,6 +1423,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Commands/Settings/ShowClockCommand */ "./assets/js/Commands/Settings/ShowClockCommand.js");
 /* harmony import */ var _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Commands/Settings/AutoErrorCheckingCommand */ "./assets/js/Commands/Settings/AutoErrorCheckingCommand.js");
 /* harmony import */ var _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Commands/Settings/HighlightRowCommand */ "./assets/js/Commands/Settings/HighlightRowCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Commands/Settings/HighlightColumnCommand */ "./assets/js/Commands/Settings/HighlightColumnCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Commands/Settings/HighlightBoxCommand */ "./assets/js/Commands/Settings/HighlightBoxCommand.js");
+
+
 
 
 
@@ -1374,10 +1474,20 @@ function SettingsEventHandler() {
 
 
   var _enableHighlightingToggling = function _enableHighlightingToggling() {
-    var highlightRowCommand = new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__["default"](); // Row, column and box, same digit (value and pencil mark)
+    var highlightRowCommand = new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__["default"]();
+    var highlightColumnCommand = new _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_3__["default"]();
+    var highlightBoxCommand = new _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__["default"](); // Row highlighting
 
     document.getElementById('setting-highlight-row').addEventListener('change', function (event) {
       highlightRowCommand.execute(event.target.checked);
+    }); // Column highlighting
+
+    document.getElementById('setting-highlight-column').addEventListener('change', function (event) {
+      highlightColumnCommand.execute(event.target.checked);
+    }); // 3x3 box highlighting
+
+    document.getElementById('setting-highlight-box').addEventListener('change', function (event) {
+      highlightBoxCommand.execute(event.target.checked);
     });
   };
 }
@@ -1585,7 +1695,14 @@ function Grid() {
         cellNumbers = cellNumbers.concat(cell.getRow().getCellNumbers());
       }
 
-      cellNumbers = cellNumbers.concat(cell.getColumn().getCellNumbers()).concat(cell.getBox().getCellNumbers()); // See if the cell has a value, for further highlighting
+      if (Sudoku.settings.highlightColumnState()) {
+        cellNumbers = cellNumbers.concat(cell.getColumn().getCellNumbers());
+      }
+
+      if (Sudoku.settings.highlightBoxState()) {
+        cellNumbers = cellNumbers.concat(cell.getBox().getCellNumbers());
+      } // See if the cell has a value, for further highlighting
+
 
       var cellValue = cell.getValue();
 
@@ -2775,6 +2892,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Commands/Settings/ShowClockCommand */ "./assets/js/Commands/Settings/ShowClockCommand.js");
 /* harmony import */ var _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Commands/Settings/AutoErrorCheckingCommand */ "./assets/js/Commands/Settings/AutoErrorCheckingCommand.js");
 /* harmony import */ var _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Commands/Settings/HighlightRowCommand */ "./assets/js/Commands/Settings/HighlightRowCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Commands/Settings/HighlightColumnCommand */ "./assets/js/Commands/Settings/HighlightColumnCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Commands/Settings/HighlightBoxCommand */ "./assets/js/Commands/Settings/HighlightBoxCommand.js");
+
+
 
 
 
@@ -2804,6 +2925,22 @@ function Settings() {
 
   var _highlightRowState;
   /**
+   * Indicates whether highlighting columns is enabled
+   * @type {boolean}
+   * @private
+   */
+
+
+  var _highlightColumnState;
+  /**
+   * Indicates whether highlighting 3x3 boxes is enabled
+   * @type {boolean}
+   * @private
+   */
+
+
+  var _highlightBoxState;
+  /**
    * Initialize the object
    */
 
@@ -2830,6 +2967,8 @@ function Settings() {
     _clockState = settings.clock !== undefined ? settings.clock : true;
     _autoErrorCheckingState = settings.autoErrorChecking !== undefined ? settings.autoErrorChecking : true;
     _highlightRowState = settings.highlightRow !== undefined ? settings.highlightRow : true;
+    _highlightColumnState = settings.highlightColumn !== undefined ? settings.highlightColumn : true;
+    _highlightBoxState = settings.highlightBox !== undefined ? settings.highlightBox : true;
   };
   /**
    * Export settings to local storage
@@ -2842,7 +2981,9 @@ function Settings() {
     localStorage.setItem('settings', JSON.stringify({
       clock: self.clockState(),
       autoErrorChecking: self.autoErrorCheckingState(),
-      highlightRow: self.highlightRowState()
+      highlightRow: self.highlightRowState(),
+      highlightColumn: self.highlightColumnState(),
+      highlightBox: self.highlightBoxState()
     }));
   };
   /**
@@ -2856,6 +2997,8 @@ function Settings() {
     new _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__["default"]().execute(self.clockState());
     new _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__["default"]().execute(self.autoErrorCheckingState());
     new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__["default"]().execute(self.highlightRowState());
+    new _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_3__["default"]().execute(self.highlightColumnState());
+    new _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__["default"]().execute(self.highlightBoxState());
   };
   /**
    * @param {boolean|null} state Setter if given, getter otherwise
@@ -2910,6 +3053,40 @@ function Settings() {
     }
 
     return _highlightRowState;
+  };
+  /**
+   * @param {boolean|null} state Setter if given, getter otherwise
+   * @return {boolean}
+   */
+
+
+  self.highlightColumnState = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    if (state !== null) {
+      _highlightColumnState = state;
+
+      _toLocalStorage();
+    }
+
+    return _highlightColumnState;
+  };
+  /**
+   * @param {boolean|null} state Setter if given, getter otherwise
+   * @return {boolean}
+   */
+
+
+  self.highlightBoxState = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    if (state !== null) {
+      _highlightBoxState = state;
+
+      _toLocalStorage();
+    }
+
+    return _highlightBoxState;
   };
 }
 

@@ -163,8 +163,13 @@ export default function Grid() {
                 cellNumbers = cellNumbers.concat(cell.getRow().getCellNumbers());
             }
 
-            cellNumbers = cellNumbers.concat(cell.getColumn().getCellNumbers())
-                .concat(cell.getBox().getCellNumbers());
+            if (Sudoku.settings.highlightColumnState()) {
+                cellNumbers = cellNumbers.concat(cell.getColumn().getCellNumbers());
+            }
+
+            if (Sudoku.settings.highlightBoxState()) {
+                cellNumbers = cellNumbers.concat(cell.getBox().getCellNumbers());
+            }
 
             // See if the cell has a value, for further highlighting
             const cellValue = cell.getValue();
