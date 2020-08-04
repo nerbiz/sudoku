@@ -70,7 +70,7 @@ $box-border: $box-border-width map_get($color-palette, 4) solid;
         position: absolute;
         top: 0;
         left: 0;
-        border: 3px rgba($color-black, 0.15) double;
+        background-color: rgba($color-black, 0.05);
         width: 100%;
         height: 100%;
       }
