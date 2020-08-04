@@ -215,6 +215,8 @@ export default function Grid() {
      * @return {void}
      */
     self.checkForErrors = () => {
+        self.removeAllErrors();
+
         _gridRows.forEach(row => row.checkDuplicateCellValues());
         _gridColumns.forEach(column => column.checkDuplicateCellValues());
         _gridBoxes.forEach(box => box.checkDuplicateCellValues());

@@ -94,6 +94,11 @@ export default function Settings() {
         if (state !== null) {
             _autoErrorCheckingState = state;
             _toLocalStorage();
+
+            // Check or remove errors
+            (state === true)
+                ? Sudoku.grid.checkForErrors()
+                : Sudoku.grid.removeAllErrors();
         }
 
         return _autoErrorCheckingState;

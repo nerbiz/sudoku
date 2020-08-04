@@ -5,26 +5,19 @@ export default function DocumentEventHandler() {
     const self = this;
 
     /**
-     * @type {PauseGameCommand}
-     * @private
+     * Initialize the object
      */
-    const _pauseGameCommand = new PauseGameCommand();
-
-    /**
-     * Register event handlers for the document
-     * @return {void}
-     */
-    self.register = () => {
-        registerKeyboardNavigation();
-        registerValueSetting();
-        registerCellsDeselecting();
+    self.init = () => {
+        registerKeyboardEvents();
+        registerMouseEvents();
     };
 
     /**
-     * Register keyboard navigation events
      * @return {void}
      */
-    const registerKeyboardNavigation = () => {
+    const registerKeyboardEvents = () => {
+        const pauseGameCommand = new PauseGameCommand();
+
         document.addEventListener('keydown', event => {
             if (Sudoku.controls.cancelKeyboardEvent(event)) {
                 return;
@@ -64,28 +57,17 @@ export default function DocumentEventHandler() {
                 newCell.setSelectedState(true);
                 Sudoku.grid.setLastNavigatedCell(newCell);
             }
-        });
-    };
-
-    /**
-     * Register setting of values
-     * @return {void}
-     */
-    const registerValueSetting = () => {
-        document.addEventListener('keydown', event => {
-            if (Sudoku.controls.cancelKeyboardEvent(event)) {
-                return;
-            }
 
             if (Sudoku.controls.isNumberKey(event.code)) {
                 // Set a number value
                 const digit = parseInt(event.key, 10);
                 Sudoku.history.execute(new ChangeDigitCommand(digit));
             } else if (Sudoku.controls.isDeleteKey(event.code)) {
-                // Remove the value
+                // Remove a value
                 Sudoku.history.execute(new ChangeDigitCommand(null));
             } else if (event.code === 'KeyZ') {
                 if (Sudoku.controls.ctrlKeyIsPressed()) {
+                    // Redo or undo an action
                     if (Sudoku.controls.shiftKeyIsPressed()) {
                         Sudoku.history.redo();
                     } else {
@@ -93,26 +75,24 @@ export default function DocumentEventHandler() {
                     }
                 }
             } else if (event.code === 'KeyY') {
+                // Redo an action
                 if (Sudoku.controls.ctrlKeyIsPressed()) {
                     Sudoku.history.redo();
                 }
             } else if (event.code === 'Escape') {
-                if (Sudoku.modal.openState() === true) {
+                (Sudoku.modal.openState() === true)
                     // Close a modal dialog
-                    Sudoku.modal.close();
-                } else {
+                    ? Sudoku.modal.close()
                     // Pause / unpause the game
-                    _pauseGameCommand.toggle();
-                }
+                    : pauseGameCommand.toggle();
             }
         });
     };
 
     /**
-     * Deselect all cells when clicking outside the grid
      * @return {void}
      */
-    const registerCellsDeselecting = () => {
+    const registerMouseEvents = () => {
         document.addEventListener('mousedown', event => {
             if (event.target.closest('.grid-cell') === null) {
                 Sudoku.grid.deselectAllCells();

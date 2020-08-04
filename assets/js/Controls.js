@@ -109,15 +109,15 @@ export default function Controls() {
 
         // Prevent browser keyboard actions
         if (! self.cancelKeyboardEvent(event)) {
-            if (event.code === 'Space') {
+            if ([
+                'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                'Space'
+            ].indexOf(event.code) > -1) {
                 event.preventDefault();
             }
 
             if (_ctrlKeyPressed) {
-                if ([
-                    'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
-                    'KeyY'
-                ].indexOf(event.code) > -1) {
+                if (event.code === 'KeyY') {
                     event.preventDefault();
                 }
             }

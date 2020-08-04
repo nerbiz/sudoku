@@ -67,10 +67,6 @@ export default function ChangeDigitCommand(digit) {
      * @inheritDoc
      */
     self.execute = () => {
-        if (Sudoku.settings.autoErrorCheckingState()) {
-            Sudoku.grid.removeAllErrors();
-        }
-
         _cells.forEach(cell => cell.setDigit(_digit, _inputMode));
 
         if (Sudoku.settings.autoErrorCheckingState()) {
@@ -82,10 +78,6 @@ export default function ChangeDigitCommand(digit) {
      * @inheritDoc
      */
     self.undo = () => {
-        if (Sudoku.settings.autoErrorCheckingState()) {
-            Sudoku.grid.removeAllErrors();
-        }
-
         // Apply the previous values to the cell(s)
         _cells.forEach(cell => {
             const state = _cellsState[cell.getCellNumber()];

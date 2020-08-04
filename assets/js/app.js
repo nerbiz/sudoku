@@ -8,6 +8,7 @@ import Meta from './Meta';
 import Modal from './Modal';
 import Settings from './Settings';
 import SettingsEventHandler from './EventHandlers/SettingsEventHandler';
+import ActionsEventHandler from './EventHandlers/ActionsEventHandler';
 
 // 'Namespace' of the project
 window.Sudoku = {
@@ -21,6 +22,7 @@ window.Sudoku = {
     modal: new Modal(),
     documentEventHandler: new DocumentEventHandler(),
     settingsEventHandler: new SettingsEventHandler(),
+    actionsEventHandler: new ActionsEventHandler(),
 };
 
 Sudoku.settings.init();
@@ -31,7 +33,8 @@ Sudoku.meta.init();
 Sudoku.inputMode.init();
 Sudoku.controls.init();
 Sudoku.grid.init();
-Sudoku.documentEventHandler.register();
+Sudoku.documentEventHandler.init();
+Sudoku.actionsEventHandler.init();
 
 /*
 const LZString = require('lz-string');
