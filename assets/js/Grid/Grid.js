@@ -159,8 +159,11 @@ export default function Grid() {
 
         // Add the cell numbers of the row, column and box that the cell is in
         self.getSelectedCells().forEach(cell => {
-            cellNumbers = cellNumbers.concat(cell.getRow().getCellNumbers())
-                .concat(cell.getColumn().getCellNumbers())
+            if (Sudoku.settings.highlightRowState()) {
+                cellNumbers = cellNumbers.concat(cell.getRow().getCellNumbers());
+            }
+
+            cellNumbers = cellNumbers.concat(cell.getColumn().getCellNumbers())
                 .concat(cell.getBox().getCellNumbers());
 
             // See if the cell has a value, for further highlighting

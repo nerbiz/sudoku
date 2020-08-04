@@ -698,6 +698,54 @@ function AutoErrorCheckingCommand() {
 
 /***/ }),
 
+/***/ "./assets/js/Commands/Settings/HighlightRowCommand.js":
+/*!************************************************************!*\
+  !*** ./assets/js/Commands/Settings/HighlightRowCommand.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HighlightRowCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
+/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightRowCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+function HighlightRowCommand() {
+  var self = this;
+  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * @inheritDoc
+   */
+
+  self.state = function () {
+    return Sudoku.settings.highlightRowState;
+  };
+  /**
+   * The checkbox that toggles the setting
+   * @type {HTMLElement}
+   * @private
+   */
+
+
+  var _toggleCheckbox = document.getElementById('setting-highlight-row');
+  /**
+   * @inheritDoc
+   */
+
+
+  self.execute = function (state) {
+    _toggleCheckbox.checked = state;
+    Sudoku.settings.highlightRowState(state);
+    self.state = state;
+  };
+}
+;
+
+/***/ }),
+
 /***/ "./assets/js/Commands/Settings/ShowClockCommand.js":
 /*!*********************************************************!*\
   !*** ./assets/js/Commands/Settings/ShowClockCommand.js ***!
@@ -1278,27 +1326,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SettingsEventHandler; });
 /* harmony import */ var _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Commands/Settings/ShowClockCommand */ "./assets/js/Commands/Settings/ShowClockCommand.js");
 /* harmony import */ var _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Commands/Settings/AutoErrorCheckingCommand */ "./assets/js/Commands/Settings/AutoErrorCheckingCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Commands/Settings/HighlightRowCommand */ "./assets/js/Commands/Settings/HighlightRowCommand.js");
+
 
 
 function SettingsEventHandler() {
   var self = this;
   /**
-   * @type {ShowClockCommand}
-   * @private
-   */
-
-  var _showClockCommand = new _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__["default"]();
-  /**
-   * @type {AutoErrorCheckingCommand}
-   * @private
-   */
-
-
-  var _autoErrorCheckingCommand = new _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__["default"]();
-  /**
    * Initialize the object
    */
-
 
   self.init = function () {
     _enableClockToggling();
@@ -1314,8 +1350,9 @@ function SettingsEventHandler() {
 
 
   var _enableClockToggling = function _enableClockToggling() {
+    var showClockCommand = new _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__["default"]();
     document.getElementById('setting-show-clock').addEventListener('change', function (event) {
-      _showClockCommand.execute(event.target.checked);
+      showClockCommand.execute(event.target.checked);
     });
   };
   /**
@@ -1325,12 +1362,23 @@ function SettingsEventHandler() {
 
 
   var _enableAutoErrorCheckingToggling = function _enableAutoErrorCheckingToggling() {
+    var autoErrorCheckingCommand = new _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__["default"]();
     document.getElementById('setting-auto-error-checking').addEventListener('change', function (event) {
-      _autoErrorCheckingCommand.execute(event.target.checked);
+      autoErrorCheckingCommand.execute(event.target.checked);
     });
   };
+  /**
+   * @return {void}
+   * @private
+   */
 
-  var _enableHighlightingToggling = function _enableHighlightingToggling() {// Row, column and box, same digit (value and pencil mark)
+
+  var _enableHighlightingToggling = function _enableHighlightingToggling() {
+    var highlightRowCommand = new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__["default"](); // Row, column and box, same digit (value and pencil mark)
+
+    document.getElementById('setting-highlight-row').addEventListener('change', function (event) {
+      highlightRowCommand.execute(event.target.checked);
+    });
   };
 }
 
@@ -1533,7 +1581,11 @@ function Grid() {
     var cellNumbers = []; // Add the cell numbers of the row, column and box that the cell is in
 
     self.getSelectedCells().forEach(function (cell) {
-      cellNumbers = cellNumbers.concat(cell.getRow().getCellNumbers()).concat(cell.getColumn().getCellNumbers()).concat(cell.getBox().getCellNumbers()); // See if the cell has a value, for further highlighting
+      if (Sudoku.settings.highlightRowState()) {
+        cellNumbers = cellNumbers.concat(cell.getRow().getCellNumbers());
+      }
+
+      cellNumbers = cellNumbers.concat(cell.getColumn().getCellNumbers()).concat(cell.getBox().getCellNumbers()); // See if the cell has a value, for further highlighting
 
       var cellValue = cell.getValue();
 
@@ -2722,6 +2774,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Settings; });
 /* harmony import */ var _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Commands/Settings/ShowClockCommand */ "./assets/js/Commands/Settings/ShowClockCommand.js");
 /* harmony import */ var _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Commands/Settings/AutoErrorCheckingCommand */ "./assets/js/Commands/Settings/AutoErrorCheckingCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Commands/Settings/HighlightRowCommand */ "./assets/js/Commands/Settings/HighlightRowCommand.js");
+
 
 
 function Settings() {
@@ -2741,6 +2795,14 @@ function Settings() {
 
 
   var _autoErrorCheckingState;
+  /**
+   * Indicates whether highlighting rows is enabled
+   * @type {boolean}
+   * @private
+   */
+
+
+  var _highlightRowState;
   /**
    * Initialize the object
    */
@@ -2767,6 +2829,7 @@ function Settings() {
     var settings = JSON.parse(localStorage.getItem('settings'));
     _clockState = settings.clock !== undefined ? settings.clock : true;
     _autoErrorCheckingState = settings.autoErrorChecking !== undefined ? settings.autoErrorChecking : true;
+    _highlightRowState = settings.highlightRow !== undefined ? settings.highlightRow : true;
   };
   /**
    * Export settings to local storage
@@ -2778,7 +2841,8 @@ function Settings() {
   var _toLocalStorage = function _toLocalStorage() {
     localStorage.setItem('settings', JSON.stringify({
       clock: self.clockState(),
-      autoErrorChecking: self.autoErrorCheckingState()
+      autoErrorChecking: self.autoErrorCheckingState(),
+      highlightRow: self.highlightRowState()
     }));
   };
   /**
@@ -2789,10 +2853,9 @@ function Settings() {
 
 
   var _applySettings = function _applySettings() {
-    var showClockCommand = new _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__["default"]();
-    showClockCommand.execute(self.clockState());
-    var autoErrorCheckingCommand = new _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    autoErrorCheckingCommand.execute(self.autoErrorCheckingState());
+    new _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__["default"]().execute(self.clockState());
+    new _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__["default"]().execute(self.autoErrorCheckingState());
+    new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__["default"]().execute(self.highlightRowState());
   };
   /**
    * @param {boolean|null} state Setter if given, getter otherwise
@@ -2830,6 +2893,23 @@ function Settings() {
     }
 
     return _autoErrorCheckingState;
+  };
+  /**
+   * @param {boolean|null} state Setter if given, getter otherwise
+   * @return {boolean}
+   */
+
+
+  self.highlightRowState = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    if (state !== null) {
+      _highlightRowState = state;
+
+      _toLocalStorage();
+    }
+
+    return _highlightRowState;
   };
 }
 

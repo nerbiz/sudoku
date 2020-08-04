@@ -1,5 +1,6 @@
 import ShowClockCommand from './Commands/Settings/ShowClockCommand';
 import AutoErrorCheckingCommand from './Commands/Settings/AutoErrorCheckingCommand';
+import HighlightRowCommand from './Commands/Settings/HighlightRowCommand';
 
 export default function Settings() {
     const self = this;
@@ -17,6 +18,13 @@ export default function Settings() {
      * @private
      */
     let _autoErrorCheckingState;
+
+    /**
+     * Indicates whether highlighting rows is enabled
+     * @type {boolean}
+     * @private
+     */
+    let _highlightRowState;
 
     /**
      * Initialize the object
@@ -46,6 +54,10 @@ export default function Settings() {
         _autoErrorCheckingState = (settings.autoErrorChecking !== undefined)
             ? settings.autoErrorChecking
             : true;
+
+        _highlightRowState = (settings.highlightRow !== undefined)
+            ? settings.highlightRow
+            : true;
     };
 
     /**
@@ -57,6 +69,7 @@ export default function Settings() {
         localStorage.setItem('settings', JSON.stringify({
             clock: self.clockState(),
             autoErrorChecking: self.autoErrorCheckingState(),
+            highlightRow: self.highlightRowState(),
         }));
     };
 
@@ -66,11 +79,9 @@ export default function Settings() {
      * @private
      */
     const _applySettings = () => {
-        const showClockCommand = new ShowClockCommand();
-        showClockCommand.execute(self.clockState());
-
-        const autoErrorCheckingCommand = new AutoErrorCheckingCommand();
-        autoErrorCheckingCommand.execute(self.autoErrorCheckingState());
+        (new ShowClockCommand()).execute(self.clockState());
+        (new AutoErrorCheckingCommand()).execute(self.autoErrorCheckingState());
+        (new HighlightRowCommand()).execute(self.highlightRowState());
     };
 
     /**
@@ -102,5 +113,18 @@ export default function Settings() {
         }
 
         return _autoErrorCheckingState;
+    };
+
+    /**
+     * @param {boolean|null} state Setter if given, getter otherwise
+     * @return {boolean}
+     */
+    self.highlightRowState = (state = null) => {
+        if (state !== null) {
+            _highlightRowState = state;
+            _toLocalStorage();
+        }
+
+        return _highlightRowState;
     };
 }
