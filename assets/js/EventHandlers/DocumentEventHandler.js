@@ -96,7 +96,7 @@ export default function DocumentEventHandler() {
         document.addEventListener('mousedown', event => {
             if (event.target.closest('.grid-cell') === null) {
                 Sudoku.grid.deselectAllCells();
-                Sudoku.grid.dehighlightAllCells();
+                Sudoku.gridCellHighlighter.dehighlightAllCells();
             }
         });
     };

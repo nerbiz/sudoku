@@ -194,7 +194,7 @@ export default function GridCell(cellNumber) {
         _value = digit;
 
         // Highlight other cells, also when the value is removed
-        Sudoku.grid.highlightRelatedCells();
+        Sudoku.gridCellHighlighter.highlightRelatedCells();
     };
 
     /**
@@ -407,7 +407,7 @@ export default function GridCell(cellNumber) {
 
         // Don't add duplicates to the list
         if (highlighted && ! self.isHighlighted()) {
-            Sudoku.grid.addHighlightedCell(self);
+            Sudoku.gridCellHighlighter.addHighlightedCell(self);
         }
 
         _isHighlighted = highlighted;

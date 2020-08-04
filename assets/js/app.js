@@ -9,6 +9,7 @@ import Modal from './Modal';
 import Settings from './Settings';
 import SettingsEventHandler from './EventHandlers/SettingsEventHandler';
 import ActionsEventHandler from './EventHandlers/ActionsEventHandler';
+import GridCellHighlighter from './Grid/GridCellHighlighter';
 
 // 'Namespace' of the project
 window.Sudoku = {
@@ -17,6 +18,7 @@ window.Sudoku = {
     meta: new Meta(),
     controls: new Controls(),
     inputMode: new InputMode(),
+    gridCellHighlighter: new GridCellHighlighter(),
     grid: new Grid(),
     clock: new Clock(),
     modal: new Modal(),

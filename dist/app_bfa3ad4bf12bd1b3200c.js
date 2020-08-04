@@ -1320,7 +1320,7 @@ function DocumentEventHandler() {
     document.addEventListener('mousedown', function (event) {
       if (event.target.closest('.grid-cell') === null) {
         Sudoku.grid.deselectAllCells();
-        Sudoku.grid.dehighlightAllCells();
+        Sudoku.gridCellHighlighter.dehighlightAllCells();
       }
     });
   };
@@ -1548,13 +1548,6 @@ function Grid() {
 
   var _selectedCells = [];
   /**
-   * A list of currently highlighted cells
-   * @type {GridCell[]}
-   * @private
-   */
-
-  var _highlightedCells = [];
-  /**
    * The cell that is last navigated to
    * @type {GridCell|null}
    * @private
@@ -1636,7 +1629,7 @@ function Grid() {
     _selectedCells.push(cell); // Highlight related cells after selecting
 
 
-    self.highlightRelatedCells();
+    Sudoku.gridCellHighlighter.highlightRelatedCells();
   };
   /**
    * Deselect all the selected cells
@@ -1649,82 +1642,6 @@ function Grid() {
       return cell.setSelectedState(false);
     });
     _selectedCells = [];
-  };
-  /**
-   * @return {GridCell[]}
-   */
-
-
-  self.getHighlightedCells = function () {
-    return _highlightedCells;
-  };
-  /**
-   * Add a cell to the list of highlighted cells
-   * @param {GridCell} cell
-   * @return {number}
-   */
-
-
-  self.addHighlightedCell = function (cell) {
-    return _highlightedCells.push(cell);
-  };
-  /**
-   * De-highlight all the highlighted cells
-   * @return {void}
-   */
-
-
-  self.dehighlightAllCells = function () {
-    self.getHighlightedCells().forEach(function (cell) {
-      return cell.setHighlightedState(false);
-    });
-    _highlightedCells = [];
-  };
-  /**
-   * Highlight all cells that are related to selected cell(s)
-   * @return {void}
-   */
-
-
-  self.highlightRelatedCells = function () {
-    self.dehighlightAllCells();
-    var cellNumbers = []; // Add the cell numbers of the row, column and box that the cell is in
-
-    self.getSelectedCells().forEach(function (cell) {
-      if (Sudoku.settings.highlightRowState()) {
-        cellNumbers = cellNumbers.concat(cell.getRow().getCellNumbers());
-      }
-
-      if (Sudoku.settings.highlightColumnState()) {
-        cellNumbers = cellNumbers.concat(cell.getColumn().getCellNumbers());
-      }
-
-      if (Sudoku.settings.highlightBoxState()) {
-        cellNumbers = cellNumbers.concat(cell.getBox().getCellNumbers());
-      } // See if the cell has a value, for further highlighting
-
-
-      var cellValue = cell.getValue();
-
-      if (cellValue === null) {
-        return;
-      } // Add the cell numbers of cells that contain the same digit
-
-
-      var sameDigitCellNumbers = self.getCells().filter(function (cell) {
-        return cell.hasValue(cellValue) || cell.hasCornerMark(cellValue) || cell.hasCenterMark(cellValue);
-      }).map(function (cell) {
-        return cell.getCellNumber();
-      });
-      cellNumbers = cellNumbers.concat(sameDigitCellNumbers);
-    });
-    cellNumbers // Remove duplicates
-    .filter(function (value, index, numbers) {
-      return numbers.indexOf(value) === index;
-    }) // Highlight the cells
-    .forEach(function (cellNumber) {
-      self.getCell(cellNumber).setHighlightedState(true);
-    });
   };
   /**
    * @return {GridCell|null}
@@ -2089,7 +2006,7 @@ function GridCell(cellNumber) {
     self.getElement().getElementsByClassName('cell-value')[0].innerText = digit;
     _value = digit; // Highlight other cells, also when the value is removed
 
-    Sudoku.grid.highlightRelatedCells();
+    Sudoku.gridCellHighlighter.highlightRelatedCells();
   };
   /**
    * Check if the cell has a value
@@ -2329,7 +2246,7 @@ function GridCell(cellNumber) {
     self.getElement().classList[toggleMethod]('is-highlighted'); // Don't add duplicates to the list
 
     if (highlighted && !self.isHighlighted()) {
-      Sudoku.grid.addHighlightedCell(self);
+      Sudoku.gridCellHighlighter.addHighlightedCell(self);
     }
 
     _isHighlighted = highlighted;
@@ -2404,6 +2321,106 @@ function GridCell(cellNumber) {
 
   self.getState = function () {
     return 'n' + self.getCellNumber() + (self.isPrefilled() ? 'p' : '') + 'v' + self.getValue() + 'c' + self.getColorNumber() + 'cr' + self.getCornerMarks().join('') + 'cn' + self.getCenterMarks().join('');
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/js/Grid/GridCellHighlighter.js":
+/*!***********************************************!*\
+  !*** ./assets/js/Grid/GridCellHighlighter.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GridCellHighlighter; });
+/* harmony import */ var _GridCell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GridCell */ "./assets/js/Grid/GridCell.js");
+
+function GridCellHighlighter() {
+  var self = this;
+  /**
+   * A list of currently highlighted cells
+   * @type {GridCell[]}
+   * @private
+   */
+
+  var _highlightedCells = [];
+  /**
+   * Add a cell to the list of highlighted cells
+   * @param {GridCell} cell
+   * @return {number}
+   */
+
+  self.addHighlightedCell = function (cell) {
+    return _highlightedCells.push(cell);
+  };
+  /**
+   * @return {GridCell[]}
+   */
+
+
+  self.getHighlightedCells = function () {
+    return _highlightedCells;
+  };
+  /**
+   * Highlight all cells that are related to selected cell(s)
+   * @return {void}
+   */
+
+
+  self.highlightRelatedCells = function () {
+    self.dehighlightAllCells();
+    var cellNumbers = []; // Add the cell numbers of the row, column and box that the cell is in
+
+    Sudoku.grid.getSelectedCells().forEach(function (cell) {
+      if (Sudoku.settings.highlightRowState()) {
+        cellNumbers = cellNumbers.concat(cell.getRow().getCellNumbers());
+      }
+
+      if (Sudoku.settings.highlightColumnState()) {
+        cellNumbers = cellNumbers.concat(cell.getColumn().getCellNumbers());
+      }
+
+      if (Sudoku.settings.highlightBoxState()) {
+        cellNumbers = cellNumbers.concat(cell.getBox().getCellNumbers());
+      } // See if the cell has a value, for further highlighting
+
+
+      var cellValue = cell.getValue();
+
+      if (cellValue === null) {
+        return;
+      } // Add the cell numbers of cells that contain the same digit
+
+
+      var sameDigitCellNumbers = Sudoku.grid.getCells().filter(function (cell) {
+        return cell.hasValue(cellValue) || cell.hasCornerMark(cellValue) || cell.hasCenterMark(cellValue);
+      }).map(function (cell) {
+        return cell.getCellNumber();
+      });
+      cellNumbers = cellNumbers.concat(sameDigitCellNumbers);
+    });
+    cellNumbers // Remove duplicates
+    .filter(function (value, index, numbers) {
+      return numbers.indexOf(value) === index;
+    }) // Highlight the cells
+    .forEach(function (cellNumber) {
+      Sudoku.grid.getCell(cellNumber).setHighlightedState(true);
+    });
+  };
+  /**
+   * De-highlight all the highlighted cells
+   * @return {void}
+   */
+
+
+  self.dehighlightAllCells = function () {
+    self.getHighlightedCells().forEach(function (cell) {
+      return cell.setHighlightedState(false);
+    });
+    _highlightedCells = [];
   };
 }
 
@@ -3231,6 +3248,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Settings */ "./assets/js/Settings.js");
 /* harmony import */ var _EventHandlers_SettingsEventHandler__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./EventHandlers/SettingsEventHandler */ "./assets/js/EventHandlers/SettingsEventHandler.js");
 /* harmony import */ var _EventHandlers_ActionsEventHandler__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./EventHandlers/ActionsEventHandler */ "./assets/js/EventHandlers/ActionsEventHandler.js");
+/* harmony import */ var _Grid_GridCellHighlighter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Grid/GridCellHighlighter */ "./assets/js/Grid/GridCellHighlighter.js");
+
 
 
 
@@ -3249,6 +3268,7 @@ window.Sudoku = {
   meta: new _Meta__WEBPACK_IMPORTED_MODULE_6__["default"](),
   controls: new _Controls__WEBPACK_IMPORTED_MODULE_0__["default"](),
   inputMode: new _InputMode__WEBPACK_IMPORTED_MODULE_1__["default"](),
+  gridCellHighlighter: new _Grid_GridCellHighlighter__WEBPACK_IMPORTED_MODULE_11__["default"](),
   grid: new _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__["default"](),
   clock: new _Clock__WEBPACK_IMPORTED_MODULE_3__["default"](),
   modal: new _Modal__WEBPACK_IMPORTED_MODULE_7__["default"](),
