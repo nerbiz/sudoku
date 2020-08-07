@@ -15,11 +15,18 @@ export default function PauseGameCommand() {
     self.state = () => false;
 
     /**
+     * @type {HTMLElement}
+     * @private
+     */
+    const _bodyElement = document.getElementById('page-body');
+
+    /**
      * @inheritDoc
      */
     self.execute = state => {
         if (state === true) {
             Sudoku.clock.pause();
+            _bodyElement.classList.add('is-paused');
 
             const openModalCommand = new OpenModalCommand(Modal.PAUSE_MODAL_ID);
             openModalCommand.execute();
@@ -30,6 +37,7 @@ export default function PauseGameCommand() {
             }
 
             Sudoku.clock.unpause();
+            _bodyElement.classList.remove('is-paused');
         }
 
         self.state = state;

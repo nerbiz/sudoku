@@ -615,6 +615,13 @@ function PauseGameCommand() {
     return false;
   };
   /**
+   * @type {HTMLElement}
+   * @private
+   */
+
+
+  var _bodyElement = document.getElementById('page-body');
+  /**
    * @inheritDoc
    */
 
@@ -622,6 +629,9 @@ function PauseGameCommand() {
   self.execute = function (state) {
     if (state === true) {
       Sudoku.clock.pause();
+
+      _bodyElement.classList.add('is-paused');
+
       var openModalCommand = new _Modal_OpenModalCommand__WEBPACK_IMPORTED_MODULE_2__["default"](_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].PAUSE_MODAL_ID);
       openModalCommand.execute();
     } else {
@@ -631,6 +641,8 @@ function PauseGameCommand() {
       }
 
       Sudoku.clock.unpause();
+
+      _bodyElement.classList.remove('is-paused');
     }
 
     self.state = state;

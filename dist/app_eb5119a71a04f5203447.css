@@ -67,13 +67,13 @@ h3,
     #top-bar-menu a:focus, #top-bar-menu a:hover, #top-bar-menu a:active {
       text-decoration: underline; }
 
-.page-body {
+#page-body {
   font-family: "Josefin Sans", sans-serif;
   font-weight: 300;
   font-size: 16px;
   background-color: #9af8fd; }
 
-.page-content {
+#page-content {
   display: flex;
   justify-content: center;
   align-items: start;
@@ -183,6 +183,16 @@ label {
   justify-content: center;
   align-items: center;
   font-size: 35px; }
+
+.is-paused .corner-mark,
+.is-paused .center-marks,
+.is-paused .cell-value {
+  color: transparent; }
+
+.is-paused .grid-cell {
+  background-color: #fff; }
+  .is-paused .grid-cell.is-highlighted .grid-cell-content:after {
+    content: none; }
 
 .corner-mark {
   position: absolute;

@@ -14,10 +14,10 @@ use Sudoku\Webpack;
         <link rel="stylesheet" href="<?php echo Webpack::getAssetUrl('app.css'); ?>">
     </head>
 
-    <body class="page-body">
+    <body id="page-body">
         <?php require __DIR__ . '/parts/header.php'; ?>
 
-        <main class="page-content">
+        <main id="page-content">
             <ul id="main-grid">
                 <?php for ($i = 0; ++$i < 82;): ?>
                     <li class="grid-cell" id="grid-cell-<?php echo $i; ?>">

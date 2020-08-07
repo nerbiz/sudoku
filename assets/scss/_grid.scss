@@ -156,3 +156,23 @@ $box-border: $box-border-width map_get($color-palette, 4) solid;
   align-items: center;
   font-size: map_get($font-sizes, 'cell-value');
 }
+
+.is-paused {
+  .corner-mark,
+  .center-marks,
+  .cell-value {
+    color: transparent;
+  }
+
+  .grid-cell {
+    background-color: $color-white;
+
+    &.is-highlighted {
+      .grid-cell-content {
+        &:after {
+          content: none;
+        }
+      }
+    }
+  }
+}
