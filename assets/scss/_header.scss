@@ -1,0 +1,57 @@
+#top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px map_get($color-palette, 4) solid;
+  padding: 15px;
+  width: 100%;
+  background-color: map_get($color-palette, 3);
+  box-shadow: 0px -10px 20px 0px $color-shadow;
+  z-index: 3;
+}
+
+#clock-wrapper {
+  flex: 0 0 calc(100% / 3);
+  text-align: left;
+}
+
+#elapsed-time {
+  display: inline-block;
+}
+
+#top-bar-title {
+  flex: 0 0 calc(100% / 3);
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  text-align: center;
+}
+
+#top-bar-menu {
+  flex: 0 0 calc(100% / 3);
+  text-align: right;
+
+  ul, li {
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    list-style-type: none;
+    display: inline-block;
+    margin-left: 15px;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:focus,
+    &:hover,
+    &:active {
+      text-decoration: underline;
+    }
+  }
+}

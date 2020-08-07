@@ -6,7 +6,8 @@ use Sudoku\Webpack;
 <html class="page-html">
     <head>
         <meta charset="utf-8">
-        <title>
+        <meta id="meta-app-name" name="app-name" content="<?php echo getenv('APP_NAME'); ?>">
+        <title class="page-title">
             <?php echo getenv('APP_NAME'); ?>
         </title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&display=swap">
@@ -14,6 +15,8 @@ use Sudoku\Webpack;
     </head>
 
     <body class="page-body">
+        <?php require __DIR__ . '/parts/header.php'; ?>
+
         <main class="page-content">
             <ul id="main-grid">
                 <?php for ($i = 0; ++$i < 82;): ?>
@@ -53,10 +56,6 @@ use Sudoku\Webpack;
                     <textarea id="puzzle-description"></textarea>
                 </p>
 
-                <p id="clock-wrapper">
-                    Time: <span id="elapsed-time">0:00</span>
-                </p>
-
                 <p>
                     Input mode:<br>
                     <label>
@@ -71,26 +70,6 @@ use Sudoku\Webpack;
                         <input type="radio" name="input_mode" value="3">
                         Center marks
                     </label>
-                </p>
-
-                <p>
-                    <a href="#" id="check-errors" class="click-prevent">
-                        Check for errors
-                    </a>
-                </p>
-
-                <p>
-                    <a href="#"
-                       class="click-prevent open-modal"
-                       data-modal-id="settings-modal"
-                    >Settings</a>
-
-                    &nbsp;
-
-                    <a href="#"
-                       class="click-prevent open-modal"
-                       data-modal-id="controls-modal"
-                    >Controls</a>
                 </p>
             </aside>
         </main>

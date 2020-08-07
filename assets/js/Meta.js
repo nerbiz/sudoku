@@ -2,16 +2,16 @@ export default function Meta() {
     const self = this;
 
     /**
-     * The page title element
-     * @type {HTMLTitleElement}
-     */
-    const titleElement = document.getElementsByTagName('title')[0];
-
-    /**
      * The name of the application
      * @type {string}
      */
-    const appName = titleElement.innerText;
+    const appName = document.getElementById('meta-app-name').getAttribute('content');
+
+    /**
+     * The page title element
+     * @type {HTMLCollectionOf<HTMLElement>}
+     */
+    const titleElements = document.getElementsByClassName('page-title');
 
     /**
      * The title input field
@@ -52,9 +52,13 @@ export default function Meta() {
             title = titleField.value.trim();
 
             // Update the page title
-            titleElement.innerText = (title !== '')
+            const pageTitle = (title !== '')
                 ? `${title} - ${appName}`
                 : appName;
+
+            for (let i = 0; i < titleElements.length; i++) {
+                titleElements[i].innerText = pageTitle;
+            }
         };
 
         titleField.addEventListener('change', titleCallback);

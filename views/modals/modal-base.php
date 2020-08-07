@@ -19,8 +19,6 @@ if (! isset($modalId, $modalTitle, $modalContent)) {
     </header>
 
     <article class="modal-content">
-        <p>(The clock is paused)</p>
-
         <?php echo $modalContent; ?>
     </article>
 </section>
