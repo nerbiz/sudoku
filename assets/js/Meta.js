@@ -41,13 +41,14 @@ export default function Meta() {
      * Initialize the object
      */
     self.init = () => {
-        enableTextFields();
+        _enableTextFields();
     };
 
     /**
      * @return {void}
+     * @private
      */
-    const enableTextFields = () => {
+    const _enableTextFields = () => {
         const titleCallback = () => {
             title = titleField.value.trim();
 

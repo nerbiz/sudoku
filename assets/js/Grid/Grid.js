@@ -49,14 +49,15 @@ export default function Grid() {
      * @return {void}
      */
     self.init = () => {
-        collectCells();
+        _collectCells();
     };
 
     /**
      * Collect all the cell elements
      * @return {void}
+     * @private
      */
-    const collectCells = () => {
+    const _collectCells = () => {
         // Create 9 rows, columns and 3x3 boxes
         for (let i = 1; i < 10; i++) {
             _gridRows.push(new GridRow(i));

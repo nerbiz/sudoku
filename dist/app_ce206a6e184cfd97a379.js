@@ -1171,18 +1171,20 @@ function Controls() {
     document.addEventListener('mouseup', function () {
       return _mousePressed = false;
     });
-    document.addEventListener('keyup', keyUpDownCallback);
-    document.addEventListener('keydown', keyUpDownCallback);
-    document.addEventListener('keydown', keyDownCallback);
-    registerClickDisabling();
+    document.addEventListener('keyup', _keyUpDownCallback);
+    document.addEventListener('keydown', _keyUpDownCallback);
+    document.addEventListener('keydown', _keyDownCallback);
+
+    _registerClickDisabling();
   };
   /**
    * Disable click events for certain elements
    * @return {void}
+   * @private
    */
 
 
-  var registerClickDisabling = function registerClickDisabling() {
+  var _registerClickDisabling = function _registerClickDisabling() {
     document.addEventListener('click', function (event) {
       if (event.target.closest('.click-prevent') !== null) {
         event.preventDefault();
@@ -1205,20 +1207,22 @@ function Controls() {
    * Callback for keydown and keyup
    * @param {Event} event
    * @return {void}
+   * @private
    */
 
 
-  var keyUpDownCallback = function keyUpDownCallback(event) {
+  var _keyUpDownCallback = function _keyUpDownCallback(event) {
     _ctrlKeyPressed = _Utilities_Visitor__WEBPACK_IMPORTED_MODULE_0__["default"].usesMacOs ? event.metaKey : event.ctrlKey;
     _shiftKeyPressed = event.shiftKey;
   };
   /**
    * @param {Event} event
    * @return {void}
+   * @private
    */
 
 
-  var keyDownCallback = function keyDownCallback(event) {
+  var _keyDownCallback = function _keyDownCallback(event) {
     // Prevent browser keyboard actions
     if (!self.cancelKeyboardEvent(event)) {
       if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Space'].indexOf(event.code) > -1) {
@@ -1351,15 +1355,17 @@ function DocumentEventHandler() {
    */
 
   self.init = function () {
-    registerKeyboardEvents();
-    registerMouseEvents();
+    _registerKeyboardEvents();
+
+    _registerMouseEvents();
   };
   /**
    * @return {void}
+   * @private
    */
 
 
-  var registerKeyboardEvents = function registerKeyboardEvents() {
+  var _registerKeyboardEvents = function _registerKeyboardEvents() {
     var pauseGameCommand = new _Commands_PauseGameCommand__WEBPACK_IMPORTED_MODULE_1__["default"]();
     document.addEventListener('keydown', function (event) {
       if (Sudoku.controls.cancelKeyboardEvent(event)) {
@@ -1430,10 +1436,11 @@ function DocumentEventHandler() {
   };
   /**
    * @return {void}
+   * @private
    */
 
 
-  var registerMouseEvents = function registerMouseEvents() {
+  var _registerMouseEvents = function _registerMouseEvents() {
     document.addEventListener('mousedown', function (event) {
       // Deselect all cells, when clicking outside the grid
       if (event.target.closest('.grid-cell') === null) {
@@ -1478,16 +1485,19 @@ function GridCellEventHandler(gridCell) {
    */
 
   self.register = function () {
-    registerMouseDownEvent();
-    registerMouseEnterEvent();
-    registerMouseUpEvent();
+    _registerMouseDownEvent();
+
+    _registerMouseEnterEvent();
+
+    _registerMouseUpEvent();
   };
   /**
    * @return {void}
+   * @private
    */
 
 
-  var registerMouseDownEvent = function registerMouseDownEvent() {
+  var _registerMouseDownEvent = function _registerMouseDownEvent() {
     _gridCell.getElement().addEventListener('mousedown', function () {
       if (Sudoku.controls.ctrlKeyIsPressed()) {
         // Toggle the selected status when clicked, if the ctrl key is pressed
@@ -1502,10 +1512,11 @@ function GridCellEventHandler(gridCell) {
   };
   /**
    * @return {void}
+   * @private
    */
 
 
-  var registerMouseEnterEvent = function registerMouseEnterEvent() {
+  var _registerMouseEnterEvent = function _registerMouseEnterEvent() {
     _gridCell.getElement().addEventListener('mouseenter', function () {
       // Allow multiple cells to be selected
       if (Sudoku.controls.mouseIsPressed()) {
@@ -1515,10 +1526,11 @@ function GridCellEventHandler(gridCell) {
   };
   /**
    * @return {void}
+   * @private
    */
 
 
-  var registerMouseUpEvent = function registerMouseUpEvent() {
+  var _registerMouseUpEvent = function _registerMouseUpEvent() {
     // On mouse up, this is the last selected cell
     _gridCell.getElement().addEventListener('mouseup', function () {
       return Sudoku.grid.setLastNavigatedCell(_gridCell);
@@ -1692,15 +1704,16 @@ function Grid() {
    */
 
   self.init = function () {
-    collectCells();
+    _collectCells();
   };
   /**
    * Collect all the cell elements
    * @return {void}
+   * @private
    */
 
 
-  var collectCells = function collectCells() {
+  var _collectCells = function _collectCells() {
     // Create 9 rows, columns and 3x3 boxes
     for (var i = 1; i < 10; i++) {
       _gridRows.push(new _GridRow__WEBPACK_IMPORTED_MODULE_2__["default"](i));
@@ -2133,7 +2146,8 @@ function GridCell(cellNumber) {
     } // Show or hide the pencil marks
 
 
-    showMarks(digit === null); // Show the value on screen
+    _showMarks(digit === null); // Show the value on screen
+
 
     self.getElement().getElementsByClassName('cell-value')[0].innerText = digit;
     _value = digit; // Highlight other cells, also when the value is removed
@@ -2202,15 +2216,17 @@ function GridCell(cellNumber) {
 
   self.setCornerMarks = function (cornerMarks) {
     _cornerMarks = cornerMarks;
-    fillCornerMarks();
+
+    _fillCornerMarks();
   };
   /**
    * Fill corner marks in the cell
    * @return {void}
+   * @private
    */
 
 
-  var fillCornerMarks = function fillCornerMarks() {
+  var _fillCornerMarks = function _fillCornerMarks() {
     // Clear all corner marks first
     var allElements = self.getElement().getElementsByClassName('corner-mark');
 
@@ -2287,15 +2303,17 @@ function GridCell(cellNumber) {
 
   self.setCenterMarks = function (centerMarks) {
     _centerMarks = centerMarks;
-    fillCenterMarks();
+
+    _fillCenterMarks();
   };
   /**
    * Fill corner marks in the cell
    * @return {void}
+   * @private
    */
 
 
-  var fillCenterMarks = function fillCenterMarks() {
+  var _fillCenterMarks = function _fillCenterMarks() {
     var centerMarks = self.getCenterMarks().sort(function (a, b) {
       return a - b;
     }).join('');
@@ -2322,10 +2340,11 @@ function GridCell(cellNumber) {
   /**
    * Toggle the visibility of the pencil marks
    * @param {boolean} show
+   * @private
    */
 
 
-  var showMarks = function showMarks(show) {
+  var _showMarks = function _showMarks(show) {
     var toggleMethod = show ? 'remove' : 'add'; // Toggle the corner marks
 
     for (var i = 1; i < 9; i++) {
@@ -2707,16 +2726,18 @@ function InputMode() {
 
 
   self.init = function () {
-    selectCurrentRadioButton();
-    registerEventListeners();
+    _selectCurrentRadioButton();
+
+    _registerEventListeners();
   };
   /**
    * Make the radio button of the current input mode checked
    * @return {void}
+   * @private
    */
 
 
-  var selectCurrentRadioButton = function selectCurrentRadioButton() {
+  var _selectCurrentRadioButton = function _selectCurrentRadioButton() {
     _radioButtons.forEach(function (radioButton) {
       if (parseInt(radioButton.value, 10) === self.getMode()) {
         radioButton.checked = true;
@@ -2726,10 +2747,11 @@ function InputMode() {
   /**
    * Enable toggling the mode with radio buttons
    * @return {void}
+   * @private
    */
 
 
-  var registerEventListeners = function registerEventListeners() {
+  var _registerEventListeners = function _registerEventListeners() {
     _radioButtons.forEach(function (radioButton) {
       radioButton.addEventListener('change', function () {
         self.setMode(parseInt(radioButton.value, 10));
@@ -2755,7 +2777,7 @@ function InputMode() {
           break;
       }
 
-      selectCurrentRadioButton();
+      _selectCurrentRadioButton();
     });
   };
   /**
@@ -2853,14 +2875,15 @@ function Meta() {
    */
 
   self.init = function () {
-    enableTextFields();
+    _enableTextFields();
   };
   /**
    * @return {void}
+   * @private
    */
 
 
-  var enableTextFields = function enableTextFields() {
+  var _enableTextFields = function _enableTextFields() {
     var titleCallback = function titleCallback() {
       title = titleField.value.trim(); // Update the page title
 

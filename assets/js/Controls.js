@@ -71,17 +71,18 @@ export default function Controls() {
     self.init = () => {
         document.addEventListener('mousedown', () => _mousePressed = true);
         document.addEventListener('mouseup', () => _mousePressed = false);
-        document.addEventListener('keyup', keyUpDownCallback);
-        document.addEventListener('keydown', keyUpDownCallback);
-        document.addEventListener('keydown', keyDownCallback);
-        registerClickDisabling();
+        document.addEventListener('keyup', _keyUpDownCallback);
+        document.addEventListener('keydown', _keyUpDownCallback);
+        document.addEventListener('keydown', _keyDownCallback);
+        _registerClickDisabling();
     };
 
     /**
      * Disable click events for certain elements
      * @return {void}
+     * @private
      */
-    const registerClickDisabling = () => {
+    const _registerClickDisabling = () => {
         document.addEventListener('click', event => {
             if (event.target.closest('.click-prevent') !== null) {
                 event.preventDefault();
@@ -105,8 +106,9 @@ export default function Controls() {
      * Callback for keydown and keyup
      * @param {Event} event
      * @return {void}
+     * @private
      */
-    const keyUpDownCallback = event => {
+    const _keyUpDownCallback = event => {
         _ctrlKeyPressed = Visitor.usesMacOs ? event.metaKey : event.ctrlKey;
         _shiftKeyPressed = event.shiftKey;
     };
@@ -114,8 +116,9 @@ export default function Controls() {
     /**
      * @param {Event} event
      * @return {void}
+     * @private
      */
-    const keyDownCallback = event => {
+    const _keyDownCallback = event => {
         // Prevent browser keyboard actions
         if (! self.cancelKeyboardEvent(event)) {
             if ([

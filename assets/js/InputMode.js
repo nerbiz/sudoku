@@ -28,15 +28,16 @@ export default function InputMode() {
      * @return {void}
      */
     self.init = () => {
-        selectCurrentRadioButton();
-        registerEventListeners();
+        _selectCurrentRadioButton();
+        _registerEventListeners();
     };
 
     /**
      * Make the radio button of the current input mode checked
      * @return {void}
+     * @private
      */
-    const selectCurrentRadioButton = () => {
+    const _selectCurrentRadioButton = () => {
         _radioButtons.forEach(radioButton => {
             if (parseInt(radioButton.value, 10) === self.getMode()) {
                 radioButton.checked = true;
@@ -47,8 +48,9 @@ export default function InputMode() {
     /**
      * Enable toggling the mode with radio buttons
      * @return {void}
+     * @private
      */
-    const registerEventListeners = () => {
+    const _registerEventListeners = () => {
         _radioButtons.forEach(radioButton => {
             radioButton.addEventListener('change', () => {
                 self.setMode(parseInt(radioButton.value, 10));
@@ -71,7 +73,7 @@ export default function InputMode() {
                     break;
             }
 
-            selectCurrentRadioButton();
+            _selectCurrentRadioButton();
         });
     };
 

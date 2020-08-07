@@ -8,14 +8,15 @@ export default function DocumentEventHandler() {
      * Initialize the object
      */
     self.init = () => {
-        registerKeyboardEvents();
-        registerMouseEvents();
+        _registerKeyboardEvents();
+        _registerMouseEvents();
     };
 
     /**
      * @return {void}
+     * @private
      */
-    const registerKeyboardEvents = () => {
+    const _registerKeyboardEvents = () => {
         const pauseGameCommand = new PauseGameCommand();
 
         document.addEventListener('keydown', event => {
@@ -91,8 +92,9 @@ export default function DocumentEventHandler() {
 
     /**
      * @return {void}
+     * @private
      */
-    const registerMouseEvents = () => {
+    const _registerMouseEvents = () => {
         document.addEventListener('mousedown', event => {
             // Deselect all cells, when clicking outside the grid
             if (event.target.closest('.grid-cell') === null) {
