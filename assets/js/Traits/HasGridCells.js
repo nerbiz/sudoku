@@ -57,7 +57,7 @@ export default function HasGridCells() {
                 return;
             }
 
-            // Get the cells that have that value an add the cell
+            // Get the cells that have that value and add the cell
             const cells = cellValues[cellValue] || [];
             cells.push(cell);
             cellValues[cellValue] = cells;

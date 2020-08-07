@@ -94,6 +94,7 @@ export default function DocumentEventHandler() {
      */
     const registerMouseEvents = () => {
         document.addEventListener('mousedown', event => {
+            // Deselect all cells, when clicking outside the grid
             if (event.target.closest('.grid-cell') === null) {
                 Sudoku.grid.deselectAllCells();
                 Sudoku.gridCellHighlighter.dehighlightAllCells();

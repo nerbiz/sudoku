@@ -1159,7 +1159,9 @@ function Controls() {
     document.addEventListener('mouseup', function () {
       return _mousePressed = false;
     });
-    document.addEventListener('keydown', keyPressCallback);
+    document.addEventListener('keyup', keyUpDownCallback);
+    document.addEventListener('keydown', keyUpDownCallback);
+    document.addEventListener('keydown', keyDownCallback);
     registerClickDisabling();
   };
   /**
@@ -1194,9 +1196,18 @@ function Controls() {
    */
 
 
-  var keyPressCallback = function keyPressCallback(event) {
-    _ctrlKeyPressed = _Utilities_Visitor__WEBPACK_IMPORTED_MODULE_0__["default"].usesMacOs ? event.metaKey : event.ctrlKey; // Prevent browser keyboard actions
+  var keyUpDownCallback = function keyUpDownCallback(event) {
+    _ctrlKeyPressed = _Utilities_Visitor__WEBPACK_IMPORTED_MODULE_0__["default"].usesMacOs ? event.metaKey : event.ctrlKey;
+    _shiftKeyPressed = event.shiftKey;
+  };
+  /**
+   * @param {Event} event
+   * @return {void}
+   */
 
+
+  var keyDownCallback = function keyDownCallback(event) {
+    // Prevent browser keyboard actions
     if (!self.cancelKeyboardEvent(event)) {
       if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Space'].indexOf(event.code) > -1) {
         event.preventDefault();
@@ -1208,8 +1219,6 @@ function Controls() {
         }
       }
     }
-
-    _shiftKeyPressed = event.shiftKey;
   };
   /**
    * @return {boolean}
@@ -1414,6 +1423,7 @@ function DocumentEventHandler() {
 
   var registerMouseEvents = function registerMouseEvents() {
     document.addEventListener('mousedown', function (event) {
+      // Deselect all cells, when clicking outside the grid
       if (event.target.closest('.grid-cell') === null) {
         Sudoku.grid.deselectAllCells();
         Sudoku.gridCellHighlighter.dehighlightAllCells();
@@ -3370,7 +3380,7 @@ function HasGridCells() {
 
       if (cellValue === null) {
         return;
-      } // Get the cells that have that value an add the cell
+      } // Get the cells that have that value and add the cell
 
 
       var cells = cellValues[cellValue] || [];

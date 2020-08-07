@@ -71,7 +71,9 @@ export default function Controls() {
     self.init = () => {
         document.addEventListener('mousedown', () => _mousePressed = true);
         document.addEventListener('mouseup', () => _mousePressed = false);
-        document.addEventListener('keydown', keyPressCallback);
+        document.addEventListener('keyup', keyUpDownCallback);
+        document.addEventListener('keydown', keyUpDownCallback);
+        document.addEventListener('keydown', keyDownCallback);
         registerClickDisabling();
     };
 
@@ -104,9 +106,16 @@ export default function Controls() {
      * @param {Event} event
      * @return {void}
      */
-    const keyPressCallback = event => {
+    const keyUpDownCallback = event => {
         _ctrlKeyPressed = Visitor.usesMacOs ? event.metaKey : event.ctrlKey;
+        _shiftKeyPressed = event.shiftKey;
+    };
 
+    /**
+     * @param {Event} event
+     * @return {void}
+     */
+    const keyDownCallback = event => {
         // Prevent browser keyboard actions
         if (! self.cancelKeyboardEvent(event)) {
             if ([
@@ -122,8 +131,6 @@ export default function Controls() {
                 }
             }
         }
-
-        _shiftKeyPressed = event.shiftKey;
     };
 
     /**
