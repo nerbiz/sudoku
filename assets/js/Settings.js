@@ -59,6 +59,13 @@ export default function Settings() {
     let _highlightPencilMarksState;
 
     /**
+     * Indicates whether auto-candidate mode is on
+     * @type {boolean}
+     * @private
+     */
+    let _autoCandidateState = false;
+
+    /**
      * Initialize the object
      */
     self.init = () => {
@@ -235,4 +242,16 @@ export default function Settings() {
 
         return _highlightPencilMarksState;
     };
+
+    /**
+     * @param {boolean|null} state Setter if given, getter otherwise
+     * @return {boolean}
+     */
+    self.autoCandidateState = (state = null) => {
+        if (state !== null) {
+            _autoCandidateState = state;
+        }
+
+        return _autoCandidateState;
+    }
 }

@@ -66,9 +66,16 @@ use Sudoku\Webpack;
                         <input type="radio" name="input_mode" value="2">
                         Corner marks
                     </label>
-                    <label>
+                    <label id="input-mode-center-label">
                         <input type="radio" name="input_mode" value="3">
                         Center marks
+                    </label>
+                </p>
+
+                <p>
+                    <label>
+                        <input type="checkbox" id="setting-auto-candidate">
+                        Automatically show candidates
                     </label>
                 </p>
             </aside>

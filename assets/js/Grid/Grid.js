@@ -160,6 +160,49 @@ export default function Grid() {
     };
 
     /**
+     * Show all possible candidates
+     * @return {void}
+     */
+    self.determineCandidates = () => {
+        self.getCells()
+            // Only cells that don't have a value
+            .filter(cell => cell.getValue() === null)
+            .forEach(cell => {
+                // Get corner marks to show
+                const centerMarks = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                    .filter(number => {
+                        // If the value exists, filter out the number
+                        if (cell.getRow().containsValue(number)) {
+                            return false;
+                        } else if (cell.getColumn().containsValue(number)) {
+                            return false;
+                        } else if (cell.getBox().containsValue(number)) {
+                            return false;
+                        }
+
+                        return true;
+                    });
+
+                // Apply the pencil marks
+                cell.setCenterMarks(centerMarks, true);
+            });
+    };
+
+    /**
+     * Remove all automatically shown candidates
+     * @return {void}
+     */
+    self.removeCandidates = () => {
+        self.getCells().forEach(cell => {
+            // Remove the auto-candidates
+            cell.setCenterMarks([], true);
+
+            // Show the user-filled center marks
+            cell.fillCenterMarks();
+        });
+    };
+
+    /**
      * Get the state of the entire grid
      * @return {string}
      */

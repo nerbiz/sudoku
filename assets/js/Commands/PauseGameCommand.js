@@ -12,7 +12,7 @@ export default function PauseGameCommand() {
     /**
      * @inheritDoc
      */
-    self.state = () => false;
+    self.state = false;
 
     /**
      * @type {HTMLElement}

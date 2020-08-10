@@ -1,6 +1,7 @@
 /**
  * Several input modes, to be used as constants
  * @type {number}
+ * @static
  */
 InputMode.MODE_VALUE = 1;
 InputMode.MODE_CORNER = 2;
@@ -69,11 +70,11 @@ export default function InputMode() {
                     self.setMode(InputMode.MODE_CORNER);
                     break;
                 case 'KeyP':
-                    self.setMode(InputMode.MODE_CENTER);
+                    if (! Sudoku.settings.autoCandidateState()) {
+                        self.setMode(InputMode.MODE_CENTER);
+                    }
                     break;
             }
-
-            _selectCurrentRadioButton();
         });
     };
 
@@ -82,6 +83,18 @@ export default function InputMode() {
      * @return {void}
      */
     self.setMode = mode => {
+        // Wrap around, when max number is reached
+        if (mode > InputMode.MODE_CENTER) {
+            mode = InputMode.MODE_VALUE;
+        }
+
+        if (Sudoku.settings.autoCandidateState() === true) {
+            // Center-marks are disabled in auto-candidate mode
+            if (mode > InputMode.MODE_CORNER) {
+                mode = InputMode.MODE_VALUE;
+            }
+        }
+
         if ((typeof mode).toLowerCase() !== 'number') {
             throw new Error(`Expected a number, got ${typeof mode}`);
         }
@@ -91,6 +104,7 @@ export default function InputMode() {
         }
 
         _mode = mode;
+        _selectCurrentRadioButton();
     };
 
     /**
@@ -99,10 +113,7 @@ export default function InputMode() {
      */
     self.changeMode = () => {
         // Increase the mode number
-        // Wrap around, when max number is reached
-        if (++_mode > InputMode.MODE_CENTER) {
-            _mode = InputMode.MODE_VALUE;
-        }
+        self.setMode(_mode + 1);
     }
 
     /**

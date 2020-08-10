@@ -68,4 +68,22 @@ export default function HasGridCells() {
             }
         });
     };
+
+    /**
+     * See if any of the cells contain a value
+     * @param {Number} value
+     * @return {boolean}
+     */
+    self.containsValue = value => {
+        value = parseInt(value, 10);
+        const cells = self.getCells();
+
+        for (let i = 0; i < cells.length; i++) {
+            if (cells[i].hasValue(value)) {
+                return true;
+            }
+        }
+
+        return false;
+    };
 }
