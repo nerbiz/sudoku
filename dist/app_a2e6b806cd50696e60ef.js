@@ -739,7 +739,9 @@ function AutoErrorCheckingCommand() {
     _errorCheckingButton.classList[toggleMethod]('hide');
 
     _toggleCheckbox.checked = state;
-    Sudoku.settings.autoErrorCheckingState(state);
+    Sudoku.settings.autoErrorCheckingState(state); // Check or remove errors
+
+    state === true ? Sudoku.grid.checkForErrors() : Sudoku.grid.removeAllErrors();
     self.state = state;
   };
 }
@@ -3432,10 +3434,7 @@ function Settings() {
     if (state !== null) {
       _autoErrorCheckingState = state;
 
-      _toLocalStorage(); // Check or remove errors
-
-
-      state === true ? Sudoku.grid.checkForErrors() : Sudoku.grid.removeAllErrors();
+      _toLocalStorage();
     }
 
     return _autoErrorCheckingState;

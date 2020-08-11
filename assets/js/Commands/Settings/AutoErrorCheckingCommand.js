@@ -36,6 +36,12 @@ export default function AutoErrorCheckingCommand() {
         _toggleCheckbox.checked = state;
 
         Sudoku.settings.autoErrorCheckingState(state);
+
+        // Check or remove errors
+        (state === true)
+            ? Sudoku.grid.checkForErrors()
+            : Sudoku.grid.removeAllErrors();
+
         self.state = state;
     };
 }
