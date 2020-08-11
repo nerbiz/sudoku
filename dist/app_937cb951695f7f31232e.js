@@ -2701,11 +2701,12 @@ function GridCellHighlighter() {
         if (Sudoku.settings.highlightValueState() && cell.hasValue(cellValue)) {
           return true;
         } // Filter by pencil marks
+        else if (Sudoku.settings.highlightPencilMarksState() // Skip filled in cells, because then pencil marks are invisible
+          && !cell.hasValue() && (cell.hasCornerMark(cellValue) || cell.hasCenterMark(cellValue))) {
+            return true;
+          }
 
-
-        if (Sudoku.settings.highlightPencilMarksState() && (cell.hasCornerMark(cellValue) || cell.hasCenterMark(cellValue))) {
-          return true;
-        }
+        return false;
       }).map(function (cell) {
         return cell.getCellNumber();
       });
@@ -2949,10 +2950,6 @@ function InputMode() {
   self.setMode = function (mode) {
     if (_typeof(mode).toLowerCase() !== 'number') {
       throw new Error("Expected a number, got ".concat(_typeof(mode)));
-    }
-
-    if (mode < InputMode.MODE_VALUE || mode > InputMode.MODE_CENTER) {
-      throw new Error('Invalid input mode number given, please use InputMode constants');
     }
 
     var maxModeNumber = Sudoku.settings.autoCandidateState() === true ? // Center-marks are disabled in auto-candidate mode

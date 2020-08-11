@@ -63,12 +63,16 @@ export default function GridCellHighlighter() {
                     }
 
                     // Filter by pencil marks
-                    if (Sudoku.settings.highlightPencilMarksState()
+                    else if (Sudoku.settings.highlightPencilMarksState()
+                        // Skip filled in cells, because then pencil marks are invisible
+                        && ! cell.hasValue()
                         && (cell.hasCornerMark(cellValue)
                             || cell.hasCenterMark(cellValue))
                     ) {
                         return true;
                     }
+
+                    return false;
                 })
                 .map(cell => cell.getCellNumber());
 

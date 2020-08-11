@@ -94,10 +94,6 @@ export default function InputMode() {
             throw new Error(`Expected a number, got ${typeof mode}`);
         }
 
-        if (mode < InputMode.MODE_VALUE || mode > InputMode.MODE_CENTER) {
-            throw new Error('Invalid input mode number given, please use InputMode constants');
-        }
-
         const maxModeNumber = (Sudoku.settings.autoCandidateState() === true)
             // Center-marks are disabled in auto-candidate mode
             ? InputMode.MODE_CORNER
@@ -119,7 +115,7 @@ export default function InputMode() {
     self.changeMode = () => {
         // Increase the mode number
         self.setMode(_mode + 1);
-    }
+    };
 
     /**
      * @return {number}
