@@ -25,6 +25,13 @@ export default function InputMode() {
     const _radioButtons = document.getElementsByName('input_mode');
 
     /**
+     * The label containing the checkbox for the 'center marks' input mode
+     * @type {HTMLElement}
+     * @private
+     */
+    const _inputModeCenterLabel = document.getElementById('input-mode-center-label');
+
+    /**
      * Initialize the object
      * @return {void}
      */
@@ -83,24 +90,22 @@ export default function InputMode() {
      * @return {void}
      */
     self.setMode = mode => {
-        // Wrap around, when max number is reached
-        if (mode > InputMode.MODE_CENTER) {
-            mode = InputMode.MODE_VALUE;
-        }
-
-        if (Sudoku.settings.autoCandidateState() === true) {
-            // Center-marks are disabled in auto-candidate mode
-            if (mode > InputMode.MODE_CORNER) {
-                mode = InputMode.MODE_VALUE;
-            }
-        }
-
         if ((typeof mode).toLowerCase() !== 'number') {
             throw new Error(`Expected a number, got ${typeof mode}`);
         }
 
         if (mode < InputMode.MODE_VALUE || mode > InputMode.MODE_CENTER) {
             throw new Error('Invalid input mode number given, please use InputMode constants');
+        }
+
+        const maxModeNumber = (Sudoku.settings.autoCandidateState() === true)
+            // Center-marks are disabled in auto-candidate mode
+            ? InputMode.MODE_CORNER
+            : InputMode.MODE_CENTER;
+
+        // Wrap around, when max number is reached
+        if (mode > maxModeNumber) {
+            mode = InputMode.MODE_VALUE;
         }
 
         _mode = mode;
@@ -120,4 +125,24 @@ export default function InputMode() {
      * @return {number}
      */
     self.getMode = () => _mode;
+
+    /**
+     * Perform actions based on whether auto-candidate mode is on
+     * @param {boolean} state
+     * @return {void}
+     */
+    self.triggerAutoCandidateActions = state => {
+        if (state === true) {
+            // Disable the input mode checkbox
+            _inputModeCenterLabel.classList.add('strike-through');
+            _inputModeCenterLabel.getElementsByTagName('input')[0].disabled = true;
+
+            // Trigger any restrictions on the current input mode
+            self.setMode(self.getMode());
+        } else {
+            // Enable the input mode checkbox
+            _inputModeCenterLabel.classList.remove('strike-through');
+            _inputModeCenterLabel.getElementsByTagName('input')[0].disabled = false;
+        }
+    };
 }

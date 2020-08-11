@@ -168,7 +168,7 @@ export default function Grid() {
             // Only cells that don't have a value
             .filter(cell => cell.getValue() === null)
             .forEach(cell => {
-                // Get corner marks to show
+                // Get pencil marks to show
                 const centerMarks = [1, 2, 3, 4, 5, 6, 7, 8, 9]
                     .filter(number => {
                         // If the value exists, filter out the number
