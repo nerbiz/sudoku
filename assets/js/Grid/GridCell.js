@@ -154,6 +154,11 @@ export default function GridCell(cellNumber) {
      * @see InputMode for the mode constants
      */
     self.setDigit = (digit, mode = null) => {
+        // Remove error state in manual error checking mode
+        if (! Sudoku.settings.autoErrorCheckingState()) {
+            self.setErrorState(false);
+        }
+
         // Use the current input mode, if null
         if (mode === null) {
             mode = Sudoku.inputMode.getMode();

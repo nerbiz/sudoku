@@ -2203,7 +2203,12 @@ function GridCell(cellNumber) {
   self.setDigit = function (digit) {
     var mode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-    // Use the current input mode, if null
+    // Remove error state in manual error checking mode
+    if (!Sudoku.settings.autoErrorCheckingState()) {
+      self.setErrorState(false);
+    } // Use the current input mode, if null
+
+
     if (mode === null) {
       mode = Sudoku.inputMode.getMode();
     } // Null means deleting
