@@ -1,5 +1,6 @@
 import ShowClockCommand from './Commands/Settings/ShowClockCommand';
 import AutoErrorCheckingCommand from './Commands/Settings/AutoErrorCheckingCommand';
+import AutoRemovePencilMarksCommand from './Commands/Settings/AutoRemovePencilMarksCommand';
 import HighlightRowCommand from './Commands/Settings/HighlightRowCommand';
 import HighlightColumnCommand from './Commands/Settings/HighlightColumnCommand';
 import HighlightBoxCommand from './Commands/Settings/HighlightBoxCommand';
@@ -22,6 +23,13 @@ export default function Settings() {
      * @private
      */
     let _autoErrorCheckingState;
+
+    /**
+     * Indicates whether pencil marks should automatically be removed
+     * @type {boolean}
+     * @private
+     */
+    let _autoRemovePencilMarksState = false;
 
     /**
      * Indicates whether highlighting rows is enabled
@@ -94,6 +102,10 @@ export default function Settings() {
             ? settings.autoErrorChecking
             : true;
 
+        _autoRemovePencilMarksState = (settings.autoRemovePencilMarks !== undefined)
+            ? settings.autoRemovePencilMarks
+            : false;
+
         _highlightRowState = (settings.highlightRow !== undefined)
             ? settings.highlightRow
             : true;
@@ -124,6 +136,7 @@ export default function Settings() {
         localStorage.setItem('settings', JSON.stringify({
             clock: self.clockState(),
             autoErrorChecking: self.autoErrorCheckingState(),
+            autoRemovePencilMarks: self.autoRemovePencilMarksState(),
             highlightRow: self.highlightRowState(),
             highlightColumn: self.highlightColumnState(),
             highlightBox: self.highlightBoxState(),
@@ -140,6 +153,7 @@ export default function Settings() {
     const _applySettings = () => {
         (new ShowClockCommand()).execute(self.clockState());
         (new AutoErrorCheckingCommand()).execute(self.autoErrorCheckingState());
+        (new AutoRemovePencilMarksCommand()).execute(self.autoRemovePencilMarksState());
         (new HighlightRowCommand()).execute(self.highlightRowState());
         (new HighlightColumnCommand()).execute(self.highlightColumnState());
         (new HighlightBoxCommand()).execute(self.highlightBoxState());
@@ -171,6 +185,19 @@ export default function Settings() {
         }
 
         return _autoErrorCheckingState;
+    };
+
+    /**
+     * @param {boolean|null} state Setter if given, getter otherwise
+     * @return {boolean}
+     */
+    self.autoRemovePencilMarksState = (state = null) => {
+        if (state !== null) {
+            _autoRemovePencilMarksState = state;
+            _toLocalStorage();
+        }
+
+        return _autoRemovePencilMarksState;
     };
 
     /**
@@ -248,5 +275,5 @@ export default function Settings() {
         }
 
         return _autoCandidateState;
-    }
+    };
 }

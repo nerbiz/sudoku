@@ -35,6 +35,5 @@ export default function ShowClockCommand() {
         _toggleCheckbox.checked = state;
 
         Sudoku.settings.clockState(state);
-        self.state = state;
     };
 }

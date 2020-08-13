@@ -701,7 +701,7 @@ function AutoErrorCheckingCommand() {
    */
 
   self.state = function () {
-    return Sudoku.settings.autoErrorCheckingState;
+    return Sudoku.settings.autoErrorCheckingState();
   };
   /**
    * The manual error checking button
@@ -733,9 +733,55 @@ function AutoErrorCheckingCommand() {
     Sudoku.settings.autoErrorCheckingState(state); // Check or remove errors
 
     state === true ? Sudoku.grid.checkForErrors() : Sudoku.grid.removeAllErrors();
-    self.state = state;
   };
 }
+
+/***/ }),
+
+/***/ "./assets/js/Commands/Settings/AutoRemovePencilMarksCommand.js":
+/*!*********************************************************************!*\
+  !*** ./assets/js/Commands/Settings/AutoRemovePencilMarksCommand.js ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AutoRemovePencilMarksCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
+/* harmony import */ var _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommandInterface */ "./assets/js/Commands/TogglableCommandInterface.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(AutoRemovePencilMarksCommand, _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
+function AutoRemovePencilMarksCommand() {
+  var self = this;
+  _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * @inheritDoc
+   */
+
+  self.state = function () {
+    return Sudoku.settings.autoRemovePencilMarksState();
+  };
+  /**
+   * The checkbox that toggles the setting
+   * @type {HTMLElement}
+   * @private
+   */
+
+
+  var _toggleCheckbox = document.getElementById('setting-auto-remove-pencil-marks');
+  /**
+   * @inheritDoc
+   */
+
+
+  self.execute = function (state) {
+    _toggleCheckbox.checked = state;
+    Sudoku.settings.autoRemovePencilMarksState(state);
+  };
+}
+;
 
 /***/ }),
 
@@ -762,7 +808,7 @@ function HighlightBoxCommand() {
    */
 
   self.state = function () {
-    return Sudoku.settings.highlightBoxState;
+    return Sudoku.settings.highlightBoxState();
   };
   /**
    * The checkbox that toggles the setting
@@ -780,7 +826,6 @@ function HighlightBoxCommand() {
   self.execute = function (state) {
     _toggleCheckbox.checked = state;
     Sudoku.settings.highlightBoxState(state);
-    self.state = state;
   };
 }
 ;
@@ -810,7 +855,7 @@ function HighlightColumnCommand() {
    */
 
   self.state = function () {
-    return Sudoku.settings.highlightColumnState;
+    return Sudoku.settings.highlightColumnState();
   };
   /**
    * The checkbox that toggles the setting
@@ -828,7 +873,6 @@ function HighlightColumnCommand() {
   self.execute = function (state) {
     _toggleCheckbox.checked = state;
     Sudoku.settings.highlightColumnState(state);
-    self.state = state;
   };
 }
 ;
@@ -858,7 +902,7 @@ function HighlightPencilMarksCommand() {
    */
 
   self.state = function () {
-    return Sudoku.settings.highlightPencilMarksState;
+    return Sudoku.settings.highlightPencilMarksState();
   };
   /**
    * The checkbox that toggles the setting
@@ -876,7 +920,6 @@ function HighlightPencilMarksCommand() {
   self.execute = function (state) {
     _toggleCheckbox.checked = state;
     Sudoku.settings.highlightPencilMarksState(state);
-    self.state = state;
   };
 }
 ;
@@ -906,7 +949,7 @@ function HighlightRowCommand() {
    */
 
   self.state = function () {
-    return Sudoku.settings.highlightRowState;
+    return Sudoku.settings.highlightRowState();
   };
   /**
    * The checkbox that toggles the setting
@@ -924,7 +967,6 @@ function HighlightRowCommand() {
   self.execute = function (state) {
     _toggleCheckbox.checked = state;
     Sudoku.settings.highlightRowState(state);
-    self.state = state;
   };
 }
 ;
@@ -954,7 +996,7 @@ function HighlightValueCommand() {
    */
 
   self.state = function () {
-    return Sudoku.settings.highlightValueState;
+    return Sudoku.settings.highlightValueState();
   };
   /**
    * The checkbox that toggles the setting
@@ -972,7 +1014,6 @@ function HighlightValueCommand() {
   self.execute = function (state) {
     _toggleCheckbox.checked = state;
     Sudoku.settings.highlightValueState(state);
-    self.state = state;
   };
 }
 ;
@@ -1031,7 +1072,6 @@ function ShowClockCommand() {
 
     _toggleCheckbox.checked = state;
     Sudoku.settings.clockState(state);
-    self.state = state;
   };
 }
 
@@ -1598,11 +1638,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SettingsEventHandler; });
 /* harmony import */ var _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Commands/Settings/ShowClockCommand */ "./assets/js/Commands/Settings/ShowClockCommand.js");
 /* harmony import */ var _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Commands/Settings/AutoErrorCheckingCommand */ "./assets/js/Commands/Settings/AutoErrorCheckingCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Commands/Settings/HighlightRowCommand */ "./assets/js/Commands/Settings/HighlightRowCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Commands/Settings/HighlightColumnCommand */ "./assets/js/Commands/Settings/HighlightColumnCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Commands/Settings/HighlightBoxCommand */ "./assets/js/Commands/Settings/HighlightBoxCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Commands/Settings/HighlightValueCommand */ "./assets/js/Commands/Settings/HighlightValueCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Commands/Settings/HighlightPencilMarksCommand */ "./assets/js/Commands/Settings/HighlightPencilMarksCommand.js");
+/* harmony import */ var _Commands_Settings_AutoRemovePencilMarksCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Commands/Settings/AutoRemovePencilMarksCommand */ "./assets/js/Commands/Settings/AutoRemovePencilMarksCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Commands/Settings/HighlightRowCommand */ "./assets/js/Commands/Settings/HighlightRowCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Commands/Settings/HighlightColumnCommand */ "./assets/js/Commands/Settings/HighlightColumnCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Commands/Settings/HighlightBoxCommand */ "./assets/js/Commands/Settings/HighlightBoxCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Commands/Settings/HighlightValueCommand */ "./assets/js/Commands/Settings/HighlightValueCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Commands/Settings/HighlightPencilMarksCommand */ "./assets/js/Commands/Settings/HighlightPencilMarksCommand.js");
+
 
 
 
@@ -1621,6 +1663,8 @@ function SettingsEventHandler() {
 
     _enableAutoErrorCheckingToggling();
 
+    _enableAutoRemovePencilMarksToggling();
+
     _enableHighlightingToggling();
   };
   /**
@@ -1630,9 +1674,8 @@ function SettingsEventHandler() {
 
 
   var _enableClockToggling = function _enableClockToggling() {
-    var showClockCommand = new _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__["default"]();
     document.getElementById('setting-show-clock').addEventListener('change', function (event) {
-      showClockCommand.execute(event.target.checked);
+      new _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__["default"]().execute(event.target.checked);
     });
   };
   /**
@@ -1642,9 +1685,19 @@ function SettingsEventHandler() {
 
 
   var _enableAutoErrorCheckingToggling = function _enableAutoErrorCheckingToggling() {
-    var autoErrorCheckingCommand = new _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__["default"]();
     document.getElementById('setting-auto-error-checking').addEventListener('change', function (event) {
-      autoErrorCheckingCommand.execute(event.target.checked);
+      new _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__["default"]().execute(event.target.checked);
+    });
+  };
+  /**
+   * @return {void}
+   * @private
+   */
+
+
+  var _enableAutoRemovePencilMarksToggling = function _enableAutoRemovePencilMarksToggling() {
+    document.getElementById('setting-auto-remove-pencil-marks').addEventListener('change', function (event) {
+      new _Commands_Settings_AutoRemovePencilMarksCommand__WEBPACK_IMPORTED_MODULE_2__["default"]().execute(event.target.checked);
     });
   };
   /**
@@ -1654,30 +1707,25 @@ function SettingsEventHandler() {
 
 
   var _enableHighlightingToggling = function _enableHighlightingToggling() {
-    var highlightRowCommand = new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__["default"]();
-    var highlightColumnCommand = new _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_3__["default"]();
-    var highlightBoxCommand = new _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__["default"]();
-    var highlightValueCommand = new _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_5__["default"]();
-    var highlightPencilMarksCommand = new _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_6__["default"](); // Row highlighting
-
+    // Row highlighting
     document.getElementById('setting-highlight-row').addEventListener('change', function (event) {
-      highlightRowCommand.execute(event.target.checked);
+      new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_3__["default"]().execute(event.target.checked);
     }); // Column highlighting
 
     document.getElementById('setting-highlight-column').addEventListener('change', function (event) {
-      highlightColumnCommand.execute(event.target.checked);
+      new _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_4__["default"]().execute(event.target.checked);
     }); // 3x3 box highlighting
 
     document.getElementById('setting-highlight-box').addEventListener('change', function (event) {
-      highlightBoxCommand.execute(event.target.checked);
+      new _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_5__["default"]().execute(event.target.checked);
     }); // Same value highlighting
 
     document.getElementById('setting-highlight-value').addEventListener('change', function (event) {
-      highlightValueCommand.execute(event.target.checked);
+      new _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_6__["default"]().execute(event.target.checked);
     }); // Same value highlighting
 
     document.getElementById('setting-highlight-pencil-marks').addEventListener('change', function (event) {
-      highlightPencilMarksCommand.execute(event.target.checked);
+      new _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_7__["default"]().execute(event.target.checked);
     });
   };
 }
@@ -2263,7 +2311,12 @@ function GridCell(cellNumber) {
     self.getElement().getElementsByClassName('cell-value')[0].innerText = digit;
     _value = digit; // Highlight other cells
 
-    Sudoku.gridCellHighlighter.highlightRelatedCells(); // Show possible candidates if needed
+    Sudoku.gridCellHighlighter.highlightRelatedCells(); // Remove pencil marks of related cells, if needed
+
+    if (Sudoku.settings.autoRemovePencilMarksState() === true) {
+      _removeRelatedPencilMarks(digit);
+    } // Show possible candidates if needed
+
 
     if (Sudoku.settings.autoCandidateState() === true) {
       Sudoku.grid.determineCandidates();
@@ -2486,6 +2539,40 @@ function GridCell(cellNumber) {
     return centerMarks.indexOf(digit) > -1;
   };
   /**
+   * Remove a pencil mark
+   * @param type 'corner' or 'center'
+   * @param digit
+   * @return {void}
+   */
+
+
+  self.removePencilMark = function (type, digit) {
+    if (['corner', 'center'].indexOf(type) < 0) {
+      throw new Error("Invalid pencil mark type given, only 'corner' and 'center' are valid, '".concat(type, "' given"));
+    }
+
+    var pencilMarks;
+
+    if (type === 'corner') {
+      pencilMarks = self.getCornerMarks();
+    } else if (type === 'center') {
+      pencilMarks = self.getCenterMarks();
+    } // Only remove the digit, if it exists
+
+
+    var digitIndex = pencilMarks.indexOf(digit);
+
+    if (digitIndex > -1) {
+      pencilMarks.splice(digitIndex, 1);
+
+      if (type === 'corner') {
+        self.setCornerMarks(pencilMarks);
+      } else if (type === 'center') {
+        self.setCenterMarks(pencilMarks);
+      }
+    }
+  };
+  /**
    * Toggle the visibility of the pencil marks
    * @param {boolean} show
    * @private
@@ -2501,6 +2588,20 @@ function GridCell(cellNumber) {
 
 
     self.getElement().getElementsByClassName('center-marks')[0].classList[toggleMethod]('hide');
+  };
+  /**
+   * Remove pencil marks of related cells, based on cell value
+   * @param {number} digit
+   * @return {void}
+   * @private
+   */
+
+
+  var _removeRelatedPencilMarks = function _removeRelatedPencilMarks(digit) {
+    self.getRow().getCells().concat(self.getColumn().getCells()).concat(self.getBox().getCells()).forEach(function (cell) {
+      cell.removePencilMark('corner', digit);
+      cell.removePencilMark('center', digit);
+    });
   };
   /**
    * @return {boolean}
@@ -3241,11 +3342,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Settings; });
 /* harmony import */ var _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Commands/Settings/ShowClockCommand */ "./assets/js/Commands/Settings/ShowClockCommand.js");
 /* harmony import */ var _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Commands/Settings/AutoErrorCheckingCommand */ "./assets/js/Commands/Settings/AutoErrorCheckingCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Commands/Settings/HighlightRowCommand */ "./assets/js/Commands/Settings/HighlightRowCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Commands/Settings/HighlightColumnCommand */ "./assets/js/Commands/Settings/HighlightColumnCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Commands/Settings/HighlightBoxCommand */ "./assets/js/Commands/Settings/HighlightBoxCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Commands/Settings/HighlightValueCommand */ "./assets/js/Commands/Settings/HighlightValueCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Commands/Settings/HighlightPencilMarksCommand */ "./assets/js/Commands/Settings/HighlightPencilMarksCommand.js");
+/* harmony import */ var _Commands_Settings_AutoRemovePencilMarksCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Commands/Settings/AutoRemovePencilMarksCommand */ "./assets/js/Commands/Settings/AutoRemovePencilMarksCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Commands/Settings/HighlightRowCommand */ "./assets/js/Commands/Settings/HighlightRowCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Commands/Settings/HighlightColumnCommand */ "./assets/js/Commands/Settings/HighlightColumnCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Commands/Settings/HighlightBoxCommand */ "./assets/js/Commands/Settings/HighlightBoxCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Commands/Settings/HighlightValueCommand */ "./assets/js/Commands/Settings/HighlightValueCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Commands/Settings/HighlightPencilMarksCommand */ "./assets/js/Commands/Settings/HighlightPencilMarksCommand.js");
+
 
 
 
@@ -3271,11 +3374,18 @@ function Settings() {
 
   var _autoErrorCheckingState;
   /**
-   * Indicates whether highlighting rows is enabled
+   * Indicates whether pencil marks should automatically be removed
    * @type {boolean}
    * @private
    */
 
+
+  var _autoRemovePencilMarksState = false;
+  /**
+   * Indicates whether highlighting rows is enabled
+   * @type {boolean}
+   * @private
+   */
 
   var _highlightRowState;
   /**
@@ -3343,6 +3453,7 @@ function Settings() {
     var settings = JSON.parse(localStorage.getItem('settings'));
     _clockState = settings.clock !== undefined ? settings.clock : true;
     _autoErrorCheckingState = settings.autoErrorChecking !== undefined ? settings.autoErrorChecking : true;
+    _autoRemovePencilMarksState = settings.autoRemovePencilMarks !== undefined ? settings.autoRemovePencilMarks : false;
     _highlightRowState = settings.highlightRow !== undefined ? settings.highlightRow : true;
     _highlightColumnState = settings.highlightColumn !== undefined ? settings.highlightColumn : true;
     _highlightBoxState = settings.highlightBox !== undefined ? settings.highlightBox : true;
@@ -3360,6 +3471,7 @@ function Settings() {
     localStorage.setItem('settings', JSON.stringify({
       clock: self.clockState(),
       autoErrorChecking: self.autoErrorCheckingState(),
+      autoRemovePencilMarks: self.autoRemovePencilMarksState(),
       highlightRow: self.highlightRowState(),
       highlightColumn: self.highlightColumnState(),
       highlightBox: self.highlightBoxState(),
@@ -3377,11 +3489,12 @@ function Settings() {
   var _applySettings = function _applySettings() {
     new _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__["default"]().execute(self.clockState());
     new _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__["default"]().execute(self.autoErrorCheckingState());
-    new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_2__["default"]().execute(self.highlightRowState());
-    new _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_3__["default"]().execute(self.highlightColumnState());
-    new _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_4__["default"]().execute(self.highlightBoxState());
-    new _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_5__["default"]().execute(self.highlightValueState());
-    new _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_6__["default"]().execute(self.highlightPencilMarksState());
+    new _Commands_Settings_AutoRemovePencilMarksCommand__WEBPACK_IMPORTED_MODULE_2__["default"]().execute(self.autoRemovePencilMarksState());
+    new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_3__["default"]().execute(self.highlightRowState());
+    new _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_4__["default"]().execute(self.highlightColumnState());
+    new _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_5__["default"]().execute(self.highlightBoxState());
+    new _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_6__["default"]().execute(self.highlightValueState());
+    new _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_7__["default"]().execute(self.highlightPencilMarksState());
   };
   /**
    * @param {boolean|null} state Setter if given, getter otherwise
@@ -3416,6 +3529,23 @@ function Settings() {
     }
 
     return _autoErrorCheckingState;
+  };
+  /**
+   * @param {boolean|null} state Setter if given, getter otherwise
+   * @return {boolean}
+   */
+
+
+  self.autoRemovePencilMarksState = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    if (state !== null) {
+      _autoRemovePencilMarksState = state;
+
+      _toLocalStorage();
+    }
+
+    return _autoRemovePencilMarksState;
   };
   /**
    * @param {boolean|null} state Setter if given, getter otherwise

@@ -14,6 +14,11 @@ ob_start();
         Check for errors automatically
     </label>
 
+    <label>
+        <input type="checkbox" id="setting-auto-remove-pencil-marks">
+        Automatically remove pencil marks when setting values
+    </label>
+
     <h3>Highlighting</h3>
 
     <label>

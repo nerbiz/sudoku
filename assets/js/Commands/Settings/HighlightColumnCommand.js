@@ -10,7 +10,7 @@ export default function HighlightColumnCommand() {
     /**
      * @inheritDoc
      */
-    self.state = () => Sudoku.settings.highlightColumnState;
+    self.state = () => Sudoku.settings.highlightColumnState();
 
     /**
      * The checkbox that toggles the setting
@@ -24,8 +24,6 @@ export default function HighlightColumnCommand() {
      */
     self.execute = state => {
         _toggleCheckbox.checked = state;
-
         Sudoku.settings.highlightColumnState(state);
-        self.state = state;
     };
 };

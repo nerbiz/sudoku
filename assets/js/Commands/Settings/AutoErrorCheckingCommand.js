@@ -10,7 +10,7 @@ export default function AutoErrorCheckingCommand() {
     /**
      * @inheritDoc
      */
-    self.state = () => Sudoku.settings.autoErrorCheckingState;
+    self.state = () => Sudoku.settings.autoErrorCheckingState();
 
     /**
      * The manual error checking button
@@ -41,7 +41,5 @@ export default function AutoErrorCheckingCommand() {
         (state === true)
             ? Sudoku.grid.checkForErrors()
             : Sudoku.grid.removeAllErrors();
-
-        self.state = state;
     };
 }

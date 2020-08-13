@@ -10,7 +10,7 @@ export default function HighlightBoxCommand() {
     /**
      * @inheritDoc
      */
-    self.state = () => Sudoku.settings.highlightBoxState;
+    self.state = () => Sudoku.settings.highlightBoxState();
 
     /**
      * The checkbox that toggles the setting
@@ -24,8 +24,6 @@ export default function HighlightBoxCommand() {
      */
     self.execute = state => {
         _toggleCheckbox.checked = state;
-
         Sudoku.settings.highlightBoxState(state);
-        self.state = state;
     };
 };

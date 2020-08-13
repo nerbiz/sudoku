@@ -10,7 +10,7 @@ export default function HighlightPencilMarksCommand() {
     /**
      * @inheritDoc
      */
-    self.state = () => Sudoku.settings.highlightPencilMarksState;
+    self.state = () => Sudoku.settings.highlightPencilMarksState();
 
     /**
      * The checkbox that toggles the setting
@@ -24,8 +24,6 @@ export default function HighlightPencilMarksCommand() {
      */
     self.execute = state => {
         _toggleCheckbox.checked = state;
-
         Sudoku.settings.highlightPencilMarksState(state);
-        self.state = state;
     };
 };

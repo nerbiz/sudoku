@@ -218,6 +218,11 @@ export default function GridCell(cellNumber) {
         // Highlight other cells
         Sudoku.gridCellHighlighter.highlightRelatedCells();
 
+        // Remove pencil marks of related cells, if needed
+        if (Sudoku.settings.autoRemovePencilMarksState() === true) {
+            _removeRelatedPencilMarks(digit);
+        }
+
         // Show possible candidates if needed
         if (Sudoku.settings.autoCandidateState() === true) {
             Sudoku.grid.determineCandidates();
@@ -427,6 +432,37 @@ export default function GridCell(cellNumber) {
     };
 
     /**
+     * Remove a pencil mark
+     * @param type 'corner' or 'center'
+     * @param digit
+     * @return {void}
+     */
+    self.removePencilMark = (type, digit) => {
+        if (['corner', 'center'].indexOf(type) < 0) {
+            throw new Error(`Invalid pencil mark type given, only 'corner' and 'center' are valid, '${type}' given`);
+        }
+
+        let pencilMarks;
+        if (type === 'corner') {
+            pencilMarks = self.getCornerMarks();
+        } else if (type === 'center') {
+            pencilMarks = self.getCenterMarks();
+        }
+
+        // Only remove the digit, if it exists
+        const digitIndex = pencilMarks.indexOf(digit);
+        if (digitIndex > -1) {
+            pencilMarks.splice(digitIndex, 1);
+
+            if (type === 'corner') {
+                self.setCornerMarks(pencilMarks);
+            } else if (type === 'center') {
+                self.setCenterMarks(pencilMarks);
+            }
+        }
+    };
+
+    /**
      * Toggle the visibility of the pencil marks
      * @param {boolean} show
      * @private
@@ -443,6 +479,22 @@ export default function GridCell(cellNumber) {
         // Toggle the center marks
         self.getElement().getElementsByClassName('center-marks')[0]
             .classList[toggleMethod]('hide');
+    };
+
+    /**
+     * Remove pencil marks of related cells, based on cell value
+     * @param {number} digit
+     * @return {void}
+     * @private
+     */
+    const _removeRelatedPencilMarks = digit => {
+        self.getRow().getCells()
+            .concat(self.getColumn().getCells())
+            .concat(self.getBox().getCells())
+            .forEach(cell => {
+                cell.removePencilMark('corner', digit);
+                cell.removePencilMark('center', digit);
+            });
     };
 
     /**
