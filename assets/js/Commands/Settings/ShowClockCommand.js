@@ -1,11 +1,11 @@
 import {extend} from '../../functions';
-import TogglableCommand from '../TogglableCommand';
+import TogglableCommandInterface from '../TogglableCommandInterface';
 
-extend(ShowClockCommand, TogglableCommand);
+extend(ShowClockCommand, TogglableCommandInterface);
 
 export default function ShowClockCommand() {
     const self = this;
-    TogglableCommand.call(self);
+    TogglableCommandInterface.call(self);
 
     /**
      * @inheritDoc

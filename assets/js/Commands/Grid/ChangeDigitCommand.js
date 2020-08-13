@@ -1,8 +1,8 @@
 import {extend} from '../../functions';
-import UndoableCommand from '../UndoableCommand';
+import UndoableCommandInterface from '../UndoableCommandInterface';
 import InputMode from '../../InputMode';
 
-extend(ChangeDigitCommand, UndoableCommand);
+extend(ChangeDigitCommand, UndoableCommandInterface);
 
 /**
  * @param {number|null} digit
@@ -10,7 +10,7 @@ extend(ChangeDigitCommand, UndoableCommand);
  */
 export default function ChangeDigitCommand(digit) {
     const self = this;
-    UndoableCommand.call(self);
+    UndoableCommandInterface.call(self);
 
     /**
      * The digit to apply to cell(s)

@@ -1,9 +1,9 @@
 import {extend} from '../../functions';
-import Command from '../Command';
+import CommandInterface from '../CommandInterface';
 import PauseGameCommand from '../PauseGameCommand';
 import Modal from '../../Modal';
 
-extend(OpenModalCommand, Command);
+extend(OpenModalCommand, CommandInterface);
 
 /**
  * @param {string} modalId ID of the modal dialog to open
@@ -11,7 +11,7 @@ extend(OpenModalCommand, Command);
  */
 export default function OpenModalCommand(modalId) {
     const self = this;
-    Command.call(self);
+    CommandInterface.call(self);
 
     /**
      * @type {string}

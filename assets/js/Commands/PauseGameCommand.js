@@ -1,13 +1,13 @@
 import {extend} from '../functions';
-import TogglableCommand from './TogglableCommand';
+import TogglableCommandInterface from './TogglableCommandInterface';
 import OpenModalCommand from './Modal/OpenModalCommand';
 import Modal from '../Modal';
 
-extend(PauseGameCommand, TogglableCommand);
+extend(PauseGameCommand, TogglableCommandInterface);
 
 export default function PauseGameCommand() {
     const self = this;
-    TogglableCommand.call(self);
+    TogglableCommandInterface.call(self);
 
     /**
      * @inheritDoc

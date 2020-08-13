@@ -1,11 +1,11 @@
 import {extend} from '../functions';
-import Command from './Command';
+import CommandInterface from './CommandInterface';
 
-extend(TogglableCommand, Command);
+extend(TogglableCommandInterface, CommandInterface);
 
-export default function TogglableCommand() {
+export default function TogglableCommandInterface() {
     const self = this;
-    Command.call(self);
+    CommandInterface.call(self);
 
     /**
      * The current state of the command

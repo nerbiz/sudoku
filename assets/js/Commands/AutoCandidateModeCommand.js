@@ -1,12 +1,12 @@
 import {extend} from '../functions';
-import TogglableCommand from './TogglableCommand';
+import TogglableCommandInterface from './TogglableCommandInterface';
 import InputMode from '../InputMode';
 
-extend(AutoCandidateModeCommand, TogglableCommand);
+extend(AutoCandidateModeCommand, TogglableCommandInterface);
 
 export default function AutoCandidateModeCommand() {
     const self = this;
-    TogglableCommand.call(self);
+    TogglableCommandInterface.call(self);
 
     /**
      * @inheritDoc

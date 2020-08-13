@@ -1,11 +1,11 @@
 import {extend} from '../../functions';
-import TogglableCommand from '../TogglableCommand';
+import TogglableCommandInterface from '../TogglableCommandInterface';
 
-extend(HighlightValueCommand, TogglableCommand);
+extend(HighlightValueCommand, TogglableCommandInterface);
 
 export default function HighlightValueCommand() {
     const self = this;
-    TogglableCommand.call(self);
+    TogglableCommandInterface.call(self);
 
     /**
      * @inheritDoc

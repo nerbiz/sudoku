@@ -1,4 +1,4 @@
-export default function Command() {
+export default function CommandInterface() {
     const self = this;
 
     /**

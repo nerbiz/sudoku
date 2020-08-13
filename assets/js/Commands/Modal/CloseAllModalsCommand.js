@@ -1,15 +1,15 @@
 import {extend} from '../../functions';
-import Command from '../Command';
+import CommandInterface from '../CommandInterface';
 import PauseGameCommand from '../PauseGameCommand';
 
-extend(CloseAllModalsCommand, Command);
+extend(CloseAllModalsCommand, CommandInterface);
 
 /**
  * @constructor
  */
 export default function CloseAllModalsCommand() {
     const self = this;
-    Command.call(self);
+    CommandInterface.call(self);
 
     /**
      * @type {PauseGameCommand}

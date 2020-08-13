@@ -1,11 +1,11 @@
 import {extend} from '../../functions';
-import TogglableCommand from '../TogglableCommand';
+import TogglableCommandInterface from '../TogglableCommandInterface';
 
-extend(AutoErrorCheckingCommand, TogglableCommand);
+extend(AutoErrorCheckingCommand, TogglableCommandInterface);
 
 export default function AutoErrorCheckingCommand() {
     const self = this;
-    TogglableCommand.call(self);
+    TogglableCommandInterface.call(self);
 
     /**
      * @inheritDoc

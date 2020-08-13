@@ -247,15 +247,15 @@ function Clock() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AutoCandidateModeCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
-/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+/* harmony import */ var _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TogglableCommandInterface */ "./assets/js/Commands/TogglableCommandInterface.js");
 /* harmony import */ var _InputMode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../InputMode */ "./assets/js/InputMode.js");
 
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(AutoCandidateModeCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(AutoCandidateModeCommand, _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
 function AutoCandidateModeCommand() {
   var self = this;
-  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * @inheritDoc
    */
@@ -275,30 +275,6 @@ function AutoCandidateModeCommand() {
 
 /***/ }),
 
-/***/ "./assets/js/Commands/Command.js":
-/*!***************************************!*\
-  !*** ./assets/js/Commands/Command.js ***!
-  \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Command; });
-function Command() {
-  var self = this;
-  /**
-   * Execute the command
-   * @return {void}
-   */
-
-  self.execute = function () {
-    throw new Error("'execute' method is not implemented in the command");
-  };
-}
-
-/***/ }),
-
 /***/ "./assets/js/Commands/CommandHistory.js":
 /*!**********************************************!*\
   !*** ./assets/js/Commands/CommandHistory.js ***!
@@ -309,27 +285,27 @@ function Command() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CommandHistory; });
-/* harmony import */ var _UndoableCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UndoableCommand */ "./assets/js/Commands/UndoableCommand.js");
+/* harmony import */ var _UndoableCommandInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UndoableCommandInterface */ "./assets/js/Commands/UndoableCommandInterface.js");
 
 function CommandHistory() {
   var self = this;
   /**
    * The list of commands that have been executed
-   * @type {UndoableCommand[]}
+   * @type {UndoableCommandInterface[]}
    * @private
    */
 
   var _past = [];
   /**
    * The list of commands to redo
-   * @type {UndoableCommand[]}
+   * @type {UndoableCommandInterface[]}
    * @private
    */
 
   var _future = [];
   /**
    * Add a command to be executed
-   * @param {UndoableCommand} command
+   * @param {UndoableCommandInterface} command
    * @param {boolean} clearFuture Whether to clear the future (redo) stack
    * @return {number}
    */
@@ -337,8 +313,8 @@ function CommandHistory() {
   self.execute = function (command) {
     var clearFuture = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
-    if (!(command instanceof _UndoableCommand__WEBPACK_IMPORTED_MODULE_0__["default"])) {
-      throw new Error('Command needs to have UndoableCommand in its prototype chain');
+    if (!(command instanceof _UndoableCommandInterface__WEBPACK_IMPORTED_MODULE_0__["default"])) {
+      throw new Error('Command needs to have UndoableCommandInterface in its prototype chain');
     }
 
     command.execute();
@@ -390,6 +366,30 @@ function CommandHistory() {
 
 /***/ }),
 
+/***/ "./assets/js/Commands/CommandInterface.js":
+/*!************************************************!*\
+  !*** ./assets/js/Commands/CommandInterface.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CommandInterface; });
+function CommandInterface() {
+  var self = this;
+  /**
+   * Execute the command
+   * @return {void}
+   */
+
+  self.execute = function () {
+    throw new Error("'execute' method is not implemented in the command");
+  };
+}
+
+/***/ }),
+
 /***/ "./assets/js/Commands/Grid/ChangeDigitCommand.js":
 /*!*******************************************************!*\
   !*** ./assets/js/Commands/Grid/ChangeDigitCommand.js ***!
@@ -401,12 +401,12 @@ function CommandHistory() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ChangeDigitCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
-/* harmony import */ var _UndoableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../UndoableCommand */ "./assets/js/Commands/UndoableCommand.js");
+/* harmony import */ var _UndoableCommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../UndoableCommandInterface */ "./assets/js/Commands/UndoableCommandInterface.js");
 /* harmony import */ var _InputMode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../InputMode */ "./assets/js/InputMode.js");
 
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(ChangeDigitCommand, _UndoableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(ChangeDigitCommand, _UndoableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /**
  * @param {number|null} digit
  * @constructor
@@ -414,7 +414,7 @@ Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(ChangeDigitCommand, _U
 
 function ChangeDigitCommand(digit) {
   var self = this;
-  _UndoableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _UndoableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * The digit to apply to cell(s)
    * @type {number|null}
@@ -521,19 +521,19 @@ function ChangeDigitCommand(digit) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CloseAllModalsCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
-/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Command */ "./assets/js/Commands/Command.js");
+/* harmony import */ var _CommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../CommandInterface */ "./assets/js/Commands/CommandInterface.js");
 /* harmony import */ var _PauseGameCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../PauseGameCommand */ "./assets/js/Commands/PauseGameCommand.js");
 
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(CloseAllModalsCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(CloseAllModalsCommand, _CommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /**
  * @constructor
  */
 
 function CloseAllModalsCommand() {
   var self = this;
-  _Command__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _CommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * @type {PauseGameCommand}
    * @private
@@ -572,14 +572,14 @@ function CloseAllModalsCommand() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return OpenModalCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
-/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Command */ "./assets/js/Commands/Command.js");
+/* harmony import */ var _CommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../CommandInterface */ "./assets/js/Commands/CommandInterface.js");
 /* harmony import */ var _PauseGameCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../PauseGameCommand */ "./assets/js/Commands/PauseGameCommand.js");
 /* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Modal */ "./assets/js/Modal.js");
 
 
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(OpenModalCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(OpenModalCommand, _CommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /**
  * @param {string} modalId ID of the modal dialog to open
  * @constructor
@@ -587,7 +587,7 @@ Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(OpenModalCommand, _Com
 
 function OpenModalCommand(modalId) {
   var self = this;
-  _Command__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _CommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * @type {string}
    * @private
@@ -628,17 +628,17 @@ function OpenModalCommand(modalId) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PauseGameCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
-/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+/* harmony import */ var _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TogglableCommandInterface */ "./assets/js/Commands/TogglableCommandInterface.js");
 /* harmony import */ var _Modal_OpenModalCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Modal/OpenModalCommand */ "./assets/js/Commands/Modal/OpenModalCommand.js");
 /* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Modal */ "./assets/js/Modal.js");
 
 
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(PauseGameCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(PauseGameCommand, _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
 function PauseGameCommand() {
   var self = this;
-  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * @inheritDoc
    */
@@ -689,13 +689,13 @@ function PauseGameCommand() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AutoErrorCheckingCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
-/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+/* harmony import */ var _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommandInterface */ "./assets/js/Commands/TogglableCommandInterface.js");
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(AutoErrorCheckingCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(AutoErrorCheckingCommand, _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
 function AutoErrorCheckingCommand() {
   var self = this;
-  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * @inheritDoc
    */
@@ -750,13 +750,13 @@ function AutoErrorCheckingCommand() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HighlightBoxCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
-/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+/* harmony import */ var _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommandInterface */ "./assets/js/Commands/TogglableCommandInterface.js");
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightBoxCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightBoxCommand, _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
 function HighlightBoxCommand() {
   var self = this;
-  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * @inheritDoc
    */
@@ -798,13 +798,13 @@ function HighlightBoxCommand() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HighlightColumnCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
-/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+/* harmony import */ var _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommandInterface */ "./assets/js/Commands/TogglableCommandInterface.js");
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightColumnCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightColumnCommand, _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
 function HighlightColumnCommand() {
   var self = this;
-  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * @inheritDoc
    */
@@ -846,13 +846,13 @@ function HighlightColumnCommand() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HighlightPencilMarksCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
-/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+/* harmony import */ var _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommandInterface */ "./assets/js/Commands/TogglableCommandInterface.js");
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightPencilMarksCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightPencilMarksCommand, _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
 function HighlightPencilMarksCommand() {
   var self = this;
-  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * @inheritDoc
    */
@@ -894,13 +894,13 @@ function HighlightPencilMarksCommand() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HighlightRowCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
-/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+/* harmony import */ var _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommandInterface */ "./assets/js/Commands/TogglableCommandInterface.js");
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightRowCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightRowCommand, _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
 function HighlightRowCommand() {
   var self = this;
-  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * @inheritDoc
    */
@@ -942,13 +942,13 @@ function HighlightRowCommand() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HighlightValueCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
-/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+/* harmony import */ var _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommandInterface */ "./assets/js/Commands/TogglableCommandInterface.js");
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightValueCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightValueCommand, _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
 function HighlightValueCommand() {
   var self = this;
-  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * @inheritDoc
    */
@@ -990,13 +990,13 @@ function HighlightValueCommand() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ShowClockCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
-/* harmony import */ var _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommand */ "./assets/js/Commands/TogglableCommand.js");
+/* harmony import */ var _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommandInterface */ "./assets/js/Commands/TogglableCommandInterface.js");
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(ShowClockCommand, _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"]);
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(ShowClockCommand, _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
 function ShowClockCommand() {
   var self = this;
-  _TogglableCommand__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * @inheritDoc
    */
@@ -1037,26 +1037,26 @@ function ShowClockCommand() {
 
 /***/ }),
 
-/***/ "./assets/js/Commands/TogglableCommand.js":
-/*!************************************************!*\
-  !*** ./assets/js/Commands/TogglableCommand.js ***!
-  \************************************************/
+/***/ "./assets/js/Commands/TogglableCommandInterface.js":
+/*!*********************************************************!*\
+  !*** ./assets/js/Commands/TogglableCommandInterface.js ***!
+  \*********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TogglableCommand; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TogglableCommandInterface; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
-/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
+/* harmony import */ var _CommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CommandInterface */ "./assets/js/Commands/CommandInterface.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(TogglableCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
-function TogglableCommand() {
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(TogglableCommandInterface, _CommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
+function TogglableCommandInterface() {
   var self = this;
-  _Command__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _CommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * The current state of the command
    * @type {boolean|function|null}
@@ -1091,24 +1091,24 @@ function TogglableCommand() {
 
 /***/ }),
 
-/***/ "./assets/js/Commands/UndoableCommand.js":
-/*!***********************************************!*\
-  !*** ./assets/js/Commands/UndoableCommand.js ***!
-  \***********************************************/
+/***/ "./assets/js/Commands/UndoableCommandInterface.js":
+/*!********************************************************!*\
+  !*** ./assets/js/Commands/UndoableCommandInterface.js ***!
+  \********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return UndoableCommand; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return UndoableCommandInterface; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
-/* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
+/* harmony import */ var _CommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CommandInterface */ "./assets/js/Commands/CommandInterface.js");
 
 
-Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(UndoableCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
-function UndoableCommand() {
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(UndoableCommandInterface, _CommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
+function UndoableCommandInterface() {
   var self = this;
-  _Command__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  _CommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
   /**
    * Undo the command
    * @return {void}

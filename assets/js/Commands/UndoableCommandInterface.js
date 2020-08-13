@@ -1,11 +1,11 @@
 import {extend} from '../functions';
-import Command from './Command';
+import CommandInterface from './CommandInterface';
 
-extend(UndoableCommand, Command);
+extend(UndoableCommandInterface, CommandInterface);
 
-export default function UndoableCommand() {
+export default function UndoableCommandInterface() {
     const self = this;
-    Command.call(self);
+    CommandInterface.call(self);
 
     /**
      * Undo the command

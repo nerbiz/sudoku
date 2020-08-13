@@ -1,31 +1,31 @@
-import UndoableCommand from './UndoableCommand';
+import UndoableCommandInterface from './UndoableCommandInterface';
 
 export default function CommandHistory() {
     const self = this;
 
     /**
      * The list of commands that have been executed
-     * @type {UndoableCommand[]}
+     * @type {UndoableCommandInterface[]}
      * @private
      */
     let _past = [];
 
     /**
      * The list of commands to redo
-     * @type {UndoableCommand[]}
+     * @type {UndoableCommandInterface[]}
      * @private
      */
     let _future = [];
 
     /**
      * Add a command to be executed
-     * @param {UndoableCommand} command
+     * @param {UndoableCommandInterface} command
      * @param {boolean} clearFuture Whether to clear the future (redo) stack
      * @return {number}
      */
     self.execute = (command, clearFuture = true) => {
-        if (! (command instanceof UndoableCommand)) {
-            throw new Error('Command needs to have UndoableCommand in its prototype chain');
+        if (! (command instanceof UndoableCommandInterface)) {
+            throw new Error('Command needs to have UndoableCommandInterface in its prototype chain');
         }
 
         command.execute();
