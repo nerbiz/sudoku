@@ -30,16 +30,9 @@ export default function OpenModalCommand(modalId) {
      * @inheritDoc
      */
     self.execute = () => {
-        Sudoku.modal.currentModalId(_modalId);
-
-        // Prevent recursive calls
-        if (_modalId !== Modal.PAUSE_MODAL_ID) {
-            const pauseGameCommand = new PauseGameCommand();
-            pauseGameCommand.execute(true);
-        }
-
-        Sudoku.modal.openState(true);
-        Sudoku.modal.showBackdrop(true);
+        Sudoku.modal.setCurrentModalId(_modalId);
         _modalElement.classList.add('show');
+
+        (new PauseGameCommand()).execute(true);
     };
 }

@@ -27,14 +27,14 @@ export default function TogglableCommand() {
      * @return {void}
      */
     self.toggle = () => {
-        const state = ((typeof self.state) === 'function')
+        const currentState = ((typeof self.state).toLowerCase() === 'function')
             ? self.state()
             : self.state;
 
-        if (state === null) {
-            throw new Error('The command needs an (initial) true/false state');
+        if (currentState === null) {
+            throw new Error('The command needs an (initial) boolean state, it can be a function that returns a boolean');
         }
 
-        self.execute(! state);
+        self.execute(! currentState);
     };
 }

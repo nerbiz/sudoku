@@ -21,16 +21,13 @@ export default function CloseAllModalsCommand() {
      * @inheritDoc
      */
     self.execute = () => {
-        _pauseGameCommand.execute(false);
-
-        Sudoku.modal.showBackdrop(false);
-
         // Close all the modals
         const modals = document.getElementsByClassName('modal');
         for (let i = 0; i < modals.length; i++) {
             modals[i].classList.remove('show');
         }
 
-        Sudoku.modal.openState(false);
+        _pauseGameCommand.execute(false);
+        Sudoku.modal.setCurrentModalId(null);
     };
 }

@@ -546,17 +546,16 @@ function CloseAllModalsCommand() {
 
 
   self.execute = function () {
-    _pauseGameCommand.execute(false);
-
-    Sudoku.modal.showBackdrop(false); // Close all the modals
-
+    // Close all the modals
     var modals = document.getElementsByClassName('modal');
 
     for (var i = 0; i < modals.length; i++) {
       modals[i].classList.remove('show');
     }
 
-    Sudoku.modal.openState(false);
+    _pauseGameCommand.execute(false);
+
+    Sudoku.modal.setCurrentModalId(null);
   };
 }
 
@@ -608,17 +607,11 @@ function OpenModalCommand(modalId) {
 
 
   self.execute = function () {
-    Sudoku.modal.currentModalId(_modalId); // Prevent recursive calls
-
-    if (_modalId !== _Modal__WEBPACK_IMPORTED_MODULE_3__["default"].PAUSE_MODAL_ID) {
-      var pauseGameCommand = new _PauseGameCommand__WEBPACK_IMPORTED_MODULE_2__["default"]();
-      pauseGameCommand.execute(true);
-    }
-
-    Sudoku.modal.openState(true);
-    Sudoku.modal.showBackdrop(true);
+    Sudoku.modal.setCurrentModalId(_modalId);
 
     _modalElement.classList.add('show');
+
+    new _PauseGameCommand__WEBPACK_IMPORTED_MODULE_2__["default"]().execute(true);
   };
 }
 
@@ -666,16 +659,14 @@ function PauseGameCommand() {
     if (state === true) {
       Sudoku.clock.pause();
 
-      _bodyElement.classList.add('is-paused');
+      _bodyElement.classList.add('is-paused'); // Only open the pause modal, if there is no modal open yet
 
-      var openModalCommand = new _Modal_OpenModalCommand__WEBPACK_IMPORTED_MODULE_2__["default"](_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].PAUSE_MODAL_ID);
-      openModalCommand.execute();
-    } else {
-      // Prevent recursive calls
-      if (Sudoku.modal.currentModalId() !== _Modal__WEBPACK_IMPORTED_MODULE_3__["default"].PAUSE_MODAL_ID) {
-        Sudoku.modal.close();
+
+      if (Sudoku.modal.openState() === false) {
+        var openModalCommand = new _Modal_OpenModalCommand__WEBPACK_IMPORTED_MODULE_2__["default"]('pause-modal');
+        openModalCommand.execute();
       }
-
+    } else {
       Sudoku.clock.unpause();
 
       _bodyElement.classList.remove('is-paused');
@@ -1058,6 +1049,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TogglableCommand; });
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions */ "./assets/js/functions.js");
 /* harmony import */ var _Command__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Command */ "./assets/js/Commands/Command.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(TogglableCommand, _Command__WEBPACK_IMPORTED_MODULE_1__["default"]);
@@ -1086,13 +1079,13 @@ function TogglableCommand() {
 
 
   self.toggle = function () {
-    var state = typeof self.state === 'function' ? self.state() : self.state;
+    var currentState = _typeof(self.state).toLowerCase() === 'function' ? self.state() : self.state;
 
-    if (state === null) {
-      throw new Error('The command needs an (initial) true/false state');
+    if (currentState === null) {
+      throw new Error('The command needs an (initial) boolean state, it can be a function that returns a boolean');
     }
 
-    self.execute(!state);
+    self.execute(!currentState);
   };
 }
 
@@ -3114,13 +3107,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Commands_Modal_OpenModalCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Commands/Modal/OpenModalCommand */ "./assets/js/Commands/Modal/OpenModalCommand.js");
 
 
-/**
- * The ID of the modal dialog for pausing the game
- * @type {string}
- * @static
- */
-
-Modal.PAUSE_MODAL_ID = 'pause-modal';
 function Modal() {
   var self = this;
   /**
@@ -3163,44 +3149,34 @@ function Modal() {
     _enableClosing();
   };
   /**
-   * Show or hide the modal backdrop
-   * @param {boolean} show
-   */
-
-
-  self.showBackdrop = function (show) {
-    var toggleMethod = show ? 'add' : 'remove';
-
-    _backdropElement.classList[toggleMethod]('show');
-  };
-  /**
-   * @param {boolean|null} state
    * @return {boolean}
    */
 
 
   self.openState = function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-    if (state !== null) {
-      _openState = state;
-    }
-
     return _openState;
   };
   /**
    * @param {string|null} modalId
+   * @return {void}
+   */
+
+
+  self.setCurrentModalId = function (modalId) {
+    _currentModalId = modalId; // Set the open state, based on if there is an ID
+
+    _openState = modalId !== null; // Toggle the backdrop, based on if there is an ID
+
+    var toggleMethod = modalId !== null ? 'add' : 'remove';
+
+    _backdropElement.classList[toggleMethod]('show');
+  };
+  /**
    * @return {string|null}
    */
 
 
-  self.currentModalId = function () {
-    var modalId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-    if (modalId !== null) {
-      _currentModalId = modalId;
-    }
-
+  self.getCurrentModalId = function () {
     return _currentModalId;
   };
   /**

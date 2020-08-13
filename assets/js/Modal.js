@@ -1,13 +1,6 @@
 import CloseAllModalsCommand from './Commands/Modal/CloseAllModalsCommand';
 import OpenModalCommand from './Commands/Modal/OpenModalCommand';
 
-/**
- * The ID of the modal dialog for pausing the game
- * @type {string}
- * @static
- */
-Modal.PAUSE_MODAL_ID = 'pause-modal';
-
 export default function Modal() {
     const self = this;
 
@@ -48,37 +41,29 @@ export default function Modal() {
     };
 
     /**
-     * Show or hide the modal backdrop
-     * @param {boolean} show
+     * @return {boolean}
      */
-    self.showBackdrop = show => {
-        const toggleMethod = show ? 'add' : 'remove';
+    self.openState = () => _openState;
+
+    /**
+     * @param {string|null} modalId
+     * @return {void}
+     */
+    self.setCurrentModalId = modalId => {
+        _currentModalId = modalId;
+
+        // Set the open state, based on if there is an ID
+        _openState = (modalId !== null);
+
+        // Toggle the backdrop, based on if there is an ID
+        const toggleMethod = (modalId !== null) ? 'add' : 'remove';
         _backdropElement.classList[toggleMethod]('show');
     };
 
     /**
-     * @param {boolean|null} state
-     * @return {boolean}
-     */
-    self.openState = (state = null) => {
-        if (state !== null) {
-            _openState = state;
-        }
-
-        return _openState;
-    };
-
-    /**
-     * @param {string|null} modalId
      * @return {string|null}
      */
-    self.currentModalId = (modalId = null) => {
-        if (modalId !== null) {
-            _currentModalId = modalId;
-        }
-
-        return _currentModalId;
-    };
+    self.getCurrentModalId = () => _currentModalId;
 
     /**
      * Close an open modal dialog, if there is any

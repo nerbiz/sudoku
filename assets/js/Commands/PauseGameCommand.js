@@ -28,14 +28,12 @@ export default function PauseGameCommand() {
             Sudoku.clock.pause();
             _bodyElement.classList.add('is-paused');
 
-            const openModalCommand = new OpenModalCommand(Modal.PAUSE_MODAL_ID);
-            openModalCommand.execute();
-        } else {
-            // Prevent recursive calls
-            if (Sudoku.modal.currentModalId() !== Modal.PAUSE_MODAL_ID) {
-                Sudoku.modal.close();
+            // Only open the pause modal, if there is no modal open yet
+            if (Sudoku.modal.openState() === false) {
+                const openModalCommand = new OpenModalCommand('pause-modal');
+                openModalCommand.execute();
             }
-
+        } else {
             Sudoku.clock.unpause();
             _bodyElement.classList.remove('is-paused');
         }
