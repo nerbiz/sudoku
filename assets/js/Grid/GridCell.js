@@ -208,7 +208,7 @@ export default function GridCell(cellNumber) {
         }
 
         // Show or hide the pencil marks
-        _showMarks(digit === null);
+        _toggleMarks(digit === null);
 
         // Show the value on screen
         self.getElement().getElementsByClassName('cell-value')[0].innerText = digit;
@@ -282,14 +282,14 @@ export default function GridCell(cellNumber) {
         }
 
         _cornerMarks = cornerMarks;
-        self.fillCornerMarks();
+        self.showCornerMarks();
     };
 
     /**
      * Fill corner marks in the cell
      * @return {void}
      */
-    self.fillCornerMarks = () => {
+    self.showCornerMarks = () => {
         // Clear all corner marks first
         const allElements = self.getElement().getElementsByClassName('corner-mark');
         for (let i = 0; i < allElements.length; i++) {
@@ -382,7 +382,7 @@ export default function GridCell(cellNumber) {
             ? _autoCandidates = centerMarks
             : _centerMarks = centerMarks;
 
-        self.fillCenterMarks(asAutoCandidate);
+        self.showCenterMarks(asAutoCandidate);
     };
 
     /**
@@ -390,7 +390,7 @@ export default function GridCell(cellNumber) {
      * @param {boolean} asAutoCandidate
      * @return {void}
      */
-    self.fillCenterMarks = (asAutoCandidate = false) => {
+    self.showCenterMarks = (asAutoCandidate = false) => {
         let centerMarks = (asAutoCandidate === true)
             ? self.getAutoCandidates()
             : self.getCenterMarks();
@@ -431,7 +431,7 @@ export default function GridCell(cellNumber) {
      * @param {boolean} show
      * @private
      */
-    const _showMarks = show => {
+    const _toggleMarks = show => {
         const toggleMethod = show ? 'remove' : 'add';
 
         // Toggle the corner marks

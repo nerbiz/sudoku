@@ -1927,7 +1927,7 @@ function Grid() {
       // Remove the auto-candidates
       cell.setCenterMarks([], true); // Show the user-filled center marks
 
-      cell.fillCenterMarks();
+      cell.showCenterMarks();
     });
   };
   /**
@@ -2257,7 +2257,7 @@ function GridCell(cellNumber) {
     } // Show or hide the pencil marks
 
 
-    _showMarks(digit === null); // Show the value on screen
+    _toggleMarks(digit === null); // Show the value on screen
 
 
     self.getElement().getElementsByClassName('cell-value')[0].innerText = digit;
@@ -2336,7 +2336,7 @@ function GridCell(cellNumber) {
     }
 
     _cornerMarks = cornerMarks;
-    self.fillCornerMarks();
+    self.showCornerMarks();
   };
   /**
    * Fill corner marks in the cell
@@ -2344,7 +2344,7 @@ function GridCell(cellNumber) {
    */
 
 
-  self.fillCornerMarks = function () {
+  self.showCornerMarks = function () {
     // Clear all corner marks first
     var allElements = self.getElement().getElementsByClassName('corner-mark');
 
@@ -2447,7 +2447,7 @@ function GridCell(cellNumber) {
     }
 
     asAutoCandidate === true ? _autoCandidates = centerMarks : _centerMarks = centerMarks;
-    self.fillCenterMarks(asAutoCandidate);
+    self.showCenterMarks(asAutoCandidate);
   };
   /**
    * Fill corner marks in the cell
@@ -2456,7 +2456,7 @@ function GridCell(cellNumber) {
    */
 
 
-  self.fillCenterMarks = function () {
+  self.showCenterMarks = function () {
     var asAutoCandidate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
     var centerMarks = asAutoCandidate === true ? self.getAutoCandidates() : self.getCenterMarks();
     centerMarks = centerMarks // Sort ascending
@@ -2492,7 +2492,7 @@ function GridCell(cellNumber) {
    */
 
 
-  var _showMarks = function _showMarks(show) {
+  var _toggleMarks = function _toggleMarks(show) {
     var toggleMethod = show ? 'remove' : 'add'; // Toggle the corner marks
 
     for (var i = 1; i < 9; i++) {

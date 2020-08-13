@@ -198,7 +198,7 @@ export default function Grid() {
             cell.setCenterMarks([], true);
 
             // Show the user-filled center marks
-            cell.fillCenterMarks();
+            cell.showCenterMarks();
         });
     };
 
