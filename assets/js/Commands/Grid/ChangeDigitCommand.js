@@ -55,8 +55,8 @@ export default function ChangeDigitCommand(digit) {
             state[cell.getCellNumber()] = {
                 value: cell.getValue(),
                 // Copy the array, because they go by reference
-                cornerMarks: cell.getCornerMarks().map(item => item),
-                centerMarks: cell.getCenterMarks().map(item => item),
+                cornerMarks: cell.getCornerMarks().get().map(item => item),
+                centerMarks: cell.getCenterMarks().get().map(item => item),
             };
         });
 
@@ -82,10 +82,10 @@ export default function ChangeDigitCommand(digit) {
         _cells.forEach(cell => {
             const state = _cellsState[cell.getCellNumber()];
 
-            cell.setValue(state.value);
+            cell.toggleValue(state.value);
             // Copy the array, because they go by reference
-            cell.setCornerMarks(state.cornerMarks.map(item => item));
-            cell.setCenterMarks(state.centerMarks.map(item => item));
+            cell.getCornerMarks.setDigits(state.cornerMarks.map(item => item));
+            cell.getCenterMarks.setDigits(state.centerMarks.map(item => item));
         });
 
         if (Sudoku.settings.autoErrorCheckingState()) {

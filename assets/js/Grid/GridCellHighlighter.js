@@ -66,8 +66,8 @@ export default function GridCellHighlighter() {
                     else if (Sudoku.settings.highlightPencilMarksState()
                         // Skip filled in cells, because then pencil marks are invisible
                         && ! cell.hasValue()
-                        && (cell.hasCornerMark(cellValue)
-                            || cell.hasCenterMark(cellValue))
+                        && (cell.getCornerMarks().has(cellValue)
+                            || cell.getCenterMarks().has(cellValue))
                     ) {
                         return true;
                     }

@@ -184,7 +184,7 @@ export default function Grid() {
                     });
 
                 // Apply the pencil marks
-                cell.setCenterMarks(centerMarks, true);
+                cell.getCenterMarks().setDigits(centerMarks, true);
             });
     };
 
@@ -195,7 +195,7 @@ export default function Grid() {
     self.removeCandidates = () => {
         self.getCells().forEach(cell => {
             // Remove the auto-candidates
-            cell.setCenterMarks([], true);
+            cell.getCenterMarks().setDigits([], true);
 
             // Show the user-filled center marks
             cell.showCenterMarks();

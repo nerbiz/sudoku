@@ -457,10 +457,10 @@ function ChangeDigitCommand(digit) {
       state[cell.getCellNumber()] = {
         value: cell.getValue(),
         // Copy the array, because they go by reference
-        cornerMarks: cell.getCornerMarks().map(function (item) {
+        cornerMarks: cell.getCornerMarks().get().map(function (item) {
           return item;
         }),
-        centerMarks: cell.getCenterMarks().map(function (item) {
+        centerMarks: cell.getCenterMarks().get().map(function (item) {
           return item;
         })
       };
@@ -492,12 +492,12 @@ function ChangeDigitCommand(digit) {
     _cells.forEach(function (cell) {
       var state = _cellsState[cell.getCellNumber()];
 
-      cell.setValue(state.value); // Copy the array, because they go by reference
+      cell.toggleValue(state.value); // Copy the array, because they go by reference
 
-      cell.setCornerMarks(state.cornerMarks.map(function (item) {
+      cell.getCornerMarks.setDigits(state.cornerMarks.map(function (item) {
         return item;
       }));
-      cell.setCenterMarks(state.centerMarks.map(function (item) {
+      cell.getCenterMarks.setDigits(state.centerMarks.map(function (item) {
         return item;
       }));
     });
@@ -1961,7 +1961,7 @@ function Grid() {
         return true;
       }); // Apply the pencil marks
 
-      cell.setCenterMarks(centerMarks, true);
+      cell.getCenterMarks().setDigits(centerMarks, true);
     });
   };
   /**
@@ -1973,7 +1973,7 @@ function Grid() {
   self.removeCandidates = function () {
     self.getCells().forEach(function (cell) {
       // Remove the auto-candidates
-      cell.setCenterMarks([], true); // Show the user-filled center marks
+      cell.getCenterMarks().setDigits([], true); // Show the user-filled center marks
 
       cell.showCenterMarks();
     });
@@ -2072,6 +2072,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GridBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GridBox */ "./assets/js/Grid/GridBox.js");
 /* harmony import */ var _EventHandlers_GridCellEventHandler__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../EventHandlers/GridCellEventHandler */ "./assets/js/EventHandlers/GridCellEventHandler.js");
 /* harmony import */ var _InputMode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../InputMode */ "./assets/js/InputMode.js");
+/* harmony import */ var _PencilMarks_CornerMarks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PencilMarks/CornerMarks */ "./assets/js/Grid/PencilMarks/CornerMarks.js");
+/* harmony import */ var _PencilMarks_CenterMarks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PencilMarks/CenterMarks */ "./assets/js/Grid/PencilMarks/CenterMarks.js");
+
+
 
 
 
@@ -2107,10 +2111,26 @@ function GridCell(cellNumber) {
 
   var _element = null;
   /**
+   * The corner marks of the cell
+   * @type {CornerMarks}
+   * @private
+   */
+
+  var _cornerMarks = new _PencilMarks_CornerMarks__WEBPACK_IMPORTED_MODULE_5__["default"](self);
+  /**
+   * The center marks of the cell
+   * @type {CenterMarks}
+   * @private
+   */
+
+
+  var _centerMarks = new _PencilMarks_CenterMarks__WEBPACK_IMPORTED_MODULE_6__["default"](self);
+  /**
    * The row the cell belongs to
    * @type {GridRow|null}
    * @private
    */
+
 
   var _gridRow = null;
   /**
@@ -2148,27 +2168,6 @@ function GridCell(cellNumber) {
    */
 
   var _value = null;
-  /**
-   * The pencil mark values (corner mode)
-   * @type {number[]}
-   * @private
-   */
-
-  var _cornerMarks = [];
-  /**
-   * The pencil mark values (center mode)
-   * @type {number[]}
-   * @private
-   */
-
-  var _centerMarks = [];
-  /**
-   * Automatically filled in candidates
-   * @type {number[]}
-   * @private
-   */
-
-  var _autoCandidates = [];
   /**
    * Whether the cell is currently selected
    * @type {boolean}
@@ -2258,13 +2257,13 @@ function GridCell(cellNumber) {
     if (digit === null) {
       // Remove the marks only if no value is filled in
       if (self.getValue() === null) {
-        self.setCornerMarks([]);
+        self.getCornerMarks().setDigits([]);
 
         if (!Sudoku.settings.autoCandidateState()) {
-          self.setCenterMarks([]);
+          self.getCenterMarks.setDigits([]);
         }
       } else {
-        self.setValue(null);
+        self.toggleValue(null);
       }
 
       return;
@@ -2272,15 +2271,15 @@ function GridCell(cellNumber) {
 
     switch (mode) {
       case _InputMode__WEBPACK_IMPORTED_MODULE_4__["default"].MODE_VALUE:
-        self.setValue(digit);
+        self.toggleValue(digit);
         break;
 
       case _InputMode__WEBPACK_IMPORTED_MODULE_4__["default"].MODE_CORNER:
-        self.setCornerMark(digit);
+        self.getCornerMarks().toggleDigit(digit);
         break;
 
       case _InputMode__WEBPACK_IMPORTED_MODULE_4__["default"].MODE_CENTER:
-        self.setCenterMark(digit);
+        self.getCenterMarks().toggleDigit(digit);
         break;
     }
   };
@@ -2298,14 +2297,14 @@ function GridCell(cellNumber) {
    */
 
 
-  self.setValue = function (digit) {
+  self.toggleValue = function (digit) {
     // Remove the value, if the same digit is entered
     if (digit === self.getValue()) {
       digit = null;
     } // Show or hide the pencil marks
 
 
-    _toggleMarks(digit === null); // Show the value on screen
+    _toggleMarksVisibility(digit === null); // Show the value on screen
 
 
     self.getElement().getElementsByClassName('cell-value')[0].innerText = digit;
@@ -2341,204 +2340,6 @@ function GridCell(cellNumber) {
     return self.getValue() === digit;
   };
   /**
-   * @return {number[]}
-   */
-
-
-  self.getCornerMarks = function () {
-    return _cornerMarks;
-  };
-  /**
-   * Add or remove a digit from the corner marks
-   * @param {number|null} digit
-   * @return {void}
-   */
-
-
-  self.setCornerMark = function (digit) {
-    // Don't set a corner mark, if a value is filled in
-    if (self.getValue() !== null) {
-      return;
-    }
-
-    var cornerMarks = self.getCornerMarks(); // Remove if the digit exists, otherwise add it
-
-    var existingIndex = cornerMarks.indexOf(digit);
-
-    if (existingIndex > -1) {
-      cornerMarks.splice(existingIndex, 1);
-    } else {
-      // Don't add if the maximum amount is reached
-      if (digit !== null && cornerMarks.length < GridCell.MAX_CORNER_MARKS) {
-        cornerMarks.push(digit);
-      }
-    }
-
-    self.setCornerMarks(cornerMarks);
-  };
-  /**
-   * @param {number[]} cornerMarks
-   * @return {void}
-   */
-
-
-  self.setCornerMarks = function (cornerMarks) {
-    // Don't set pencil marks, if there are too many
-    if (cornerMarks.length > GridCell.MAX_CORNER_MARKS) {
-      return;
-    }
-
-    _cornerMarks = cornerMarks;
-    self.showCornerMarks();
-  };
-  /**
-   * Fill corner marks in the cell
-   * @return {void}
-   */
-
-
-  self.showCornerMarks = function () {
-    // Clear all corner marks first
-    var allElements = self.getElement().getElementsByClassName('corner-mark');
-
-    for (var i = 0; i < allElements.length; i++) {
-      allElements[i].innerText = null;
-    } // Show the corner marks
-
-
-    self.getCornerMarks().sort(function (a, b) {
-      return a - b;
-    }).forEach(function (item, index) {
-      document.getElementById("corner-mark-".concat(self.getCellNumber(), "-").concat(index + 1)).innerText = item.toString(10);
-    });
-  };
-  /**
-   * Check if the cell has a corner mark
-   * @param {number|null} digit
-   * @return {boolean}
-   */
-
-
-  self.hasCornerMark = function () {
-    var digit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-    // Check if the cell has any corner mark
-    if (digit === null) {
-      return self.getCornerMarks().length > 0;
-    } // Or check for a specific value
-
-
-    return self.getCornerMarks().indexOf(digit) > -1;
-  };
-  /**
-   * @return {number[]}
-   */
-
-
-  self.getCenterMarks = function () {
-    return _centerMarks;
-  };
-  /**
-   * @return {number[]}
-   */
-
-
-  self.getAutoCandidates = function () {
-    return _autoCandidates;
-  };
-  /**
-   * Add or remove a digit from the center marks
-   * @param {number|null} digit
-   * @return {void}
-   */
-
-
-  self.setCenterMark = function (digit) {
-    // Setting center marks is disabled in auto-candidate mode
-    if (Sudoku.settings.autoCandidateState() === true) {
-      return;
-    } // Don't set a center mark, if a value is filled in
-
-
-    if (self.getValue() !== null) {
-      return;
-    }
-
-    var centerMarks = self.getCenterMarks(); // Remove if the digit exists, otherwise add it
-
-    var existingIndex = centerMarks.indexOf(digit);
-
-    if (existingIndex > -1) {
-      centerMarks.splice(existingIndex, 1);
-    } else {
-      // Don't add if the maximum amount is reached
-      if (digit !== null && centerMarks.length < GridCell.MAX_CENTER_MARKS) {
-        centerMarks.push(digit);
-      }
-    }
-
-    self.setCenterMarks(centerMarks);
-  };
-  /**
-   * @param {number[]} centerMarks
-   * @param {boolean} asAutoCandidate
-   * @return {void}
-   */
-
-
-  self.setCenterMarks = function (centerMarks) {
-    var asAutoCandidate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-    // Empty the candidates, if there are too many
-    if (asAutoCandidate === true && centerMarks.length > GridCell.MAX_CENTER_MARKS) {
-      centerMarks = [];
-    } // Don't set pencil marks, if there are too many
-
-
-    if (centerMarks.length > GridCell.MAX_CENTER_MARKS) {
-      return;
-    }
-
-    asAutoCandidate === true ? _autoCandidates = centerMarks : _centerMarks = centerMarks;
-    self.showCenterMarks(asAutoCandidate);
-  };
-  /**
-   * Fill corner marks in the cell
-   * @param {boolean} asAutoCandidate
-   * @return {void}
-   */
-
-
-  self.showCenterMarks = function () {
-    var asAutoCandidate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var centerMarks = asAutoCandidate === true ? self.getAutoCandidates() : self.getCenterMarks();
-    centerMarks = centerMarks // Sort ascending
-    .sort(function (a, b) {
-      return a - b;
-    }) // Concatenate the numbers
-    .join(''); // Show the pencil marks
-
-    self.getElement().getElementsByClassName('center-marks')[0].innerText = centerMarks;
-  };
-  /**
-   * Check if the cell has a center mark
-   * @param {number|null} digit
-   * @return {boolean}
-   */
-
-
-  self.hasCenterMark = function () {
-    var digit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var centerMarks = Sudoku.settings.autoCandidateState() === true ? self.getAutoCandidates() : self.getCenterMarks(); // Check if the cell has any center mark
-
-    if (digit === null) {
-      return centerMarks.length > 0;
-    } // Or check for a specific value
-
-
-    return centerMarks.indexOf(digit) > -1;
-  };
-  /**
    * Remove a pencil mark
    * @param type 'corner' or 'center'
    * @param digit
@@ -2551,25 +2352,14 @@ function GridCell(cellNumber) {
       throw new Error("Invalid pencil mark type given, only 'corner' and 'center' are valid, '".concat(type, "' given"));
     }
 
-    var pencilMarks;
+    var pencilMarksObject = type === 'corner' ? self.getCornerMarks() : self.getCenterMarks(); // Only remove the digit, if it exists
 
-    if (type === 'corner') {
-      pencilMarks = self.getCornerMarks();
-    } else if (type === 'center') {
-      pencilMarks = self.getCenterMarks();
-    } // Only remove the digit, if it exists
-
-
+    var pencilMarks = pencilMarksObject.get();
     var digitIndex = pencilMarks.indexOf(digit);
 
     if (digitIndex > -1) {
       pencilMarks.splice(digitIndex, 1);
-
-      if (type === 'corner') {
-        self.setCornerMarks(pencilMarks);
-      } else if (type === 'center') {
-        self.setCenterMarks(pencilMarks);
-      }
+      pencilMarksObject.setDigits(pencilMarks);
     }
   };
   /**
@@ -2579,7 +2369,7 @@ function GridCell(cellNumber) {
    */
 
 
-  var _toggleMarks = function _toggleMarks(show) {
+  var _toggleMarksVisibility = function _toggleMarksVisibility(show) {
     var toggleMethod = show ? 'remove' : 'add'; // Toggle the corner marks
 
     for (var i = 1; i < 9; i++) {
@@ -2652,6 +2442,22 @@ function GridCell(cellNumber) {
     _isHighlighted = highlighted;
   };
   /**
+   * @return {CornerMarks}
+   */
+
+
+  self.getCornerMarks = function () {
+    return _cornerMarks;
+  };
+  /**
+   * @return {CenterMarks}
+   */
+
+
+  self.getCenterMarks = function () {
+    return _centerMarks;
+  };
+  /**
    * @return {GridRow|null}
    */
 
@@ -2720,7 +2526,7 @@ function GridCell(cellNumber) {
 
 
   self.getState = function () {
-    return 'n' + self.getCellNumber() + (self.isPrefilled() ? 'p' : '') + 'v' + self.getValue() + 'c' + self.getColorNumber() + 'cr' + self.getCornerMarks().join('') + 'cn' + self.getCenterMarks().join('');
+    return 'n' + self.getCellNumber() + (self.isPrefilled() ? 'p' : '') + 'v' + self.getValue() + 'c' + self.getColorNumber() + 'cr' + self.getCornerMarks().get().join('') + 'cn' + self.getCenterMarks().get().join('');
   };
 }
 
@@ -2801,7 +2607,7 @@ function GridCellHighlighter() {
           return true;
         } // Filter by pencil marks
         else if (Sudoku.settings.highlightPencilMarksState() // Skip filled in cells, because then pencil marks are invisible
-          && !cell.hasValue() && (cell.hasCornerMark(cellValue) || cell.hasCenterMark(cellValue))) {
+          && !cell.hasValue() && (cell.getCornerMarks().has(cellValue) || cell.getCenterMarks().has(cellValue))) {
             return true;
           }
 
@@ -2929,6 +2735,305 @@ function GridRow(rowNumber) {
     }
 
     return numbers;
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/js/Grid/PencilMarks/CenterMarks.js":
+/*!***************************************************!*\
+  !*** ./assets/js/Grid/PencilMarks/CenterMarks.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CenterMarks; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
+/* harmony import */ var _PencilMarksInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PencilMarksInterface */ "./assets/js/Grid/PencilMarks/PencilMarksInterface.js");
+/* harmony import */ var _GridCell__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../GridCell */ "./assets/js/Grid/GridCell.js");
+
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(CenterMarks, _PencilMarksInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/**
+ * @inheritDoc
+ */
+
+function CenterMarks(cell) {
+  var self = this;
+  _PencilMarksInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self, cell);
+  /**
+   * Automatically filled in candidates
+   * @type {number[]}
+   * @private
+   */
+
+  var _autoCandidates = [];
+  /**
+   * @return {number[]}
+   */
+
+  self.getAutoCandidates = function () {
+    return _autoCandidates;
+  };
+  /**
+   * @inheritDoc
+   */
+
+
+  self.toggleDigit = function (digit) {
+    // Setting center marks is disabled in auto-candidate mode
+    if (Sudoku.settings.autoCandidateState() === true) {
+      return;
+    } // Don't set a center mark, if a value is filled in
+
+
+    if (self.cell.getValue() !== null) {
+      return;
+    } // Remove if the digit exists, otherwise add it
+
+
+    var centerMarks = self.get();
+    var existingIndex = centerMarks.indexOf(digit);
+
+    if (existingIndex > -1) {
+      centerMarks.splice(existingIndex, 1);
+    } else {
+      // Don't add if the maximum amount is reached
+      if (digit !== null && centerMarks.length < _GridCell__WEBPACK_IMPORTED_MODULE_2__["default"].MAX_CENTER_MARKS) {
+        centerMarks.push(digit);
+      }
+    }
+
+    self.setDigits(centerMarks);
+  };
+  /**
+   * @inheritDoc
+   * @param {boolean} useAutoCandidates Whether to use auto-candidates, or normal center marks
+   */
+
+
+  self.setDigits = function (digits) {
+    var useAutoCandidates = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+    // Empty the candidates, if there are too many
+    if (useAutoCandidates === true && digits.length > _GridCell__WEBPACK_IMPORTED_MODULE_2__["default"].MAX_CENTER_MARKS) {
+      digits = [];
+    } // Don't set pencil marks, if there are too many
+
+
+    if (digits.length > _GridCell__WEBPACK_IMPORTED_MODULE_2__["default"].MAX_CENTER_MARKS) {
+      return;
+    }
+
+    useAutoCandidates === true ? _autoCandidates = digits : self.digits = digits;
+    self.show(useAutoCandidates);
+  };
+  /**
+   * @inheritDoc
+   */
+
+
+  self.has = function (digit) {
+    var centerMarks = Sudoku.settings.autoCandidateState() === true ? self.getAutoCandidates() : self.get();
+    return centerMarks.indexOf(digit) > -1;
+  };
+  /**
+   * @inheritDoc
+   * @param {boolean} useAutoCandidates Whether to use auto-candidates, or normal center marks
+   */
+
+
+  self.show = function () {
+    var useAutoCandidates = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var centerMarks = useAutoCandidates === true ? self.getAutoCandidates() : self.get();
+    centerMarks = centerMarks // Sort ascending
+    .sort(function (a, b) {
+      return a - b;
+    }) // Concatenate the numbers
+    .join(''); // Show the pencil marks
+
+    self.cell.getElement().getElementsByClassName('center-marks')[0].innerText = centerMarks;
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/js/Grid/PencilMarks/CornerMarks.js":
+/*!***************************************************!*\
+  !*** ./assets/js/Grid/PencilMarks/CornerMarks.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CornerMarks; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
+/* harmony import */ var _PencilMarksInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PencilMarksInterface */ "./assets/js/Grid/PencilMarks/PencilMarksInterface.js");
+/* harmony import */ var _GridCell__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../GridCell */ "./assets/js/Grid/GridCell.js");
+
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(CornerMarks, _PencilMarksInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/**
+ * @inheritDoc
+ */
+
+function CornerMarks(cell) {
+  var self = this;
+  _PencilMarksInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self, cell);
+  /**
+   * @inheritDoc
+   */
+
+  self.toggleDigit = function (digit) {
+    // Don't set a corner mark, if a value is filled in
+    if (self.cell.getValue() !== null) {
+      return;
+    } // Remove if the digit exists, otherwise add it
+
+
+    var cornerMarks = self.get();
+    var existingIndex = cornerMarks.indexOf(digit);
+
+    if (existingIndex > -1) {
+      cornerMarks.splice(existingIndex, 1);
+    } else {
+      // Don't add if the maximum amount is reached
+      if (digit !== null && cornerMarks.length < _GridCell__WEBPACK_IMPORTED_MODULE_2__["default"].MAX_CORNER_MARKS) {
+        cornerMarks.push(digit);
+      }
+    }
+
+    self.setDigits(cornerMarks);
+  };
+  /**
+   * @inheritDoc
+   */
+
+
+  self.setDigits = function (digits) {
+    // Don't set corner marks, if there are too many
+    if (digits.length > _GridCell__WEBPACK_IMPORTED_MODULE_2__["default"].MAX_CORNER_MARKS) {
+      return;
+    }
+
+    self.digits = digits;
+    self.show();
+  };
+  /**
+   * @inheritDoc
+   */
+
+
+  self.show = function () {
+    // Clear all corner marks first
+    var allElements = self.cell.getElement().getElementsByClassName('corner-mark');
+
+    for (var i = 0; i < allElements.length; i++) {
+      allElements[i].innerText = null;
+    } // Show the corner marks
+
+
+    self.get() // Sort ascending
+    .sort(function (a, b) {
+      return a - b;
+    }).forEach(function (item, index) {
+      document.getElementById("corner-mark-".concat(self.cell.getCellNumber(), "-").concat(index + 1)).innerText = item.toString(10);
+    });
+  };
+}
+
+/***/ }),
+
+/***/ "./assets/js/Grid/PencilMarks/PencilMarksInterface.js":
+/*!************************************************************!*\
+  !*** ./assets/js/Grid/PencilMarks/PencilMarksInterface.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PencilMarksInterface; });
+/* harmony import */ var _GridCell__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../GridCell */ "./assets/js/Grid/GridCell.js");
+
+/**
+ * @param {GridCell} cell
+ * @constructor
+ */
+
+function PencilMarksInterface(cell) {
+  var self = this;
+  /**
+   * The cell to apply pencil marks to
+   * @type {GridCell}
+   */
+
+  self.cell = cell;
+  /**
+   * The pencil mark digits
+   * @type {number[]}
+   */
+
+  self.digits = [];
+  /**
+   * @return {number[]}
+   */
+
+  self.get = function () {
+    return self.digits;
+  };
+  /**
+   * Add or remove one 1 digit
+   * @param {number} digit
+   * @return {void}
+   */
+
+
+  self.toggleDigit = function (digit) {
+    throw new Error("'toggleDigit' method is not implemented in the pencil marks object");
+  };
+  /**
+   * Replace all digits
+   * @param {number[]} digits
+   * @return {void}
+   */
+
+
+  self.setDigits = function (digits) {
+    throw new Error("'setDigits' method is not implemented in the pencil marks object");
+  };
+  /**
+   * See if a pencil mark exists
+   * @param {number} digit
+   * @return {boolean}
+   */
+
+
+  self.has = function (digit) {
+    return self.get().indexOf(digit) > -1;
+  };
+  /**
+   * See if any pencil marks exist
+   * @return {boolean}
+   */
+
+
+  self.hasAny = function () {
+    return self.get().length > 0;
+  };
+  /**
+   * Show the pencil marks in the cell
+   * @return {void}
+   */
+
+
+  self.show = function () {
+    throw new Error("'show' method is not implemented in the pencil marks object");
   };
 }
 

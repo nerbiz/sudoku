@@ -3,6 +3,8 @@ import GridColumn from './GridColumn';
 import GridBox from './GridBox';
 import GridCellEventHandler from '../EventHandlers/GridCellEventHandler';
 import InputMode from '../InputMode';
+import CornerMarks from './PencilMarks/CornerMarks';
+import CenterMarks from './PencilMarks/CenterMarks';
 
 /**
  * The maximum amount of pencil marks
@@ -32,6 +34,20 @@ export default function GridCell(cellNumber) {
      * @private
      */
     let _element = null;
+
+    /**
+     * The corner marks of the cell
+     * @type {CornerMarks}
+     * @private
+     */
+    const _cornerMarks = new CornerMarks(self);
+
+    /**
+     * The center marks of the cell
+     * @type {CenterMarks}
+     * @private
+     */
+    const _centerMarks = new CenterMarks(self);
 
     /**
      * The row the cell belongs to
@@ -74,27 +90,6 @@ export default function GridCell(cellNumber) {
      * @private
      */
     let _value = null;
-
-    /**
-     * The pencil mark values (corner mode)
-     * @type {number[]}
-     * @private
-     */
-    let _cornerMarks = [];
-
-    /**
-     * The pencil mark values (center mode)
-     * @type {number[]}
-     * @private
-     */
-    let _centerMarks = [];
-
-    /**
-     * Automatically filled in candidates
-     * @type {number[]}
-     * @private
-     */
-    let _autoCandidates = [];
 
     /**
      * Whether the cell is currently selected
@@ -168,12 +163,13 @@ export default function GridCell(cellNumber) {
         if (digit === null) {
             // Remove the marks only if no value is filled in
             if (self.getValue() === null) {
-                self.setCornerMarks([]);
+                self.getCornerMarks().setDigits([]);
+
                 if (! Sudoku.settings.autoCandidateState()) {
-                    self.setCenterMarks([]);
+                    self.getCenterMarks.setDigits([]);
                 }
             } else {
-                self.setValue(null);
+                self.toggleValue(null);
             }
 
             return;
@@ -181,13 +177,13 @@ export default function GridCell(cellNumber) {
 
         switch (mode) {
             case InputMode.MODE_VALUE:
-                self.setValue(digit);
+                self.toggleValue(digit);
                 break;
             case InputMode.MODE_CORNER:
-                self.setCornerMark(digit);
+                self.getCornerMarks().toggleDigit(digit);
                 break;
             case InputMode.MODE_CENTER:
-                self.setCenterMark(digit);
+                self.getCenterMarks().toggleDigit(digit);
                 break;
         }
     };
@@ -201,14 +197,14 @@ export default function GridCell(cellNumber) {
      * @param {number|null} digit
      * @return {void}
      */
-    self.setValue = digit => {
+    self.toggleValue = digit => {
         // Remove the value, if the same digit is entered
         if (digit === self.getValue()) {
             digit = null;
         }
 
         // Show or hide the pencil marks
-        _toggleMarks(digit === null);
+        _toggleMarksVisibility(digit === null);
 
         // Show the value on screen
         self.getElement().getElementsByClassName('cell-value')[0].innerText = digit;
@@ -245,193 +241,6 @@ export default function GridCell(cellNumber) {
     };
 
     /**
-     * @return {number[]}
-     */
-    self.getCornerMarks = () => _cornerMarks;
-
-    /**
-     * Add or remove a digit from the corner marks
-     * @param {number|null} digit
-     * @return {void}
-     */
-    self.setCornerMark = digit => {
-        // Don't set a corner mark, if a value is filled in
-        if (self.getValue() !== null) {
-            return;
-        }
-
-        const cornerMarks = self.getCornerMarks();
-
-        // Remove if the digit exists, otherwise add it
-        const existingIndex = cornerMarks.indexOf(digit);
-        if (existingIndex > -1) {
-            cornerMarks.splice(existingIndex, 1);
-        } else {
-            // Don't add if the maximum amount is reached
-            if (digit !== null && cornerMarks.length < GridCell.MAX_CORNER_MARKS) {
-                cornerMarks.push(digit);
-            }
-        }
-
-        self.setCornerMarks(cornerMarks);
-    };
-
-    /**
-     * @param {number[]} cornerMarks
-     * @return {void}
-     */
-    self.setCornerMarks = cornerMarks => {
-        // Don't set pencil marks, if there are too many
-        if (cornerMarks.length > GridCell.MAX_CORNER_MARKS) {
-            return;
-        }
-
-        _cornerMarks = cornerMarks;
-        self.showCornerMarks();
-    };
-
-    /**
-     * Fill corner marks in the cell
-     * @return {void}
-     */
-    self.showCornerMarks = () => {
-        // Clear all corner marks first
-        const allElements = self.getElement().getElementsByClassName('corner-mark');
-        for (let i = 0; i < allElements.length; i++) {
-            allElements[i].innerText = null;
-        }
-
-        // Show the corner marks
-        self.getCornerMarks()
-            .sort((a, b) => a - b)
-            .forEach((item, index) => {
-                document.getElementById(`corner-mark-${self.getCellNumber()}-${index + 1}`)
-                    .innerText = item.toString(10);
-            });
-    };
-
-    /**
-     * Check if the cell has a corner mark
-     * @param {number|null} digit
-     * @return {boolean}
-     */
-    self.hasCornerMark = (digit = null) => {
-        // Check if the cell has any corner mark
-        if (digit === null) {
-            return (self.getCornerMarks().length > 0);
-        }
-
-        // Or check for a specific value
-        return (self.getCornerMarks().indexOf(digit) > -1);
-    };
-
-    /**
-     * @return {number[]}
-     */
-    self.getCenterMarks = () => _centerMarks;
-
-    /**
-     * @return {number[]}
-     */
-    self.getAutoCandidates = () => _autoCandidates;
-
-    /**
-     * Add or remove a digit from the center marks
-     * @param {number|null} digit
-     * @return {void}
-     */
-    self.setCenterMark = digit => {
-        // Setting center marks is disabled in auto-candidate mode
-        if (Sudoku.settings.autoCandidateState() === true) {
-            return;
-        }
-
-        // Don't set a center mark, if a value is filled in
-        if (self.getValue() !== null) {
-            return;
-        }
-
-        const centerMarks = self.getCenterMarks();
-
-        // Remove if the digit exists, otherwise add it
-        const existingIndex = centerMarks.indexOf(digit);
-        if (existingIndex > -1) {
-            centerMarks.splice(existingIndex, 1);
-        } else {
-            // Don't add if the maximum amount is reached
-            if (digit !== null && centerMarks.length < GridCell.MAX_CENTER_MARKS) {
-                centerMarks.push(digit);
-            }
-        }
-
-        self.setCenterMarks(centerMarks);
-    };
-
-    /**
-     * @param {number[]} centerMarks
-     * @param {boolean} asAutoCandidate
-     * @return {void}
-     */
-    self.setCenterMarks = (centerMarks, asAutoCandidate = false) => {
-        // Empty the candidates, if there are too many
-        if (asAutoCandidate === true && centerMarks.length > GridCell.MAX_CENTER_MARKS) {
-            centerMarks = [];
-        }
-
-        // Don't set pencil marks, if there are too many
-        if (centerMarks.length > GridCell.MAX_CENTER_MARKS) {
-            return;
-        }
-
-        (asAutoCandidate === true)
-            ? _autoCandidates = centerMarks
-            : _centerMarks = centerMarks;
-
-        self.showCenterMarks(asAutoCandidate);
-    };
-
-    /**
-     * Fill corner marks in the cell
-     * @param {boolean} asAutoCandidate
-     * @return {void}
-     */
-    self.showCenterMarks = (asAutoCandidate = false) => {
-        let centerMarks = (asAutoCandidate === true)
-            ? self.getAutoCandidates()
-            : self.getCenterMarks();
-
-        centerMarks = centerMarks
-            // Sort ascending
-            .sort((a, b) => a - b)
-            // Concatenate the numbers
-            .join('');
-
-        // Show the pencil marks
-        self.getElement()
-            .getElementsByClassName('center-marks')[0]
-            .innerText = centerMarks;
-    };
-
-    /**
-     * Check if the cell has a center mark
-     * @param {number|null} digit
-     * @return {boolean}
-     */
-    self.hasCenterMark = (digit = null) => {
-        const centerMarks = (Sudoku.settings.autoCandidateState() === true)
-            ? self.getAutoCandidates()
-            : self.getCenterMarks();
-
-        // Check if the cell has any center mark
-        if (digit === null) {
-            return (centerMarks.length > 0);
-        }
-
-        // Or check for a specific value
-        return (centerMarks.indexOf(digit) > -1);
-    };
-
-    /**
      * Remove a pencil mark
      * @param type 'corner' or 'center'
      * @param digit
@@ -442,23 +251,16 @@ export default function GridCell(cellNumber) {
             throw new Error(`Invalid pencil mark type given, only 'corner' and 'center' are valid, '${type}' given`);
         }
 
-        let pencilMarks;
-        if (type === 'corner') {
-            pencilMarks = self.getCornerMarks();
-        } else if (type === 'center') {
-            pencilMarks = self.getCenterMarks();
-        }
+        const pencilMarksObject = (type === 'corner')
+            ? self.getCornerMarks()
+            : self.getCenterMarks();
 
         // Only remove the digit, if it exists
+        const pencilMarks = pencilMarksObject.get();
         const digitIndex = pencilMarks.indexOf(digit);
         if (digitIndex > -1) {
             pencilMarks.splice(digitIndex, 1);
-
-            if (type === 'corner') {
-                self.setCornerMarks(pencilMarks);
-            } else if (type === 'center') {
-                self.setCenterMarks(pencilMarks);
-            }
+            pencilMarksObject.setDigits(pencilMarks);
         }
     };
 
@@ -467,7 +269,7 @@ export default function GridCell(cellNumber) {
      * @param {boolean} show
      * @private
      */
-    const _toggleMarks = show => {
+    const _toggleMarksVisibility = show => {
         const toggleMethod = show ? 'remove' : 'add';
 
         // Toggle the corner marks
@@ -540,6 +342,16 @@ export default function GridCell(cellNumber) {
     };
 
     /**
+     * @return {CornerMarks}
+     */
+    self.getCornerMarks = () => _cornerMarks;
+
+    /**
+     * @return {CenterMarks}
+     */
+    self.getCenterMarks = () => _centerMarks;
+
+    /**
      * @return {GridRow|null}
      */
     self.getRow = () => _gridRow;
@@ -590,6 +402,6 @@ export default function GridCell(cellNumber) {
         + (self.isPrefilled() ? 'p' : '')
         + 'v' + self.getValue()
         + 'c' + self.getColorNumber()
-        + 'cr' + self.getCornerMarks().join('')
-        + 'cn' + self.getCenterMarks().join('');
+        + 'cr' + self.getCornerMarks().get().join('')
+        + 'cn' + self.getCenterMarks().get().join('');
 }
