@@ -265,6 +265,22 @@ export default function GridCell(cellNumber) {
     };
 
     /**
+     * Remove pencil marks of related cells, based on cell value
+     * @param {number} digit
+     * @return {void}
+     * @private
+     */
+    const _removeRelatedPencilMarks = digit => {
+        self.getRow().getCells()
+            .concat(self.getColumn().getCells())
+            .concat(self.getBox().getCells())
+            .forEach(cell => {
+                cell.removePencilMark('corner', digit);
+                cell.removePencilMark('center', digit);
+            });
+    };
+
+    /**
      * Toggle the visibility of the pencil marks
      * @param {boolean} show
      * @private
@@ -281,22 +297,6 @@ export default function GridCell(cellNumber) {
         // Toggle the center marks
         self.getElement().getElementsByClassName('center-marks')[0]
             .classList[toggleMethod]('hide');
-    };
-
-    /**
-     * Remove pencil marks of related cells, based on cell value
-     * @param {number} digit
-     * @return {void}
-     * @private
-     */
-    const _removeRelatedPencilMarks = digit => {
-        self.getRow().getCells()
-            .concat(self.getColumn().getCells())
-            .concat(self.getBox().getCells())
-            .forEach(cell => {
-                cell.removePencilMark('corner', digit);
-                cell.removePencilMark('center', digit);
-            });
     };
 
     /**

@@ -2363,6 +2363,20 @@ function GridCell(cellNumber) {
     }
   };
   /**
+   * Remove pencil marks of related cells, based on cell value
+   * @param {number} digit
+   * @return {void}
+   * @private
+   */
+
+
+  var _removeRelatedPencilMarks = function _removeRelatedPencilMarks(digit) {
+    self.getRow().getCells().concat(self.getColumn().getCells()).concat(self.getBox().getCells()).forEach(function (cell) {
+      cell.removePencilMark('corner', digit);
+      cell.removePencilMark('center', digit);
+    });
+  };
+  /**
    * Toggle the visibility of the pencil marks
    * @param {boolean} show
    * @private
@@ -2378,20 +2392,6 @@ function GridCell(cellNumber) {
 
 
     self.getElement().getElementsByClassName('center-marks')[0].classList[toggleMethod]('hide');
-  };
-  /**
-   * Remove pencil marks of related cells, based on cell value
-   * @param {number} digit
-   * @return {void}
-   * @private
-   */
-
-
-  var _removeRelatedPencilMarks = function _removeRelatedPencilMarks(digit) {
-    self.getRow().getCells().concat(self.getColumn().getCells()).concat(self.getBox().getCells()).forEach(function (cell) {
-      cell.removePencilMark('corner', digit);
-      cell.removePencilMark('center', digit);
-    });
   };
   /**
    * @return {boolean}
