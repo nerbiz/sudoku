@@ -1,4 +1,7 @@
 {
-  "app.css": "/dist/app_b7043d8eaedc576714fb.css",
-  "app.js": "/dist/app_b7043d8eaedc576714fb.js"
+  "app.css": "/dist/app_998382333d12f7361b15.css",
+  "app.js": "/dist/app_998382333d12f7361b15.js",
+  "app.css.map": "/dist/app_998382333d12f7361b15.css.map",
+  "app.js.map": "/dist/app_998382333d12f7361b15.js.map",
+  "fonts/app.scss": "/dist/fonts/fa-solid-900_dfaa060a451d978c25655eb19bd949e9.eot"
 }

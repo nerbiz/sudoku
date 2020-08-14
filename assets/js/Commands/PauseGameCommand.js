@@ -24,9 +24,16 @@ export default function PauseGameCommand() {
      * @inheritDoc
      */
     self.execute = state => {
+        const pauseIcon = document.getElementById('game-pause-icon');
+        const resumeIcon = document.getElementById('game-resume-icon');
+
         if (state === true) {
             Sudoku.clock.pause();
             _bodyElement.classList.add('is-paused');
+
+            // Toggle the pause/resume icons
+            pauseIcon.classList.add('hide');
+            resumeIcon.classList.remove('hide');
 
             // Only open the pause modal, if there is no modal open yet
             if (Sudoku.modal.openState() === false) {
@@ -36,6 +43,10 @@ export default function PauseGameCommand() {
         } else {
             Sudoku.clock.unpause();
             _bodyElement.classList.remove('is-paused');
+
+            // Toggle the pause/resume icons
+            pauseIcon.classList.remove('hide');
+            resumeIcon.classList.add('hide');
         }
 
         self.state = state;

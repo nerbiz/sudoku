@@ -1,7 +1,6 @@
 import {extend} from '../../functions';
 import CommandInterface from '../CommandInterface';
 import PauseGameCommand from '../PauseGameCommand';
-import Modal from '../../Modal';
 
 extend(OpenModalCommand, CommandInterface);
 

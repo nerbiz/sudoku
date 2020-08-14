@@ -1,5 +1,9 @@
 <header id="top-bar">
     <div id="clock-wrapper">
+        <a href="#" id="toggle-pause-button" class="click-prevent">
+            <i id="game-pause-icon" class="fas fa-pause-circle"></i>
+            <i id="game-resume-icon" class="hide fas fa-play-circle"></i>
+        </a>
         <span id="elapsed-time">0:00</span>
     </div>
 

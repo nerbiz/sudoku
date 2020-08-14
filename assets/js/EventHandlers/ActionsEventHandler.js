@@ -1,4 +1,5 @@
 import AutoCandidateModeCommand from '../Commands/AutoCandidateModeCommand';
+import PauseGameCommand from '../Commands/PauseGameCommand';
 
 export default function ActionsEventHandler() {
     const self = this;
@@ -7,8 +8,19 @@ export default function ActionsEventHandler() {
      * Initialize the object
      */
     self.init = () => {
+        _registerPauseEvent();
         _registerCheckErrorsEvent();
         _registerAutoCandidateModeEvent();
+    };
+
+    /**
+     * @private
+     */
+    const _registerPauseEvent = () => {
+        document.getElementById('toggle-pause-button')
+            .addEventListener('click', () => {
+                (new PauseGameCommand()).toggle();
+            });
     };
 
     /**

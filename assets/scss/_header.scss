@@ -18,6 +18,18 @@
   text-align: left;
 }
 
+#toggle-pause-button {
+  display: inline-block;
+
+  &,
+  &:focus,
+  &:hover,
+  &:active {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
 #elapsed-time {
   display: inline-block;
 }
