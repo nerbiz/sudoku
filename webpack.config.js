@@ -95,7 +95,6 @@ module.exports = {
                 test: /\.(otf|ttf|eot|woff2?|svg)$/,
                 include: config.srcDir + 'fonts/',
                 use: [
-                    cacheLoader,
                     {
                         loader: 'file-loader',
                         options: {
