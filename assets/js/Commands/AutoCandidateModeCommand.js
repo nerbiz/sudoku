@@ -1,6 +1,5 @@
 import {extend} from '../functions';
 import TogglableCommandInterface from './TogglableCommandInterface';
-import InputMode from '../InputMode';
 
 extend(AutoCandidateModeCommand, TogglableCommandInterface);
 
@@ -11,7 +10,7 @@ export default function AutoCandidateModeCommand() {
     /**
      * @inheritDoc
      */
-    self.state = false;
+    self.state = () => Sudoku.settings.autoCandidateState();
 
     /**
      * @inheritDoc
@@ -23,7 +22,5 @@ export default function AutoCandidateModeCommand() {
         (state === true)
             ? Sudoku.grid.determineCandidates()
             : Sudoku.grid.removeCandidates();
-
-        self.state = state;
     };
 }

@@ -1,7 +1,6 @@
 import {extend} from '../functions';
 import TogglableCommandInterface from './TogglableCommandInterface';
 import OpenModalCommand from './Modal/OpenModalCommand';
-import Modal from '../Modal';
 
 extend(PauseGameCommand, TogglableCommandInterface);
 
@@ -12,7 +11,7 @@ export default function PauseGameCommand() {
     /**
      * @inheritDoc
      */
-    self.state = false;
+    self.state = () => Sudoku.game.isPaused();
 
     /**
      * @type {HTMLElement}
@@ -49,6 +48,6 @@ export default function PauseGameCommand() {
             resumeIcon.classList.add('hide');
         }
 
-        self.state = state;
+        Sudoku.game.setPausedState(state);
     };
 }

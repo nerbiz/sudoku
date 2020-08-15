@@ -10,9 +10,11 @@ import Settings from './Settings';
 import SettingsEventHandler from './EventHandlers/SettingsEventHandler';
 import ActionsEventHandler from './EventHandlers/ActionsEventHandler';
 import GridCellHighlighter from './Grid/GridCellHighlighter';
+import Game from './Game';
 
 // 'Namespace' of the project
 window.Sudoku = {
+    game: new Game(),
     settings: new Settings(),
     history: new CommandHistory(),
     meta: new Meta(),
