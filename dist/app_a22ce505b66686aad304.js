@@ -436,12 +436,7 @@ function ChangeDigitCommand(digit) {
    */
 
 
-  var _inputMode = function () {
-    var currentMode = Sudoku.inputMode.getMode(); // When more than 1 cell is selected,
-    // switch to pencil mark notation if the input mode is 'value'
-
-    return _cells.length > 1 && currentMode === _InputMode__WEBPACK_IMPORTED_MODULE_2__["default"].MODE_VALUE ? _InputMode__WEBPACK_IMPORTED_MODULE_2__["default"].MODE_CORNER : currentMode;
-  }();
+  var _inputMode = Sudoku.inputMode.getMode();
   /**
    * Contains the state of cells, before changing the digit
    * @type {object}

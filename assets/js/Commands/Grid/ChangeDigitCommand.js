@@ -31,15 +31,7 @@ export default function ChangeDigitCommand(digit) {
      * @type {number}
      * @private
      */
-    const _inputMode = (() => {
-        const currentMode = Sudoku.inputMode.getMode();
-
-        // When more than 1 cell is selected,
-        // switch to pencil mark notation if the input mode is 'value'
-        return (_cells.length > 1 && currentMode === InputMode.MODE_VALUE)
-            ? InputMode.MODE_CORNER
-            : currentMode;
-    })();
+    const _inputMode = Sudoku.inputMode.getMode();
 
     /**
      * Contains the state of cells, before changing the digit
