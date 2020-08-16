@@ -494,15 +494,15 @@ function ChangeDigitCommand(digit) {
 
       cell.toggleValue(state.value); // Copy the array, because they go by reference
 
-      cell.getCornerMarks.setDigits(state.cornerMarks.map(function (item) {
+      cell.getCornerMarks().setDigits(state.cornerMarks.map(function (item) {
         return item;
       }));
-      cell.getCenterMarks.setDigits(state.centerMarks.map(function (item) {
+      cell.getCenterMarks().setDigits(state.centerMarks.map(function (item) {
         return item;
       }));
     });
 
-    if (Sudoku.settings.autoErrorCheckingState()) {
+    if (Sudoku.settings.autoErrorCheckingState() === true) {
       Sudoku.grid.checkForErrors();
     }
   };
@@ -2037,7 +2037,7 @@ function Grid() {
       // Remove the auto-candidates
       cell.getCenterMarks().setDigits([], true); // Show the user-filled center marks
 
-      cell.showCenterMarks();
+      cell.getCenterMarks().show();
     });
   };
   /**
@@ -2322,7 +2322,7 @@ function GridCell(cellNumber) {
         self.getCornerMarks().setDigits([]);
 
         if (!Sudoku.settings.autoCandidateState()) {
-          self.getCenterMarks.setDigits([]);
+          self.getCenterMarks().setDigits([]);
         }
       } else {
         self.toggleValue(null);

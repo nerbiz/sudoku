@@ -166,7 +166,7 @@ export default function GridCell(cellNumber) {
                 self.getCornerMarks().setDigits([]);
 
                 if (! Sudoku.settings.autoCandidateState()) {
-                    self.getCenterMarks.setDigits([]);
+                    self.getCenterMarks().setDigits([]);
                 }
             } else {
                 self.toggleValue(null);

@@ -16,7 +16,7 @@ ob_start();
 
     <label>
         <input type="checkbox" id="setting-auto-remove-pencil-marks">
-        Automatically remove pencil marks when setting values
+        Automatically remove matching pencil marks when setting values
     </label>
 
     <h3>Highlighting</h3>

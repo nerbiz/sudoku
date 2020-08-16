@@ -84,11 +84,11 @@ export default function ChangeDigitCommand(digit) {
 
             cell.toggleValue(state.value);
             // Copy the array, because they go by reference
-            cell.getCornerMarks.setDigits(state.cornerMarks.map(item => item));
-            cell.getCenterMarks.setDigits(state.centerMarks.map(item => item));
+            cell.getCornerMarks().setDigits(state.cornerMarks.map(item => item));
+            cell.getCenterMarks().setDigits(state.centerMarks.map(item => item));
         });
 
-        if (Sudoku.settings.autoErrorCheckingState()) {
+        if (Sudoku.settings.autoErrorCheckingState() === true) {
             Sudoku.grid.checkForErrors();
         }
     };
