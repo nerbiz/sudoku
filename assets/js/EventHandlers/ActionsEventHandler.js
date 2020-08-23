@@ -8,7 +8,7 @@ export default function ActionsEventHandler() {
      * Initialize the object
      */
     self.init = () => {
-        _registerPauseEvent();
+        _registerPauseResumeEvent();
         _registerCheckErrorsEvent();
         _registerAutoCandidateModeEvent();
     };
@@ -16,10 +16,16 @@ export default function ActionsEventHandler() {
     /**
      * @private
      */
-    const _registerPauseEvent = () => {
+    const _registerPauseResumeEvent = () => {
         document.getElementById('toggle-pause-button')
             .addEventListener('click', () => {
                 (new PauseGameCommand()).toggle();
+            });
+
+        document.getElementById('game-resume-button')
+            .addEventListener('click', () => {
+                (new PauseGameCommand()).execute(false);
+                Sudoku.modal.close();
             });
     };
 
