@@ -13,6 +13,11 @@
   z-index: 3;
 }
 
+.link-icon {
+  margin-right: 5px;
+  color: $color-black;
+}
+
 #clock-wrapper {
   flex: 0 0 calc(100% / 3);
   text-align: left;
@@ -54,7 +59,7 @@
   li {
     list-style-type: none;
     display: inline-block;
-    margin-left: 15px;
+    margin-left: 20px;
   }
 
   a {
