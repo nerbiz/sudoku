@@ -15,6 +15,11 @@ export default function CornerMarks(cell) {
      * @inheritDoc
      */
     self.toggleDigit = digit => {
+        // Setting corner marks is disabled when the cell is prefilled
+        if (self.cell.isPrefilled() === true) {
+            return;
+        }
+
         // Don't set a corner mark, if a value is filled in
         if (self.cell.getValue() !== null) {
             return;

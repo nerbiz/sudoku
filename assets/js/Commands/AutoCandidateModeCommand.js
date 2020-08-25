@@ -10,14 +10,14 @@ export default function AutoCandidateModeCommand() {
     /**
      * @inheritDoc
      */
-    self.state = () => Sudoku.settings.autoCandidateState();
+    self.state = () => Sudoku.settings.autoCandidateModeState();
 
     /**
      * @inheritDoc
      */
     self.execute = state => {
-        Sudoku.settings.autoCandidateState(state);
-        Sudoku.inputMode.triggerAutoCandidateActions(state);
+        Sudoku.settings.autoCandidateModeState(state);
+        Sudoku.inputMode.triggerAutoCandidateModeActions(state);
 
         (state === true)
             ? Sudoku.grid.determineCandidates()

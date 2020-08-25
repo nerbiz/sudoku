@@ -25,8 +25,22 @@ export default function InputMode() {
     const _radioButtons = document.getElementsByName('input_mode');
 
     /**
+     * The label containing the checkbox for the 'value' input mode
+     * @type {HTMLLabelElement}
+     * @private
+     */
+    const _inputModeValueLabel = document.getElementById('input-mode-value-label');
+
+    /**
+     * The label containing the checkbox for the 'corner marks' input mode
+     * @type {HTMLLabelElement}
+     * @private
+     */
+    const _inputModeCornerLabel = document.getElementById('input-mode-corner-label');
+
+    /**
      * The label containing the checkbox for the 'center marks' input mode
-     * @type {HTMLElement}
+     * @type {HTMLLabelElement}
      * @private
      */
     const _inputModeCenterLabel = document.getElementById('input-mode-center-label');
@@ -77,7 +91,7 @@ export default function InputMode() {
                     self.setMode(InputMode.MODE_CORNER);
                     break;
                 case 'KeyP':
-                    if (! Sudoku.settings.autoCandidateState()) {
+                    if (! Sudoku.settings.autoCandidateModeState()) {
                         self.setMode(InputMode.MODE_CENTER);
                     }
                     break;
@@ -90,11 +104,18 @@ export default function InputMode() {
      * @return {void}
      */
     self.setMode = mode => {
+        // Restrict to value mode, when design mode is on
+        if (Sudoku.settings.designModeState() === true) {
+            _mode = InputMode.MODE_VALUE;
+            _selectCurrentRadioButton();
+            return;
+        }
+
         if ((typeof mode).toLowerCase() !== 'number') {
             throw new Error(`Expected a number, got ${typeof mode}`);
         }
 
-        const maxModeNumber = (Sudoku.settings.autoCandidateState() === true)
+        const maxModeNumber = (Sudoku.settings.autoCandidateModeState() === true)
             // Center-marks are disabled in auto-candidate mode
             ? InputMode.MODE_CORNER
             : InputMode.MODE_CENTER;
@@ -123,22 +144,56 @@ export default function InputMode() {
     self.getMode = () => _mode;
 
     /**
+     *
+     * @param {HTMLLabelElement} label
+     * @param {boolean} disable
+     * @private
+     */
+    const _disableInput = (label, disable = true) => {
+        if (disable === true) {
+            // Disable the input mode checkbox
+            label.classList.add('strike-through');
+            label.getElementsByTagName('input')[0].disabled = true;
+        } else {
+            // Enable the input mode checkbox
+            label.classList.remove('strike-through');
+            label.getElementsByTagName('input')[0].disabled = false;
+        }
+    };
+
+    /**
      * Perform actions based on whether auto-candidate mode is on
      * @param {boolean} state
      * @return {void}
      */
-    self.triggerAutoCandidateActions = state => {
+    self.triggerAutoCandidateModeActions = state => {
         if (state === true) {
-            // Disable the input mode checkbox
-            _inputModeCenterLabel.classList.add('strike-through');
-            _inputModeCenterLabel.getElementsByTagName('input')[0].disabled = true;
+            _disableInput(_inputModeCenterLabel, true);
 
             // Trigger any restrictions on the current input mode
             self.setMode(self.getMode());
         } else {
-            // Enable the input mode checkbox
-            _inputModeCenterLabel.classList.remove('strike-through');
-            _inputModeCenterLabel.getElementsByTagName('input')[0].disabled = false;
+            _disableInput(_inputModeCenterLabel, false);
+        }
+    };
+
+    /**
+     * Perform actions based on whether design mode is on
+     * @param {boolean} state
+     * @return {void}
+     */
+    self.triggerDesignModeActions = state => {
+        if (state === true) {
+            _disableInput(_inputModeValueLabel, true);
+            _disableInput(_inputModeCornerLabel, true);
+            _disableInput(_inputModeCenterLabel, true);
+
+            // Trigger any restrictions on the current input mode
+            self.setMode(self.getMode());
+        } else {
+            _disableInput(_inputModeValueLabel, false);
+            _disableInput(_inputModeCornerLabel, false);
+            _disableInput(_inputModeCenterLabel, false);
         }
     };
 }

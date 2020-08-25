@@ -13,6 +13,14 @@
     <nav id="top-bar-menu">
         <ul>
             <li>
+                <label>
+                    <input type="checkbox"
+                           class="link-icon"
+                           id="toggle-design-mode"
+                    >Design mode
+                </label>
+            </li>
+            <li>
                 <a href="#"
                    id="check-errors"
                    class="click-prevent"

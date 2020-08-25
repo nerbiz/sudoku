@@ -58,6 +58,10 @@ $box-border: $box-border-width map_get($color-palette, 4) solid;
     background-color: map_get($color-palette, 2);
   }
 
+  &.is-prefilled {
+    font-weight: map_get($font-weights, 'semibold');
+  }
+
   &.is-selected {
     background-color: map_get($color-palette, 3);
   }

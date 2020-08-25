@@ -71,7 +71,14 @@ export default function Settings() {
      * @type {boolean}
      * @private
      */
-    let _autoCandidateState = false;
+    let _autoCandidateModeState = false;
+
+    /**
+     * Indicates whether puzzle design mode is on
+     * @type {boolean}
+     * @private
+     */
+    let _designModeState = false;
 
     /**
      * Initialize the object
@@ -269,11 +276,23 @@ export default function Settings() {
      * @param {boolean|null} state Setter if given, getter otherwise
      * @return {boolean}
      */
-    self.autoCandidateState = (state = null) => {
+    self.autoCandidateModeState = (state = null) => {
         if (state !== null) {
-            _autoCandidateState = state;
+            _autoCandidateModeState = state;
         }
 
-        return _autoCandidateState;
+        return _autoCandidateModeState;
+    };
+
+    /**
+     * @param {boolean|null} state Setter if given, getter otherwise
+     * @return {boolean}
+     */
+    self.designModeState = (state = null) => {
+        if (state !== null) {
+            _designModeState = state;
+        }
+
+        return _designModeState;
     };
 }

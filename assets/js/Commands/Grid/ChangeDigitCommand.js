@@ -45,6 +45,7 @@ export default function ChangeDigitCommand(digit) {
         // Collect the state of all cells
         _cells.forEach(cell => {
             state[cell.getCellNumber()] = {
+                isPrefilled: cell.isPrefilled(),
                 value: cell.getValue(),
                 // Copy the array, because they go by reference
                 cornerMarks: cell.getCornerMarks().get().map(item => item),
@@ -74,6 +75,7 @@ export default function ChangeDigitCommand(digit) {
         _cells.forEach(cell => {
             const state = _cellsState[cell.getCellNumber()];
 
+            cell.isPrefilled(state.isPrefilled);
             cell.toggleValue(state.value);
             // Copy the array, because they go by reference
             cell.getCornerMarks().setDigits(state.cornerMarks.map(item => item));

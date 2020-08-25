@@ -132,9 +132,26 @@ export default function GridCell(cellNumber) {
     self.getElement = () => _element;
 
     /**
+     * @param {boolean|null} state Setter if given, getter otherwise
      * @return {boolean}
      */
-    self.isPrefilled = () => _isPrefilled;
+    self.isPrefilled = (state = null) => {
+        if (state !== null) {
+            _isPrefilled = state;
+
+            // Remove all pencil marks
+            if (state === true) {
+                self.getCornerMarks().setDigits([]);
+                self.getCenterMarks().setDigits([]);
+            }
+
+            // Toggle the CSS class of the prefilled state
+            const toggleMethod = (state === true) ? 'add' : 'remove';
+            self.getElement().classList[toggleMethod]('is-prefilled');
+        }
+
+        return _isPrefilled;
+    };
 
     /**
      * @return {number}
@@ -149,6 +166,17 @@ export default function GridCell(cellNumber) {
      * @see InputMode for the mode constants
      */
     self.setDigit = (digit, mode = null) => {
+        if (Sudoku.settings.designModeState() === true) {
+            self.toggleValue(digit);
+            self.isPrefilled(true);
+            return;
+        }
+
+        // Prefilled cells are not editable
+        if (self.isPrefilled() === true) {
+            return;
+        }
+
         // Remove error state in manual error checking mode
         if (! Sudoku.settings.autoErrorCheckingState()) {
             self.setErrorState(false);
@@ -165,9 +193,9 @@ export default function GridCell(cellNumber) {
             if (self.getValue() === null) {
                 self.getCornerMarks().setDigits([]);
 
-                // Don't remove player filled center marks
-                // Because they are unused and invisible during auto candidate mode
-                if (! Sudoku.settings.autoCandidateState()) {
+                // Don't remove player filled center marks in auto candidate mode
+                // Because they are unused and invisible
+                if (! Sudoku.settings.autoCandidateModeState()) {
                     self.getCenterMarks().setDigits([]);
                 }
             } else {
@@ -222,7 +250,7 @@ export default function GridCell(cellNumber) {
         }
 
         // Show possible candidates if needed
-        if (Sudoku.settings.autoCandidateState() === true) {
+        if (Sudoku.settings.autoCandidateModeState() === true) {
             Sudoku.grid.determineCandidates();
         }
     };

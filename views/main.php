@@ -58,11 +58,11 @@ use Sudoku\Webpack;
 
                 <p>
                     Input mode:<br>
-                    <label>
+                    <label id="input-mode-value-label">
                         <input type="radio" name="input_mode" value="1">
                         Normal
                     </label>
-                    <label>
+                    <label id="input-mode-corner-label">
                         <input type="radio" name="input_mode" value="2">
                         Corner marks
                     </label>

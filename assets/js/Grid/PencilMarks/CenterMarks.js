@@ -27,8 +27,12 @@ export default function CenterMarks(cell) {
      * @inheritDoc
      */
     self.toggleDigit = digit => {
-        // Setting center marks is disabled in auto-candidate mode
-        if (Sudoku.settings.autoCandidateState() === true) {
+        // Setting center marks is disabled when the cell is prefilled,
+        // or when auto-candidate mode is on
+        if (
+            self.cell.isPrefilled() === true
+            || Sudoku.settings.autoCandidateModeState() === true
+        ) {
             return;
         }
 
@@ -78,7 +82,7 @@ export default function CenterMarks(cell) {
      * @inheritDoc
      */
     self.has = digit => {
-        const centerMarks = (Sudoku.settings.autoCandidateState() === true)
+        const centerMarks = (Sudoku.settings.autoCandidateModeState() === true)
             ? self.getAutoCandidates()
             : self.get();
 
