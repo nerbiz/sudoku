@@ -49,6 +49,10 @@
 #top-bar-menu {
   text-align: right;
 
+  label {
+    margin: 0;
+  }
+
   ul, li {
     margin: 0;
     padding: 0;
