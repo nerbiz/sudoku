@@ -43,7 +43,6 @@ export default function Clock() {
      */
     self.init = () => {
         self.start();
-        self.showTime();
     };
 
     /**
@@ -53,6 +52,7 @@ export default function Clock() {
     self.start = self.unpause = () => {
         _startMoment = new Date();
         _paused = false;
+        self.enableTimeInterval();
     };
 
     /**
@@ -64,6 +64,7 @@ export default function Clock() {
         _initialMs += self.getElapsedMsSinceStart();
         _startMoment = null;
         _paused = true;
+        self.enableTimeInterval(false);
     };
 
     /**
@@ -111,12 +112,12 @@ export default function Clock() {
     };
 
     /**
-     * Decide whether to show the elapsed time on screen
-     * @param {boolean} show
+     * Decide whether to start/stop the timer interval
+     * @param {boolean} enable
      * @return {void}
      */
-    self.showTime = (show = true) => {
-        if (show) {
+    self.enableTimeInterval = (enable = true) => {
+        if (enable) {
             _timeInterval = setInterval(() => {
                 _timeElement.innerText = self.getElapsedTimeString();
             }, 1000);
