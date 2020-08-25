@@ -81,10 +81,11 @@ use Sudoku\Webpack;
             </aside>
         </main>
 
-        <section id="modal-backdrop"></section>
-        <?php require __DIR__ . '/modals/pause-modal.php'; ?>
-        <?php require __DIR__ . '/modals/settings-modal.php'; ?>
-        <?php require __DIR__ . '/modals/controls-modal.php'; ?>
+        <section id="modal-backdrop">
+            <?php require __DIR__ . '/modals/pause-modal.php'; ?>
+            <?php require __DIR__ . '/modals/settings-modal.php'; ?>
+            <?php require __DIR__ . '/modals/controls-modal.php'; ?>
+        </section>
 
         <script src="<?php echo Webpack::getAssetUrl('app.js'); ?>"></script>
     </body>

@@ -165,6 +165,8 @@ export default function GridCell(cellNumber) {
             if (self.getValue() === null) {
                 self.getCornerMarks().setDigits([]);
 
+                // Don't remove player filled center marks
+                // Because they are unused and invisible during auto candidate mode
                 if (! Sudoku.settings.autoCandidateState()) {
                     self.getCenterMarks().setDigits([]);
                 }
