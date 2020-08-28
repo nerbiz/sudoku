@@ -139,12 +139,6 @@ export default function GridCell(cellNumber) {
         if (state !== null) {
             _isPrefilled = state;
 
-            // Remove all pencil marks
-            if (state === true) {
-                self.getCornerMarks().setDigits([]);
-                self.getCenterMarks().setDigits([]);
-            }
-
             // Toggle the CSS class of the prefilled state
             const toggleMethod = (state === true) ? 'add' : 'remove';
             self.getElement().classList[toggleMethod]('is-prefilled');
@@ -167,6 +161,10 @@ export default function GridCell(cellNumber) {
      */
     self.setDigit = (digit, mode = null) => {
         if (Sudoku.settings.designModeState() === true) {
+            // Remove all pencil marks
+            self.getCornerMarks().setDigits([]);
+            self.getCenterMarks().setDigits([]);
+
             self.toggleValue(digit);
             self.isPrefilled(true);
             return;
