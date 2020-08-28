@@ -47,17 +47,6 @@ export default function Controls() {
         .concat(_arrowKeys.right);
 
     /**
-     * Number key codes
-     * @type {string[]}
-     * @private
-     */
-    const _numberKeys = [
-        'Digit1', 'Numpad1', 'Digit2', 'Numpad2', 'Digit3', 'Numpad3',
-        'Digit4', 'Numpad4', 'Digit5', 'Numpad5', 'Digit6', 'Numpad6',
-        'Digit7', 'Numpad7', 'Digit8', 'Numpad8', 'Digit9', 'Numpad9',
-    ];
-
-    /**
      * Delete key codes
      * @type {string[]}
      * @private
@@ -152,35 +141,35 @@ export default function Controls() {
     self.shiftKeyIsPressed = () => _shiftKeyPressed;
 
     /**
-     * Checks whether a keycode is a number key
-     * @param {string} keyCode
+     * Checks whether an event is a number key
+     * @param {Event} event
      * @return {boolean}
      */
-    self.isNumberKey = keyCode => (_numberKeys.indexOf(keyCode) > -1);
+    self.isNumberKey = event => (! isNaN(parseInt(event.key, 10)));
 
     /**
-     * Checks whether a keycode is a delete key
-     * @param {string} keyCode
+     * Checks whether an event is a delete key
+     * @param {Event} event
      * @return {boolean}
      */
-    self.isDeleteKey = keyCode => (_deleteKeys.indexOf(keyCode) > -1);
+    self.isDeleteKey = event => (_deleteKeys.indexOf(event.code) > -1);
 
     /**
-     * Checks whether a keycode is an arrow key
-     * @param {string} keyCode
+     * Checks whether an event is an arrow key
+     * @param {Event} event
      * @param {string} direction (any or up/down/left/right)
      * @return {boolean}
      */
-    self.isArrowKey = (keyCode, direction = 'any') => {
+    self.isArrowKey = (event, direction = 'any') => {
         // Check for any arrow key
         if (direction === 'any') {
-            return (_arrowKeysConcatenated.indexOf(keyCode) > -1);
+            return (_arrowKeysConcatenated.indexOf(event.code) > -1);
         }
 
         // Check for a specific arrow key
         return (
             _arrowKeys[direction]
-            && _arrowKeys[direction].indexOf(keyCode) > -1
+            && _arrowKeys[direction].indexOf(event.code) > -1
         );
     };
 }

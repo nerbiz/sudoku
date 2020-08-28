@@ -24,7 +24,7 @@ export default function DocumentEventHandler() {
                 return;
             }
 
-            if (Sudoku.controls.isArrowKey(event.code)) {
+            if (Sudoku.controls.isArrowKey(event)) {
                 // Deselect all cells, if the ctrl key is not pressed
                 if (! Sudoku.controls.ctrlKeyIsPressed()) {
                     Sudoku.grid.deselectAllCells();
@@ -35,19 +35,19 @@ export default function DocumentEventHandler() {
 
                 // Then navigate to the intended cell
                 // Wrap around if needed
-                if (Sudoku.controls.isArrowKey(event.code, 'up')) {
+                if (Sudoku.controls.isArrowKey(event, 'up')) {
                     if ((newCellIndex -= 9) < 0) {
                         newCellIndex = 81 + newCellIndex;
                     }
-                } else if (Sudoku.controls.isArrowKey(event.code, 'down')) {
+                } else if (Sudoku.controls.isArrowKey(event, 'down')) {
                     if ((newCellIndex += 9) > 80) {
                         newCellIndex = newCellIndex - 81;
                     }
-                } else if (Sudoku.controls.isArrowKey(event.code, 'left')) {
+                } else if (Sudoku.controls.isArrowKey(event, 'left')) {
                     if ((--newCellIndex + 1) % 9 === 0) {
                         newCellIndex += 9;
                     }
-                } else if (Sudoku.controls.isArrowKey(event.code, 'right')) {
+                } else if (Sudoku.controls.isArrowKey(event, 'right')) {
                     if (++newCellIndex % 9 === 0) {
                         newCellIndex -= 9;
                     }
@@ -59,11 +59,11 @@ export default function DocumentEventHandler() {
                 Sudoku.grid.setLastNavigatedCell(newCell);
             }
 
-            if (Sudoku.controls.isNumberKey(event.code)) {
+            if (Sudoku.controls.isNumberKey(event)) {
                 // Set a number value
                 const digit = parseInt(event.key, 10);
                 Sudoku.history.execute(new ChangeDigitCommand(digit));
-            } else if (Sudoku.controls.isDeleteKey(event.code)) {
+            } else if (Sudoku.controls.isDeleteKey(event)) {
                 // Remove a value
                 Sudoku.history.execute(new ChangeDigitCommand(null));
             } else if (event.code === 'KeyZ') {
