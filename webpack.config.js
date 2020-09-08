@@ -9,7 +9,7 @@ const isProduction = (process.env.NODE_ENV === 'production');
 
 const config = {
     srcDir: rootPath + 'assets/',
-    distDir: rootPath + 'dist/',
+    distDir: rootPath + 'public/dist/',
     publicPath: '/dist/',
     fileFormat: '[name]_[hash]',
 };
