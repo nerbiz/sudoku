@@ -1,6 +1,7 @@
 <?php
 
 use Dotenv\Dotenv;
+use Sudoku\Application;
 use Sudoku\Webpack;
 use voku\helper\HtmlMin;
 
@@ -9,6 +10,8 @@ require __DIR__ . '/../vendor/autoload.php';
 // Load .env values
 $dotEnv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotEnv->load();
+
+Application::determineErrorReporting();
 
 // Read the Webpack manifest
 Webpack::readManifest(__DIR__ . '/dist/manifest.json');
