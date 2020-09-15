@@ -96,7 +96,7 @@ module.exports = {
                 include: config.srcDir + 'fonts/',
                 use: [
                     {
-                        loader: 'file-loader',
+                        loader: 'url-loader',
                         options: {
                             name: 'fonts/' + config.fileFormat + '.[ext]',
                         },
