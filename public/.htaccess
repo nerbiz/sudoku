@@ -14,6 +14,16 @@ SetEnvIf X-Forwarded-Proto "https" HTTPS=on
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# Remove trailing slashes if it's not a directory
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [L,R=301]
+
+# Send requests to the application
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [L]
+
 # Enable 'keep-alive' connection
 Header set Connection keep-alive
 
