@@ -20,10 +20,10 @@ export default function Meta() {
     const titleField = document.getElementById('puzzle-title');
 
     /**
-     * The description input field
+     * The notes input field
      * @type {HTMLTextAreaElement}
      */
-    const descriptionField = document.getElementById('puzzle-description');
+    const notesField = document.getElementById('puzzle-notes');
 
     /**
      * An optional title for the sudoku
@@ -32,10 +32,10 @@ export default function Meta() {
     let title = null;
 
     /**
-     * An optional description for the sudoku
+     * An optional notes for the sudoku
      * @type {string|null}
      */
-    let description = null;
+    let notes = null;
 
     /**
      * Initialize the object
@@ -66,10 +66,10 @@ export default function Meta() {
         titleField.addEventListener('keyup', titleCallback);
         titleField.addEventListener('paste', titleCallback);
 
-        const descriptionCallback = () => description = descriptionField.value;
+        const notesCallback = () => notes = notesField.value;
 
-        descriptionField.addEventListener('change', descriptionCallback);
-        descriptionField.addEventListener('keyup', descriptionCallback);
-        descriptionField.addEventListener('paste', descriptionCallback);
+        notesField.addEventListener('change', notesCallback);
+        notesField.addEventListener('keyup', notesCallback);
+        notesField.addEventListener('paste', notesCallback);
     };
 }

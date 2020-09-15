@@ -52,8 +52,8 @@ use Sudoku\Webpack;
                     Puzzle title<br>
                     <input type="text" id="puzzle-title"><br>
 
-                    Puzzle description<br>
-                    <textarea id="puzzle-description"></textarea>
+                    Puzzle notes<br>
+                    <textarea id="puzzle-notes"></textarea>
                 </p>
 
                 <p>

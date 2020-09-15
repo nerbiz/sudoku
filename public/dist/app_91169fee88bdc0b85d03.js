@@ -3447,11 +3447,11 @@ function Meta() {
 
   var titleField = document.getElementById('puzzle-title');
   /**
-   * The description input field
+   * The notes input field
    * @type {HTMLTextAreaElement}
    */
 
-  var descriptionField = document.getElementById('puzzle-description');
+  var notesField = document.getElementById('puzzle-notes');
   /**
    * An optional title for the sudoku
    * @type {string|null}
@@ -3459,11 +3459,11 @@ function Meta() {
 
   var title = null;
   /**
-   * An optional description for the sudoku
+   * An optional notes for the sudoku
    * @type {string|null}
    */
 
-  var description = null;
+  var notes = null;
   /**
    * Initialize the object
    */
@@ -3492,13 +3492,13 @@ function Meta() {
     titleField.addEventListener('keyup', titleCallback);
     titleField.addEventListener('paste', titleCallback);
 
-    var descriptionCallback = function descriptionCallback() {
-      return description = descriptionField.value;
+    var notesCallback = function notesCallback() {
+      return notes = notesField.value;
     };
 
-    descriptionField.addEventListener('change', descriptionCallback);
-    descriptionField.addEventListener('keyup', descriptionCallback);
-    descriptionField.addEventListener('paste', descriptionCallback);
+    notesField.addEventListener('change', notesCallback);
+    notesField.addEventListener('keyup', notesCallback);
+    notesField.addEventListener('paste', notesCallback);
   };
 }
 
