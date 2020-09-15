@@ -1,5 +1,15 @@
 <?php
+
+use Sudoku\Database;
+use Sudoku\UrlParser;
 use Sudoku\Webpack;
+
+// Get puzzle properties
+$database = new Database();
+$puzzleId = UrlParser::getPuzzleId();
+$puzzleProperties = ($puzzleId !== null)
+    ? $database->getPuzzleProperties($puzzleId)
+    : null;
 ?>
 
 <!DOCTYPE html>
@@ -88,5 +98,9 @@ use Sudoku\Webpack;
         </section>
 
         <script src="<?php echo Webpack::getAssetUrl('app.js'); ?>"></script>
+        <script>
+            Sudoku.startState = '<?php echo $puzzleProperties->start_state ?? ''; ?>';
+            Sudoku.state = '<?php echo $puzzleProperties->state ?? ''; ?>';
+        </script>
     </body>
 </html>
