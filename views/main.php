@@ -99,8 +99,12 @@ $puzzleProperties = ($puzzleId !== null)
 
         <script src="<?php echo Webpack::getAssetUrl('app.js'); ?>"></script>
         <script>
-            Sudoku.startState = '<?php echo $puzzleProperties->start_state ?? ''; ?>';
-            Sudoku.state = '<?php echo $puzzleProperties->state ?? ''; ?>';
+            Sudoku.puzzleState = {
+                id: '<?php echo $puzzleProperties->id ?? ''; ?>',
+                state: '<?php echo $puzzleProperties->state ?? ''; ?>',
+                title: '<?php echo $puzzleProperties->title ?? ''; ?>',
+                notes: '<?php echo $puzzleProperties->notes ?? ''; ?>',
+            };
         </script>
     </body>
 </html>

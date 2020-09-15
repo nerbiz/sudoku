@@ -31,10 +31,9 @@ class Database
             create table if not exists `puzzles` (
                 `id` text not null,
                 `password` text null,
-                `start_state` text not null,
+                `state` text null,
                 `title` text not null,
-                `notes` text not null,
-                `state` text null
+                `notes` text not null
             );
         ');
     }
