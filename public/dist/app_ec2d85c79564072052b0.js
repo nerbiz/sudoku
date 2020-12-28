@@ -1591,7 +1591,10 @@ function DocumentEventHandler() {
       if (Sudoku.controls.isNumberKey(event)) {
         // Set a number value
         var digit = parseInt(event.key, 10);
-        Sudoku.history.execute(new _Commands_Grid_ChangeDigitCommand__WEBPACK_IMPORTED_MODULE_0__["default"](digit));
+
+        if (digit > 0) {
+          Sudoku.history.execute(new _Commands_Grid_ChangeDigitCommand__WEBPACK_IMPORTED_MODULE_0__["default"](digit));
+        }
       } else if (Sudoku.controls.isDeleteKey(event)) {
         // Remove a value
         Sudoku.history.execute(new _Commands_Grid_ChangeDigitCommand__WEBPACK_IMPORTED_MODULE_0__["default"](null));

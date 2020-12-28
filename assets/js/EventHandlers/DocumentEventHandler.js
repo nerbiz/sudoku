@@ -62,7 +62,9 @@ export default function DocumentEventHandler() {
             if (Sudoku.controls.isNumberKey(event)) {
                 // Set a number value
                 const digit = parseInt(event.key, 10);
-                Sudoku.history.execute(new ChangeDigitCommand(digit));
+                if (digit > 0) {
+                    Sudoku.history.execute(new ChangeDigitCommand(digit));
+                }
             } else if (Sudoku.controls.isDeleteKey(event)) {
                 // Remove a value
                 Sudoku.history.execute(new ChangeDigitCommand(null));
