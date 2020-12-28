@@ -6,6 +6,7 @@ import HighlightColumnCommand from '../Commands/Settings/HighlightColumnCommand'
 import HighlightBoxCommand from '../Commands/Settings/HighlightBoxCommand';
 import HighlightValueCommand from '../Commands/Settings/HighlightValueCommand';
 import HighlightPencilMarksCommand from '../Commands/Settings/HighlightPencilMarksCommand';
+import HighlightMultipleSelectionCommand from '../Commands/Settings/HighlightMultipleSelectionCommand';
 
 export default function SettingsEventHandler() {
     const self = this;
@@ -58,6 +59,12 @@ export default function SettingsEventHandler() {
      * @private
      */
     const _enableHighlightingToggling = () => {
+        // Highlighting when multiple cells are selected
+        document.getElementById('setting-highlight-multiple-selection')
+            .addEventListener('change', event => {
+                (new HighlightMultipleSelectionCommand()).execute(event.target.checked);
+            });
+
         // Row highlighting
         document.getElementById('setting-highlight-row')
             .addEventListener('change', event => {

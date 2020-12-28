@@ -22,6 +22,11 @@ ob_start();
     <h3>Highlighting</h3>
 
     <label>
+        <input type="checkbox" id="setting-highlight-multiple-selection">
+        Highlight when multiple cells are selected
+    </label>
+
+    <label>
         <input type="checkbox" id="setting-highlight-row">
         Highlight row of selected cell
     </label>

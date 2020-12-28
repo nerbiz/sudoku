@@ -951,6 +951,52 @@ function HighlightColumnCommand() {
 
 /***/ }),
 
+/***/ "./assets/js/Commands/Settings/HighlightMultipleSelectionCommand.js":
+/*!**************************************************************************!*\
+  !*** ./assets/js/Commands/Settings/HighlightMultipleSelectionCommand.js ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HighlightMultipleSelectionCommand; });
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../functions */ "./assets/js/functions.js");
+/* harmony import */ var _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TogglableCommandInterface */ "./assets/js/Commands/TogglableCommandInterface.js");
+
+
+Object(_functions__WEBPACK_IMPORTED_MODULE_0__["extend"])(HighlightMultipleSelectionCommand, _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"]);
+function HighlightMultipleSelectionCommand() {
+  var self = this;
+  _TogglableCommandInterface__WEBPACK_IMPORTED_MODULE_1__["default"].call(self);
+  /**
+   * @inheritDoc
+   */
+
+  self.state = function () {
+    return Sudoku.settings.highlightMultipleSelectionState();
+  };
+  /**
+   * The checkbox that toggles the setting
+   * @type {HTMLElement}
+   * @private
+   */
+
+
+  var _toggleCheckbox = document.getElementById('setting-highlight-multiple-selection');
+  /**
+   * @inheritDoc
+   */
+
+
+  self.execute = function (state) {
+    _toggleCheckbox.checked = state;
+    Sudoku.settings.highlightMultipleSelectionState(state);
+  };
+}
+
+/***/ }),
+
 /***/ "./assets/js/Commands/Settings/HighlightPencilMarksCommand.js":
 /*!********************************************************************!*\
   !*** ./assets/js/Commands/Settings/HighlightPencilMarksCommand.js ***!
@@ -1743,6 +1789,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Commands/Settings/HighlightBoxCommand */ "./assets/js/Commands/Settings/HighlightBoxCommand.js");
 /* harmony import */ var _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Commands/Settings/HighlightValueCommand */ "./assets/js/Commands/Settings/HighlightValueCommand.js");
 /* harmony import */ var _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Commands/Settings/HighlightPencilMarksCommand */ "./assets/js/Commands/Settings/HighlightPencilMarksCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightMultipleSelectionCommand__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Commands/Settings/HighlightMultipleSelectionCommand */ "./assets/js/Commands/Settings/HighlightMultipleSelectionCommand.js");
+
 
 
 
@@ -1806,7 +1854,11 @@ function SettingsEventHandler() {
 
 
   var _enableHighlightingToggling = function _enableHighlightingToggling() {
-    // Row highlighting
+    // Highlighting when multiple cells are selected
+    document.getElementById('setting-highlight-multiple-selection').addEventListener('change', function (event) {
+      new _Commands_Settings_HighlightMultipleSelectionCommand__WEBPACK_IMPORTED_MODULE_8__["default"]().execute(event.target.checked);
+    }); // Row highlighting
+
     document.getElementById('setting-highlight-row').addEventListener('change', function (event) {
       new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_3__["default"]().execute(event.target.checked);
     }); // Column highlighting
@@ -3688,11 +3740,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Commands/Settings/ShowClockCommand */ "./assets/js/Commands/Settings/ShowClockCommand.js");
 /* harmony import */ var _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Commands/Settings/AutoErrorCheckingCommand */ "./assets/js/Commands/Settings/AutoErrorCheckingCommand.js");
 /* harmony import */ var _Commands_Settings_AutoRemovePencilMarksCommand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Commands/Settings/AutoRemovePencilMarksCommand */ "./assets/js/Commands/Settings/AutoRemovePencilMarksCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Commands/Settings/HighlightRowCommand */ "./assets/js/Commands/Settings/HighlightRowCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Commands/Settings/HighlightColumnCommand */ "./assets/js/Commands/Settings/HighlightColumnCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Commands/Settings/HighlightBoxCommand */ "./assets/js/Commands/Settings/HighlightBoxCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Commands/Settings/HighlightValueCommand */ "./assets/js/Commands/Settings/HighlightValueCommand.js");
-/* harmony import */ var _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Commands/Settings/HighlightPencilMarksCommand */ "./assets/js/Commands/Settings/HighlightPencilMarksCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightMultipleSelectionCommand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Commands/Settings/HighlightMultipleSelectionCommand */ "./assets/js/Commands/Settings/HighlightMultipleSelectionCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Commands/Settings/HighlightRowCommand */ "./assets/js/Commands/Settings/HighlightRowCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Commands/Settings/HighlightColumnCommand */ "./assets/js/Commands/Settings/HighlightColumnCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Commands/Settings/HighlightBoxCommand */ "./assets/js/Commands/Settings/HighlightBoxCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Commands/Settings/HighlightValueCommand */ "./assets/js/Commands/Settings/HighlightValueCommand.js");
+/* harmony import */ var _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Commands/Settings/HighlightPencilMarksCommand */ "./assets/js/Commands/Settings/HighlightPencilMarksCommand.js");
+
 
 
 
@@ -3727,10 +3781,18 @@ function Settings() {
 
   var _autoRemovePencilMarksState = false;
   /**
+   * Indicates whether highlighting is enabled when multiple cells are selected
+   * @type {boolean}
+   * @private
+   */
+
+  var _highlightMultipleSelectionState;
+  /**
    * Indicates whether highlighting rows is enabled
    * @type {boolean}
    * @private
    */
+
 
   var _highlightRowState;
   /**
@@ -3806,6 +3868,7 @@ function Settings() {
     _clockState = settings.clock !== undefined ? settings.clock : true;
     _autoErrorCheckingState = settings.autoErrorChecking !== undefined ? settings.autoErrorChecking : true;
     _autoRemovePencilMarksState = settings.autoRemovePencilMarks !== undefined ? settings.autoRemovePencilMarks : false;
+    _highlightMultipleSelectionState = settings.highlightMultipleSelection !== undefined ? settings.highlightMultipleSelection : false;
     _highlightRowState = settings.highlightRow !== undefined ? settings.highlightRow : true;
     _highlightColumnState = settings.highlightColumn !== undefined ? settings.highlightColumn : true;
     _highlightBoxState = settings.highlightBox !== undefined ? settings.highlightBox : true;
@@ -3824,6 +3887,7 @@ function Settings() {
       clock: self.clockState(),
       autoErrorChecking: self.autoErrorCheckingState(),
       autoRemovePencilMarks: self.autoRemovePencilMarksState(),
+      highlightMultipleSelection: self.highlightMultipleSelectionState(),
       highlightRow: self.highlightRowState(),
       highlightColumn: self.highlightColumnState(),
       highlightBox: self.highlightBoxState(),
@@ -3842,11 +3906,12 @@ function Settings() {
     new _Commands_Settings_ShowClockCommand__WEBPACK_IMPORTED_MODULE_0__["default"]().execute(self.clockState());
     new _Commands_Settings_AutoErrorCheckingCommand__WEBPACK_IMPORTED_MODULE_1__["default"]().execute(self.autoErrorCheckingState());
     new _Commands_Settings_AutoRemovePencilMarksCommand__WEBPACK_IMPORTED_MODULE_2__["default"]().execute(self.autoRemovePencilMarksState());
-    new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_3__["default"]().execute(self.highlightRowState());
-    new _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_4__["default"]().execute(self.highlightColumnState());
-    new _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_5__["default"]().execute(self.highlightBoxState());
-    new _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_6__["default"]().execute(self.highlightValueState());
-    new _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_7__["default"]().execute(self.highlightPencilMarksState());
+    new _Commands_Settings_HighlightMultipleSelectionCommand__WEBPACK_IMPORTED_MODULE_3__["default"]().execute(self.highlightMultipleSelectionState());
+    new _Commands_Settings_HighlightRowCommand__WEBPACK_IMPORTED_MODULE_4__["default"]().execute(self.highlightRowState());
+    new _Commands_Settings_HighlightColumnCommand__WEBPACK_IMPORTED_MODULE_5__["default"]().execute(self.highlightColumnState());
+    new _Commands_Settings_HighlightBoxCommand__WEBPACK_IMPORTED_MODULE_6__["default"]().execute(self.highlightBoxState());
+    new _Commands_Settings_HighlightValueCommand__WEBPACK_IMPORTED_MODULE_7__["default"]().execute(self.highlightValueState());
+    new _Commands_Settings_HighlightPencilMarksCommand__WEBPACK_IMPORTED_MODULE_8__["default"]().execute(self.highlightPencilMarksState());
   };
   /**
    * @param {boolean|null} state Setter if given, getter otherwise
@@ -3898,6 +3963,23 @@ function Settings() {
     }
 
     return _autoRemovePencilMarksState;
+  };
+  /**
+   * @param {boolean|null} state Setter if given, getter otherwise
+   * @return {boolean}
+   */
+
+
+  self.highlightMultipleSelectionState = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    if (state !== null) {
+      _highlightMultipleSelectionState = state;
+
+      _toLocalStorage();
+    }
+
+    return _highlightMultipleSelectionState;
   };
   /**
    * @param {boolean|null} state Setter if given, getter otherwise
