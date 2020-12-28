@@ -86,6 +86,33 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./assets/js/Application.js":
+/*!**********************************!*\
+  !*** ./assets/js/Application.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Application; });
+function Application() {
+  var self = this;
+  /**
+   * Apply puzzle properties to the application
+   * @param {object|null} properties
+   * @return {void}
+   */
+
+  self.applyPuzzleProperties = function (properties) {
+    if (properties === null) {
+      return;
+    }
+  };
+}
+
+/***/ }),
+
 /***/ "./assets/js/Clock.js":
 /*!****************************!*\
   !*** ./assets/js/Clock.js ***!
@@ -3634,7 +3661,12 @@ function Modal() {
     } // Clicking the backdrop also closes modal dialogs
 
 
-    _backdropElement.addEventListener('click', self.close);
+    _backdropElement.addEventListener('click', function (event) {
+      // Prevent child elements from triggering closing
+      if (event.target === _backdropElement) {
+        self.close();
+      }
+    });
   };
 }
 
@@ -4130,19 +4162,21 @@ function Visitor() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Controls__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Controls */ "./assets/js/Controls.js");
-/* harmony import */ var _InputMode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InputMode */ "./assets/js/InputMode.js");
-/* harmony import */ var _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Grid/Grid */ "./assets/js/Grid/Grid.js");
-/* harmony import */ var _Clock__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Clock */ "./assets/js/Clock.js");
-/* harmony import */ var _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EventHandlers/DocumentEventHandler */ "./assets/js/EventHandlers/DocumentEventHandler.js");
-/* harmony import */ var _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Commands/CommandHistory */ "./assets/js/Commands/CommandHistory.js");
-/* harmony import */ var _Meta__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Meta */ "./assets/js/Meta.js");
-/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Modal */ "./assets/js/Modal.js");
-/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Settings */ "./assets/js/Settings.js");
-/* harmony import */ var _EventHandlers_SettingsEventHandler__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./EventHandlers/SettingsEventHandler */ "./assets/js/EventHandlers/SettingsEventHandler.js");
-/* harmony import */ var _EventHandlers_ActionsEventHandler__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./EventHandlers/ActionsEventHandler */ "./assets/js/EventHandlers/ActionsEventHandler.js");
-/* harmony import */ var _Grid_GridCellHighlighter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Grid/GridCellHighlighter */ "./assets/js/Grid/GridCellHighlighter.js");
-/* harmony import */ var _Game__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Game */ "./assets/js/Game.js");
+/* harmony import */ var _Application__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Application */ "./assets/js/Application.js");
+/* harmony import */ var _Controls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Controls */ "./assets/js/Controls.js");
+/* harmony import */ var _InputMode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./InputMode */ "./assets/js/InputMode.js");
+/* harmony import */ var _Grid_Grid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Grid/Grid */ "./assets/js/Grid/Grid.js");
+/* harmony import */ var _Clock__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Clock */ "./assets/js/Clock.js");
+/* harmony import */ var _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./EventHandlers/DocumentEventHandler */ "./assets/js/EventHandlers/DocumentEventHandler.js");
+/* harmony import */ var _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Commands/CommandHistory */ "./assets/js/Commands/CommandHistory.js");
+/* harmony import */ var _Meta__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Meta */ "./assets/js/Meta.js");
+/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Modal */ "./assets/js/Modal.js");
+/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Settings */ "./assets/js/Settings.js");
+/* harmony import */ var _EventHandlers_SettingsEventHandler__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./EventHandlers/SettingsEventHandler */ "./assets/js/EventHandlers/SettingsEventHandler.js");
+/* harmony import */ var _EventHandlers_ActionsEventHandler__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./EventHandlers/ActionsEventHandler */ "./assets/js/EventHandlers/ActionsEventHandler.js");
+/* harmony import */ var _Grid_GridCellHighlighter__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Grid/GridCellHighlighter */ "./assets/js/Grid/GridCellHighlighter.js");
+/* harmony import */ var _Game__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Game */ "./assets/js/Game.js");
+
 
 
 
@@ -4158,19 +4192,20 @@ __webpack_require__.r(__webpack_exports__);
  // 'Namespace' of the project
 
 window.Sudoku = {
-  game: new _Game__WEBPACK_IMPORTED_MODULE_12__["default"](),
-  settings: new _Settings__WEBPACK_IMPORTED_MODULE_8__["default"](),
-  history: new _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_5__["default"](),
-  meta: new _Meta__WEBPACK_IMPORTED_MODULE_6__["default"](),
-  controls: new _Controls__WEBPACK_IMPORTED_MODULE_0__["default"](),
-  inputMode: new _InputMode__WEBPACK_IMPORTED_MODULE_1__["default"](),
-  gridCellHighlighter: new _Grid_GridCellHighlighter__WEBPACK_IMPORTED_MODULE_11__["default"](),
-  grid: new _Grid_Grid__WEBPACK_IMPORTED_MODULE_2__["default"](),
-  clock: new _Clock__WEBPACK_IMPORTED_MODULE_3__["default"](),
-  modal: new _Modal__WEBPACK_IMPORTED_MODULE_7__["default"](),
-  documentEventHandler: new _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_4__["default"](),
-  settingsEventHandler: new _EventHandlers_SettingsEventHandler__WEBPACK_IMPORTED_MODULE_9__["default"](),
-  actionsEventHandler: new _EventHandlers_ActionsEventHandler__WEBPACK_IMPORTED_MODULE_10__["default"]()
+  application: new _Application__WEBPACK_IMPORTED_MODULE_0__["default"](),
+  game: new _Game__WEBPACK_IMPORTED_MODULE_13__["default"](),
+  settings: new _Settings__WEBPACK_IMPORTED_MODULE_9__["default"](),
+  history: new _Commands_CommandHistory__WEBPACK_IMPORTED_MODULE_6__["default"](),
+  meta: new _Meta__WEBPACK_IMPORTED_MODULE_7__["default"](),
+  controls: new _Controls__WEBPACK_IMPORTED_MODULE_1__["default"](),
+  inputMode: new _InputMode__WEBPACK_IMPORTED_MODULE_2__["default"](),
+  gridCellHighlighter: new _Grid_GridCellHighlighter__WEBPACK_IMPORTED_MODULE_12__["default"](),
+  grid: new _Grid_Grid__WEBPACK_IMPORTED_MODULE_3__["default"](),
+  clock: new _Clock__WEBPACK_IMPORTED_MODULE_4__["default"](),
+  modal: new _Modal__WEBPACK_IMPORTED_MODULE_8__["default"](),
+  documentEventHandler: new _EventHandlers_DocumentEventHandler__WEBPACK_IMPORTED_MODULE_5__["default"](),
+  settingsEventHandler: new _EventHandlers_SettingsEventHandler__WEBPACK_IMPORTED_MODULE_10__["default"](),
+  actionsEventHandler: new _EventHandlers_ActionsEventHandler__WEBPACK_IMPORTED_MODULE_11__["default"]()
 };
 Sudoku.settings.init();
 Sudoku.settingsEventHandler.init();
@@ -4329,8 +4364,8 @@ function trait(instance, traitConstructor) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Applications/MAMP/htdocs/private/sudoku/assets/js/app.js */"./assets/js/app.js");
-module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/private/sudoku/assets/scss/app.scss */"./assets/scss/app.scss");
+__webpack_require__(/*! /Users/nerbiz/sites/localhost/private/sudoku/assets/js/app.js */"./assets/js/app.js");
+module.exports = __webpack_require__(/*! /Users/nerbiz/sites/localhost/private/sudoku/assets/scss/app.scss */"./assets/scss/app.scss");
 
 
 /***/ })

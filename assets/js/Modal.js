@@ -102,6 +102,11 @@ export default function Modal() {
         }
 
         // Clicking the backdrop also closes modal dialogs
-        _backdropElement.addEventListener('click', self.close);
+        _backdropElement.addEventListener('click', event => {
+            // Prevent child elements from triggering closing
+            if (event.target === _backdropElement) {
+                self.close();
+            }
+        });
     };
 }

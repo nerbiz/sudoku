@@ -1,15 +1,7 @@
 <?php
-
 use Sudoku\Database;
 use Sudoku\UrlParser;
 use Sudoku\Webpack;
-
-// Get puzzle properties
-$database = new Database();
-$puzzleId = UrlParser::getPuzzleId();
-$puzzleProperties = ($puzzleId !== null)
-    ? $database->getPuzzleProperties($puzzleId)
-    : null;
 ?>
 
 <!DOCTYPE html>
@@ -98,13 +90,26 @@ $puzzleProperties = ($puzzleId !== null)
         </section>
 
         <script src="<?php echo Webpack::getAssetUrl('app.js'); ?>"></script>
+
+        <?php
+        // Get puzzle properties
+        $database = new Database();
+        $puzzleId = UrlParser::getPuzzleId();
+        $puzzleProperties = ($puzzleId !== null)
+            ? $database->getPuzzleProperties($puzzleId)
+            : null;
+
+        $propertiesToApply = ($puzzleProperties === null)
+            ? 'null'
+            : json_encode([
+                'id' => $puzzleProperties->id ?? '',
+                'state' => $puzzleProperties->state ?? '',
+                'title' => $puzzleProperties->title ?? '',
+                'notes' => $puzzleProperties->notes ?? '',
+            ]);
+        ?>
         <script>
-            Sudoku.puzzleState = {
-                id: '<?php echo $puzzleProperties->id ?? ''; ?>',
-                state: '<?php echo $puzzleProperties->state ?? ''; ?>',
-                title: '<?php echo $puzzleProperties->title ?? ''; ?>',
-                notes: '<?php echo $puzzleProperties->notes ?? ''; ?>',
-            };
+            Sudoku.application.applyPuzzleProperties(<?php echo $propertiesToApply; ?>);
         </script>
     </body>
 </html>

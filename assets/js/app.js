@@ -1,3 +1,4 @@
+import Application from './Application';
 import Controls from './Controls';
 import InputMode from './InputMode';
 import Grid from './Grid/Grid';
@@ -14,6 +15,7 @@ import Game from './Game';
 
 // 'Namespace' of the project
 window.Sudoku = {
+    application: new Application(),
     game: new Game(),
     settings: new Settings(),
     history: new CommandHistory(),
