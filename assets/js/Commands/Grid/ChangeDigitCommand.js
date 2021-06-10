@@ -1,6 +1,5 @@
 import {extend} from '../../functions';
 import UndoableCommandInterface from '../UndoableCommandInterface';
-import InputMode from '../../InputMode';
 
 extend(ChangeDigitCommand, UndoableCommandInterface);
 

@@ -166,7 +166,7 @@ export default function GridCell(cellNumber) {
             self.getCenterMarks().setDigits([]);
 
             self.toggleValue(digit);
-            self.isPrefilled(true);
+            self.isPrefilled(digit !== null);
             return;
         }
 
