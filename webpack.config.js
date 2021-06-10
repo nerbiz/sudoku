@@ -1,6 +1,6 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const NotifierPlugin = require('webpack-notifier');
 const path = require('path');
 
@@ -11,7 +11,7 @@ const config = {
     srcDir: rootPath + 'assets/',
     distDir: rootPath + 'public/dist/',
     publicPath: '/dist/',
-    fileFormat: '[name]_[hash]',
+    fileFormat: '[name]_[contenthash]',
 };
 
 const cacheLoader = {
@@ -125,7 +125,7 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: config.fileFormat + '.css',
         }),
-        new ManifestPlugin(),
+        new WebpackManifestPlugin(),
         new NotifierPlugin({
             alwaysNotify: true,
         }),
