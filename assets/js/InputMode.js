@@ -150,15 +150,12 @@ export default function InputMode() {
      * @private
      */
     const _disableInput = (label, disable = true) => {
-        if (disable === true) {
-            // Disable the input mode checkbox
-            label.classList.add('strike-through');
-            label.getElementsByTagName('input')[0].disabled = true;
-        } else {
-            // Enable the input mode checkbox
-            label.classList.remove('strike-through');
-            label.getElementsByTagName('input')[0].disabled = false;
-        }
+        // Disable / enable the input mode checkbox
+        (disable === true)
+            ? label.classList.add('strike-through')
+            : label.classList.remove('strike-through');
+
+        label.getElementsByTagName('input')[0].disabled = disable;
     };
 
     /**
@@ -188,7 +185,7 @@ export default function InputMode() {
             _disableInput(_inputModeCornerLabel, true);
             _disableInput(_inputModeCenterLabel, true);
 
-            // Trigger any restrictions on the current input mode
+            // Trigger any actions based on the current input mode
             self.setMode(self.getMode());
         } else {
             _disableInput(_inputModeValueLabel, false);
