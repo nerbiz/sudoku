@@ -73,6 +73,12 @@ export default function Clock() {
     self.isPaused = () => _paused;
 
     /**
+     * @param {number} ms
+     * @return {number}
+     */
+    self.setInitialMs = ms => _initialMs = ms;
+
+    /**
      * Get the elapsed milliseconds, since the start moment
      * @return {number}
      */
